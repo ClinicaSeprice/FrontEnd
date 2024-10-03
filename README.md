@@ -1,3 +1,5 @@
+# FontEnd
+Proyecto administrador clínica PP2
 # Clinica
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.7.
