@@ -45,8 +45,7 @@ This project is the **Frontend** of a clinic management system built using **Ang
 
 The project follows a modular structure, with each feature (auth, patients, appointments, billing, liquidation, etc.) organized into its own module. This makes the project highly scalable and easy to maintain.
 
-/src /app /auth # Authentication module (Login, Register, etc.) /components # Components related to user authentication /services # Services to handle authentication logic /models # Models and DTOs used by the auth module
-
+```bash
 /dashboard         # Dashboard module for the main application panel
   /components      # Components for the dashboard
   /services        # Services related to dashboard functionalities
@@ -85,6 +84,7 @@ The project follows a modular structure, with each feature (auth, patients, appo
 app.module.ts      # Root application module
 app.component.ts   # Root application component
 app-routing.module.ts # Application-wide routes declaration
+```
 
 ### Key Modules:
 - **Auth**: Manages user authentication (login, register).
@@ -103,49 +103,57 @@ To run the project locally, follow these steps:
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/your-username/clinic-management-frontend.git
-Navigate to the project directory:
+   ```
+2. **Navigate to the project directory:**
+   ```bash
+   cd clinic-management-frontend
+   ```
 
-cd clinic-management-frontend
-Install dependencies: Ensure you have Node.js and npm installed. Then run:
-
-npm install
-Angular CLI: If you don’t have the Angular CLI installed globally, you can install it with the following command:
-
-npm install -g @angular/cli
-Running the Application
+3. **Install dependencies:** Ensure you have Node.js and npm installed. Then run:
+   ```bash
+    npm install
+    ```
+4. **Angular CLI:**If you don’t have the Angular CLI installed globally, you can install it with the following command:
+   ```bash
+    npm install -g @angular/cli
+    ```
+## Running the Application
 To start the application in development mode, run:
-
-ng serve
+   ```bash
+    npm install -g @angular/cli
+```
 The application will be available at http://localhost:4200/.
 
-API Communication
-This Angular frontend communicates with the backend ASP.NET Core API. All API-related services are located in the /core/services/api/ folder. These services are responsible for handling HTTP requests to the backend and managing responses.
+## API Communication
+This Angular frontend communicates with the backend ASP.NET Core API. All API-related services are located in the `/core/services/api/` folder. These services are responsible for handling HTTP requests to the backend and managing responses.
 
 Example services:
 
-auth-api.service.ts: Manages authentication requests (login, register, logout).
-appointment-api.service.ts: Handles appointment-related requests (get, create, update, delete).
-liquidation-api.service.ts: Communicates with the backend to manage professional fee liquidation.
-Error Handling
+- `auth-api.service.ts`: Manages authentication requests (login, register, logout).
+- `appointment-api.service.ts`: Handles appointment-related requests (get, create, update, delete).
+- `liquidation-api.service.ts`: Communicates with the backend to manage professional fee liquidation.
+
+## Error Handling
 All HTTP requests are intercepted by a global HTTP interceptor (http-error.interceptor.ts), which manages error responses (e.g., 401 Unauthorized, 404 Not Found) and displays appropriate error messages.
 
-Important Modules
-Shared Module
+## Important Modules
+### Shared Module
 The shared module contains reusable components, services, pipes, and directives used across multiple modules of the app. This ensures consistency and code reuse.
 
-Core Module
+### Core Module
 The core module handles services that need to be available globally, like API services and HTTP interceptors.
 
-Dependencies
+## Dependencies
 Here are some of the core dependencies used in this project:
 
-Angular: Main framework for building the frontend.
-Angular Router: For handling navigation between different views.
-HttpClientModule: To handle HTTP requests to the backend API.
-ReactiveFormsModule: For managing complex reactive forms.
-Entity Framework Core: For handling database interactions (on the backend side).
-NUnit: For unit testing (backend).
-License
+- Angular: Main framework for building the frontend.
+- Angular Router: For handling navigation between different views.
+- HttpClientModule: To handle HTTP requests to the backend API.
+- ReactiveFormsModule: For managing complex reactive forms.
+- Entity Framework Core: For handling database interactions (on the backend side).
+- NUnit: For unit testing (backend).
+
+## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 
