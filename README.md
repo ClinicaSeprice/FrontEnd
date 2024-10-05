@@ -46,6 +46,19 @@ This project is the **Frontend** of a clinic management system built using **Ang
 The project follows a modular structure, with each feature (auth, patients, appointments, billing, liquidation, etc.) organized into its own module. This makes the project highly scalable and easy to maintain.
 
 ```bash
+/src
+  /app
+    /auth              # Authentication module (Login, Register, etc.)
+      /components      # Components related to user authentication
+        login.component.ts        # Login form component
+        register.component.ts     # Registration form component
+      /services        # Services to handle authentication logic
+        auth.service.ts            # Handles authentication operations (login, register, etc.)
+      /models          # Models and DTOs used by the auth module
+        auth.model.ts              # Auth model for frontend
+        auth-dto.model.ts          # Auth Data Transfer Object (DTO) used to communicate with backend
+      auth.module.ts               # Authentication module declaration
+      auth-routing.module.ts       # Routing for authentication-related pages
 /dashboard         # Dashboard module for the main application panel
   /components      # Components for the dashboard
   /services        # Services related to dashboard functionalities
