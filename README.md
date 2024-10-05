@@ -59,40 +59,40 @@ The project follows a modular structure, with each feature (auth, patients, appo
         auth-dto.model.ts          # Auth Data Transfer Object (DTO) used to communicate with backend
       auth.module.ts               # Authentication module declaration
       auth-routing.module.ts       # Routing for authentication-related pages
-/dashboard         # Dashboard module for the main application panel
-  /components      # Components for the dashboard
-  /services        # Services related to dashboard functionalities
-  /models          # Models and DTOs for the dashboard
+    /dashboard         # Dashboard module for the main application panel
+      /components      # Components for the dashboard
+      /services        # Services related to dashboard functionalities
+      /models          # Models and DTOs for the dashboard
 
-/patients          # Module for managing patients
-  /components      # Components for patient management
-  /services        # Services to handle patient data
-  /models          # Models and DTOs for patients
+    /patients          # Module for managing patients
+      /components      # Components for patient management
+      /services        # Services to handle patient data
+      /models          # Models and DTOs for patients
 
-/appointments      # Module for managing appointments
-  /components      # Components for appointment management
-  /services        # Services to handle appointments
-  /models          # Models and DTOs for appointments
+    /appointments      # Module for managing appointments
+      /components      # Components for appointment management
+      /services        # Services to handle appointments
+      /models          # Models and DTOs for appointments
 
-/billing           # Module for billing and payment processing
-  /components      # Components for billing and payment management
-  /services        # Services for billing management
-  /models          # Models and DTOs for billing
+    /billing           # Module for billing and payment processing
+      /components      # Components for billing and payment management
+      /services        # Services for billing management
+      /models          # Models and DTOs for billing
 
-/liquidation       # Module for managing professional fee liquidation
-  /components      # Components related to professional fee liquidation
-  /services        # Services for managing liquidation operations
-  /models          # Models and DTOs for liquidation
+    /liquidation       # Module for managing professional fee liquidation
+      /components      # Components related to professional fee liquidation
+      /services        # Services for managing liquidation operations
+      /models          # Models and DTOs for liquidation
 
-/shared            # Shared module for reusable components, services, and utilities
-  /components      # Reusable components shared across the application
-  /services        # General shared services
-  /pipes           # Pipes used across the application
-  /directives      # Directives shared across the application
+    /shared            # Shared module for reusable components, services, and utilities
+      /components      # Reusable components shared across the application
+      /services        # General shared services
+      /pipes           # Pipes used across the application
+      /directives      # Directives shared across the application
 
-/core              # Core module for services used globally in the app
-  /services        # Services to interact with the backend API
-  /interceptors    # HTTP interceptors to handle cross-cutting concerns
+    /core              # Core module for services used globally in the app
+      /services        # Services to interact with the backend API
+      /interceptors    # HTTP interceptors to handle cross-cutting concerns
 
 app.module.ts      # Root application module
 app.component.ts   # Root application component
