@@ -57,8 +57,6 @@ The project follows a modular structure, with each feature (auth, patients, appo
       /models          # Models and DTOs used by the auth module
         auth.model.ts              # Auth model for frontend
         auth-dto.model.ts          # Auth Data Transfer Object (DTO) used to communicate with backend
-      auth.module.ts               # Authentication module declaration
-      auth-routing.module.ts       # Routing for authentication-related pages
     /dashboard         # Dashboard module for the main application panel
       /components      # Components for the dashboard
       /services        # Services related to dashboard functionalities
