@@ -7,6 +7,13 @@ export const routes: Routes = [
     component: LayoutComponent, // Usamos el layout como el contenedor principal
     children: [
       {
+        path: '', // Ruta vacía carga por defecto el DashboardComponent
+        loadComponent: () =>
+          import('./dashboard/components/dashboard/dashboard.component').then(
+            m => m.DashboardComponent
+          ),
+      },
+      {
         path: 'login',
         loadComponent: () =>
           import('./auth/components/login/login.component').then(
@@ -85,26 +92,15 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    path: '**', // Redirigir cualquier ruta desconocida al dashboard
-    redirectTo: '/dashboard',
-    pathMatch: 'full',
-  },
-    // Redirección cuando la ruta está vacía (path: '')
+  // Redirección cuando la ruta está vacía (path: '')
   {
     path: '',
-    redirectTo: '/dashboard',
-    pathMatch: 'full',  // Usa 'full' para redirigir solo cuando la URL está vacía
+    redirectTo: '',
+    pathMatch: 'full', // Usa 'full' para redirigir solo cuando la URL está vacía
   },
-    // Redirección cuando la ruta está vacía (path: '')
-    {
-      path: '',
-      redirectTo: '/dashboard',
-      pathMatch: 'full',  // Usa 'full' para redirigir solo cuando la URL está vacía
-    },
-    // Redirección para rutas no encontradas
-    {
-      path: '**',
-      redirectTo: '/dashboard',
-    }
+  // Redirección para rutas no encontradas
+  {
+    path: '**',
+    redirectTo: '/404',
+  },
 ];
