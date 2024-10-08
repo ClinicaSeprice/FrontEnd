@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Asegura que ocupe todo el viewport */
+}
+
+router-outlet {
+  flex-grow: 1; /* Hace que el contenido del router-outlet crezca para ocupar el espacio disponible */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+footer {
+  width: 100%; /* Asegura que el footer ocupe todo el ancho */
+}
