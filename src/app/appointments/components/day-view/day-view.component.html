@@ -1,0 +1,11 @@
+<div class="day-view">
+  <div class="hour-slot" *ngFor="let hour of hoursInDay">
+    <div class="hour-label">{{ hour.label }}</div>
+    <div class="events">
+      <div *ngFor="let appointment of getAppointmentsForHour(hour)">
+        <span class="event-label">{{ appointment.title }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,10 @@
+<div class="week-grid">
+  <div class="week-day" *ngFor="let day of daysInWeek">
+    <div class="day-header">{{ day.date | date: 'EEEE, MMM d' }}</div>
+    <div class="events">
+      <div *ngFor="let appointment of getAppointmentsForDay(day)">
+        <span class="event-label">{{ appointment.title }}</span>
+      </div>
+    </div>
+  </div>
+</div>

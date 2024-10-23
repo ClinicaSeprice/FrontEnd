@@ -1,0 +1,31 @@
+<!-- Barra de navegación para cambiar vistas -->
+<div class="calendar-header">
+  <button class="nav-button" (click)="selectedView = 'month'" [class.active]="selectedView === 'month'">Mes</button>
+  <button class="nav-button" (click)="selectedView = 'week'" [class.active]="selectedView === 'week'">Semana</button>
+  <button class="nav-button" (click)="selectedView = 'day'" [class.active]="selectedView === 'day'">Día</button>
+</div>
+
+<div class="calendar-header">
+  <button class="nav-button" (click)="changeMonth(-1)">&#8592;</button>
+  <h2>{{ activeDate() | date: 'MMMM yyyy' }}</h2>
+  <button class="nav-button" (click)="changeMonth(1)">&#8594;</button>
+</div>
+
+<div [ngSwitch]="selectedView">
+  <ng-container *ngSwitchCase="'month'">
+    <app-month-view [appointments]="appointments()"
+                    [activeDate]="activeDate()"
+                    (changeDay)="selectDay($event)">
+    </app-month-view>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'week'">
+    <app-week-view [appointments]="appointments()" [activeDate]="activeDate()">
+    </app-week-view>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'day'">
+    <app-day-view [appointments]="appointments()" [activeDate]="activeDate()">
+    </app-day-view>
+  </ng-container>
+</div>

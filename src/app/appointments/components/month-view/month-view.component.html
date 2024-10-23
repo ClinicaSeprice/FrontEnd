@@ -1,0 +1,16 @@
+<div class="calendar-container">
+  <div class="calendar-day" *ngFor="let day of daysInMonth">
+    <button class="day-header" (click)="selectDay(day.date)">
+      {{ day.date | date: 'd' }}
+    </button>
+
+    <div class="events">
+      <div *ngFor="let appointment of getAppointmentsForDay(day)">
+        <span class="event-label">
+          {{ appointment.title }}
+        </span>
+      </div>
+    </div>
+    <button (click)="addAppointment(day)">Agregar Turno</button>
+  </div>
+</div>
