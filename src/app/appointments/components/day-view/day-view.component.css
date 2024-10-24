@@ -36,3 +36,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.modal.show {
+  display: block;
+  opacity: 1;
+  transition: opacity 0.15s linear;
+}

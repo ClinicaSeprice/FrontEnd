@@ -1,89 +1,45 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Appointment } from '../../models/appointment.model';
-import { DatePipe, NgClass, NgFor, TitleCasePipe } from '@angular/common';
+import { DatePipe, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-month-view',
   templateUrl: './month-view.component.html',
   standalone: true,
   styleUrls: ['./month-view.component.scss'],
-  imports: [DatePipe, NgFor, NgClass, TitleCasePipe],
+  imports: [NgFor, DatePipe]
 })
-export class MonthViewComponent implements OnInit, OnChanges {
+export class MonthViewComponent implements OnChanges {
   @Input() appointments: Appointment[] = [];
-  @Input() activeDate!: Date;  // Recibe la fecha activa del componente principal
-  @Output() addEvent = new EventEmitter<Appointment>();
-  @Output() changeDay = new EventEmitter<Date>();  // Emitir el día seleccionado
+  @Input() activeDate!: Date;  // Fecha activa
+  @Output() changeDay = new EventEmitter<Date>();  // Para notificar cuando se selecciona un día
 
-  daysInMonth: { date: Date }[] = [];
-  currentMonth!: string; // Propiedad para almacenar el nombre del mes
-  currentYear!: number; // Propiedad para almacenar el año actual
-
-  ngOnInit() {
-    this.generateDaysInMonth();
-    this.setCurrentMonth(); // Inicializamos el mes y año actuales
-  }
+  daysInMonth: { date: Date, appointments: Appointment[] }[] = [];
 
   ngOnChanges() {
     this.generateDaysInMonth();
-    this.setCurrentMonth();
   }
 
-  // Genera los días del mes actual basado en la activeDate
+  // Genera los días del mes actual
   generateDaysInMonth() {
     const year = this.activeDate.getFullYear();
     const month = this.activeDate.getMonth();
-    const days = new Date(year, month + 1, 0).getDate(); // Días del mes
+    const days = new Date(year, month + 1, 0).getDate(); // Obtener cantidad de días del mes
 
     this.daysInMonth = [];
     for (let i = 1; i <= days; i++) {
-      this.daysInMonth.push({ date: new Date(year, month, i) });
+      const day = new Date(year, month, i);
+      const dayAppointments = this.getAppointmentsForDay(day);
+      this.daysInMonth.push({ date: day, appointments: dayAppointments });
     }
-  }
-  // Establece el nombre del mes y el año actuales
-  setCurrentMonth() {
-    const options: Intl.DateTimeFormatOptions = { month: 'long' };
-    this.currentMonth = this.activeDate.toLocaleDateString('es-ES', options); // Mes en español
-    this.currentYear = this.activeDate.getFullYear(); // Año actual
-  }
-
-  // Navegar al mes siguiente
-  nextMonth() {
-    this.activeDate.setMonth(this.activeDate.getMonth() + 1);
-    this.updateCalendar();
-  }
-
-  // Navegar al mes anterior
-  prevMonth() {
-    this.activeDate.setMonth(this.activeDate.getMonth() - 1);
-    this.updateCalendar();
-  }
-
-  // Actualiza el calendario cuando se cambia el mes
-  updateCalendar() {
-    this.generateDaysInMonth();
-    this.setCurrentMonth();
   }
 
   // Obtener los turnos para un día específico
-  getAppointmentsForDay(day: { date: Date }): Appointment[] {
-    return this.appointments.filter(
-      appointment =>
-        new Date(appointment.date).toDateString() === day.date.toDateString()
-    );
+  getAppointmentsForDay(day: Date): Appointment[] {
+    return this.appointments.filter(app => new Date(app.date).toDateString() === day.toDateString());
   }
 
-  // Emite el evento para agregar un turno
-  addAppointment(day: { date: Date }) {
-    const newAppointment: Appointment = {
-      id: Math.random().toString(36).substr(2, 9),
-      title: 'Nuevo Turno',
-      date: day.date.toISOString(),
-    };
-    this.addEvent.emit(newAppointment);
-  }
-
-  // Emitir el evento para seleccionar un día y cambiar a la vista diaria
+  // Emite el día seleccionado para cambiar a la vista diaria
   selectDay(day: Date) {
     this.changeDay.emit(day);
   }

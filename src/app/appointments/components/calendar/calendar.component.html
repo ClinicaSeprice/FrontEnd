@@ -1,31 +1,43 @@
-<!-- Barra de navegación para cambiar vistas -->
-<div class="calendar-header">
-  <button class="nav-button" (click)="selectedView = 'month'" [class.active]="selectedView === 'month'">Mes</button>
-  <button class="nav-button" (click)="selectedView = 'week'" [class.active]="selectedView === 'week'">Semana</button>
-  <button class="nav-button" (click)="selectedView = 'day'" [class.active]="selectedView === 'day'">Día</button>
+<div class="calendar-header d-flex justify-content-center mb-4">
+  <button class="btn btn-primary mx-2" (click)="showMonthView()" [class.active]="selectedView() === 'month'">Mes</button>
+  <button class="btn btn-primary mx-2" (click)="showWeekView()" [class.active]="selectedView() === 'week'">Semana</button>
+  <button class="btn btn-primary mx-2" (click)="showDayView(activeDate())" [class.active]="selectedView() === 'day'">Día</button>
 </div>
 
-<div class="calendar-header">
-  <button class="nav-button" (click)="changeMonth(-1)">&#8592;</button>
-  <h2>{{ activeDate() | date: 'MMMM yyyy' }}</h2>
-  <button class="nav-button" (click)="changeMonth(1)">&#8594;</button>
-</div>
-
-<div [ngSwitch]="selectedView">
-  <ng-container *ngSwitchCase="'month'">
-    <app-month-view [appointments]="appointments()"
-                    [activeDate]="activeDate()"
-                    (changeDay)="selectDay($event)">
+<!-- Contenido del calendario -->
+<div class="calendar-content">
+  <!-- Vista mensual -->
+  <ng-container *ngIf="selectedView() === 'month'">
+    <app-month-view
+      [appointments]="appointments()"
+      [activeDate]="activeDate()"
+      (changeDay)="onDaySelected($event)">
     </app-month-view>
   </ng-container>
 
-  <ng-container *ngSwitchCase="'week'">
-    <app-week-view [appointments]="appointments()" [activeDate]="activeDate()">
+  <!-- Vista semanal -->
+  <ng-container *ngIf="selectedView() === 'week'">
+    <app-week-view
+      [appointments]="appointments()"
+      [activeDate]="activeDate()"
+      (changeDay)="onDaySelected($event)">
     </app-week-view>
   </ng-container>
 
-  <ng-container *ngSwitchCase="'day'">
-    <app-day-view [appointments]="appointments()" [activeDate]="activeDate()">
+  <!-- Vista diaria -->
+  <ng-container *ngIf="selectedView() === 'day'">
+    <app-day-view
+      [appointments]="appointments()"
+      [activeDate]="activeDate()"
+      (addEvent)="onAddAppointment($event)">
     </app-day-view>
   </ng-container>
 </div>
+
+<!-- Modal para agregar o editar turnos -->
+<app-add-appointment-modal
+  *ngIf="isModalOpen() && selectedAppointment"
+  [appointment]="selectedAppointment"
+  (save)="onSubmit($event)"
+  (close)="closeModal()">
+</app-add-appointment-modal>
