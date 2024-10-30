@@ -1,1 +1,12 @@
-<p>appointment-list works!</p>
+<div class="container mt-4">
+  <app-form
+    (formSubmit)="handleFormSubmit($event)"
+    firstNameLabel="Nombre"
+    firstNamePlaceholder="Ingrese su nombre"
+    lastNameLabel="Apellido"
+    lastNamePlaceholder="Ingrese su apellido"
+    emailLabel="Correo Electrónico"
+    emailPlaceholder="correo@ejemplo.com"
+    passwordLabel="Contraseña"
+    passwordPlaceholder="•••••••••" />
+</div>

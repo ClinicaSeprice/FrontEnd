@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -54,7 +54,7 @@ export class FormComponent {
   @Input() passwordLabel = 'Password';
   @Input() passwordPlaceholder = '•••••••••';
   @Input() passwordId = 'password';
-
+  @Output() formSubmit = new EventEmitter<object>(); // Emisor de evento para enviar datos
   form: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -69,6 +69,7 @@ export class FormComponent {
   onSubmit(): void {
     if (this.form.valid) {
       console.log('Form Submitted', this.form.value);
+      this.formSubmit.emit(this.form.value); // Emitir los datos del formulario
     }
   }
 }
