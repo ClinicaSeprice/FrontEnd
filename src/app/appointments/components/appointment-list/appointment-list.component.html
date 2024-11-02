@@ -1,3 +1,9 @@
-<div class="container h-100 d-flex justify-content-center align-items-center">
-      <app-calendar></app-calendar>
+<div class="container mt-4">
+  <app-form
+    (formSubmit)="handleFormSubmit($event)"
+    firstNameLabel="Ayelen"
+    firstNamePlaceholder="Ingrese su nombre"
+    lastNameLabel="Apellido"
+    lastNamePlaceholder="Ingrese su apellido"
+     />
 </div>

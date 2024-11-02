@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-import { CalendarComponent } from "../calendar/calendar.component";
+import { FormComponent } from "../../../shared/components/form/form.component";
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
-  imports: [CalendarComponent],
+  imports: [FormComponent],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css'
 })
 export class AppointmentListComponent {
-
+  handleFormSubmit(formData: object): void {
+    console.log('Datos del formulario:', formData);
+  }
 }
