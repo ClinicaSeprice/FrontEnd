@@ -1,5 +1,7 @@
 <aside
-  class="bg-gradient-to-br from-gray-800 to-gray-900 -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0">
+  [class]=" isVisible ? 'translate-x-0':'-translate-x-80'"
+  class="bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 
+         lg:translate-x-0 lg:block md:w-64 lg:w-72 2xl:translate-x-0">
   <div class="relative border-b border-white/20">
     <a class="flex items-center gap-4 py-6 px-8" href="#/">
       <h6
@@ -7,7 +9,7 @@
         Clínica Seprice
       </h6>
     </a>
-    <button
+    <button (click)="closeSidebar.emit()"
       class="middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-8 max-w-[32px] h-8 max-h-[32px] rounded-lg text-xs text-white hover:bg-white/10 active:bg-white/30 absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
       type="button">
       <span
@@ -32,7 +34,8 @@
     <ul class="mb-4 flex flex-col gap-1">
       <li>
         <a routerLink="/dashboard">
-          <button routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
+          <button
+            routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
             class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
             type="button">
             <svg
@@ -55,7 +58,8 @@
       </li>
       <li>
         <a routerLink="/patients">
-          <button routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
+          <button
+            routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
             class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
             type="button">
             <svg
@@ -71,14 +75,15 @@
             </svg>
             <p
               class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize text-white">
-              profile
+              Pacientes
             </p>
           </button>
         </a>
       </li>
       <li>
         <a routerLink="/appointments">
-          <button routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
+          <button
+            routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
             class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
             type="button">
             <svg
@@ -94,14 +99,14 @@
             </svg>
             <p
               class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize text-white">
-              tables
+              Citas
             </p>
           </button>
         </a>
       </li>
       <li>
         <a routerLink="/liquidation">
-          <button 
+          <button
             class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
             routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
             type="button">
@@ -118,7 +123,7 @@
             </svg>
             <p
               class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize text-white">
-              notifactions
+              Finanzas
             </p>
           </button>
         </a>
@@ -128,12 +133,13 @@
       <li class="mx-3.5 mt-4 mb-2">
         <p
           class="block antialiased font-sans text-sm leading-normal text-white font-black uppercase opacity-75">
-          auth pages
+          Paginás de autenticación
         </p>
       </li>
       <li>
         <a routerLink="/login">
-          <button routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
+          <button
+            routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
             class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
             type="button">
             <svg
@@ -149,14 +155,15 @@
             </svg>
             <p
               class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize text-white">
-              sign in
+              Iniciar sesión
             </p>
           </button>
         </a>
       </li>
       <li>
         <a routerLink="/register">
-          <button routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
+          <button
+            routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
             class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
             type="button">
             <svg
@@ -170,7 +177,7 @@
             </svg>
             <p
               class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize text-white">
-              sign up
+              Registrar empleado
             </p>
           </button>
         </a>

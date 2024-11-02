@@ -1,8 +1,8 @@
 <!-- component -->
 <div class="min-h-screen bg-gray-50/50">
-  <app-sidebar />
+  <app-sidebar [isVisible]="isSidebarVisible()" (closeSidebar)="toggleSidebar()"/>
   <div class="p-4 xl:ml-80">
-    <app-navbar />
+    <app-navbar  (toggleSidebar)="toggleSidebar()"/>
     <div class="mt-12">
       <router-outlet></router-outlet>
       <!-- Área donde se cargan los componentes según la ruta -->
