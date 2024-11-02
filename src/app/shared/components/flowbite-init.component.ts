@@ -5,11 +5,7 @@ import { FlowbiteService } from '../services/flowbite.service';
   selector: 'app-flowbite-init',
   standalone: true,
   imports: [],
-  template: `
-    <p>
-      flowbite-init works!
-    </p>
-  `,
+  template: ``,
   styles: ``,
   providers: [FlowbiteService] 
 })
