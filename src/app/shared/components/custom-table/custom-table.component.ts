@@ -56,7 +56,6 @@ import { FormsModule } from '@angular/forms';
           </span>
         </button>
       </div>
-
       <!-- Filtros -->
       <div class="p-4 flex gap-3 items-end">
         <!-- Búsqueda Configurable -->
@@ -87,10 +86,9 @@ import { FormsModule } from '@angular/forms';
           </select>
         </div>
       </div>
-
       <!-- Contenido de la tabla -->
       <div class="p-6 overflow-x-scroll px-0 pt-0 pb-2">
-        <table class="w-full min-w-[640px] table-auto">
+        <table class="w-full min-w-[640px] table-auto p-6">
           <thead>
             <tr>
               <th
@@ -119,6 +117,25 @@ import { FormsModule } from '@angular/forms';
                   {{ row[col.field] }}
                 </p>
               </td>
+              <!-- Ícono de más detalles -->
+              <td class="py-3 px-5 border-b border-blue-gray-50 text-center">
+                <button
+                  (click)="onDetailsClick(row)"
+                  class="text-blue-500 hover:text-blue-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-5 h-5">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 12H9m4-4H9m6 8H9" />
+                  </svg>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -138,6 +155,10 @@ export class CustomTableComponent implements OnInit {
   // Nuevas propiedades para búsqueda configurable
   @Input() searchField = 'paciente'; // Campo de búsqueda por defecto
   @Input() searchPlaceholder = 'Buscar...'; // Placeholder por defecto para el input
+  // Función personalizada para el ícono de detalles
+  @Input() onDetailsClick: (row: TableRow) => void = () => {
+    // Add some default implementation here, or leave it empty if that's the desired behavior
+  };
 
   filteredData: TableRow[] = [];
   searchTerm = ''; // Nueva propiedad para el texto de búsqueda

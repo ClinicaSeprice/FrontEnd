@@ -1,16 +1,28 @@
-<div class="container mt-4">
-  <app-custom-table
-    [title]="'Citas Registradas'"
-    [subtitle]="'Actualizado Hoy'"
-    [actionIcon]="
-      'M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z'
-    "
-    [data]="appointmentData"
-    [columns]="tableColumns"
-    [filters]="filters"
-    [searchField]="searchField"
-    [searchPlaceholder]="searchPlaceholder"> <!-- Campo de búsqueda -->
-  </app-custom-table>
+<div class="container mt-1">
+  <div class="flex flex-col lg:flex-row lg:gap-3">
+    <app-custom-table
+      class="w-full lg:w-1/2 lg:mt-0"
+      [title]="'Citas del día'"
+      [subtitle]="'Actualizado Hoy'"
+      [data]="appointmentsTodayData"
+      [columns]="tableColumns"
+      [filters]="filters"
+      [searchField]="searchField"
+      [searchPlaceholder]="searchPlaceholder"
+      [onDetailsClick]="handleDetailsClick">
+    </app-custom-table>
+    <app-custom-table
+      class="w-full lg:w-1/2"
+      [title]="'Turnos Registrados'"
+      [data]="appointmentData"
+      [columns]="tableColumns"
+      [filters]="filters"
+      [searchField]="searchField"
+      [searchPlaceholder]="searchPlaceholder"
+      [onDetailsClick]="handleDetailsClick">
+    </app-custom-table>
+  </div>
+
   <div class="card p-4 mt-4">
     <app-form
       [formConfig]="userFormConfig"
