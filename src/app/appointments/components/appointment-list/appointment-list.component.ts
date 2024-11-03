@@ -33,6 +33,15 @@ export class AppointmentListComponent {
     { header: 'Fecha', field: 'fecha' }
   ];
 
+  filters = [
+    { field: 'estado', label: 'Estado', options: ['Completada', 'Pendiente', 'Cancelada'] },
+    { field: 'servicio', label: 'Servicio', options: ['Consulta General', 'Sobreturno', 'Pediatría'] }
+  ];
+
+   // Configuración de búsqueda
+   searchField = 'paciente'; // Campo en el que se realizará la búsqueda
+   searchPlaceholder = 'Buscar por nombre'; // Placeholder para el campo de búsqueda
+
   handleFormSubmit(data: object): void {
     console.log('Formulario enviado con datos:', data);
     // Aquí puedes realizar cualquier acción con los datos recibidos
