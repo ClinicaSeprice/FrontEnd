@@ -2,15 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormComponent } from '../../../shared/components/form/form.component';
 import { Validators } from '@angular/forms';
 import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
-  imports: [FormComponent, CustomTableComponent],
+  imports: [FormComponent, CustomTableComponent,NgIf],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
 })
 export class AppointmentListComponent implements OnInit {
+
   ngOnInit() {
     // Llamar a la función para obtener las citas del día actual cuando el componente se inicializa
     this.getTodayAppointments(this.appointmentData);
@@ -54,7 +56,7 @@ export class AppointmentListComponent implements OnInit {
       estado: 'Completada',
       profesional: 'Dr. Juan Rodríguez',
       especialidad: 'Medicina General',
-      fecha: '03/11/2024',
+      fecha: '04/11/2024',
     },
     {
       paciente: 'José García',
@@ -70,7 +72,7 @@ export class AppointmentListComponent implements OnInit {
       estado: 'Cancelada',
       profesional: 'Dr. Juan Rodríguez',
       especialidad: 'Medicina General',
-      fecha: '03/11/2024',
+      fecha: '05/11/2024',
     },
     {
       paciente: 'Luis Fernández',
@@ -86,7 +88,7 @@ export class AppointmentListComponent implements OnInit {
       estado: 'Pendiente',
       profesional: 'Dr. Pedro Núñez',
       especialidad: 'Medicina General',
-      fecha: '02/11/2024',
+      fecha: '04/11/2024',
     },
     {
       paciente: 'Sofía Ríos',
@@ -237,8 +239,11 @@ export class AppointmentListComponent implements OnInit {
   ];
 
   // Configuración de búsqueda
-  searchField = 'paciente'; // Campo en el que se realizará la búsqueda
-  searchPlaceholder = 'Buscar por nombre'; // Placeholder para el campo de búsqueda
+  searchField = 'fecha'; // Campo en el que se realizará la búsqueda
+  searchPlaceholder = 'Buscar por fecha'; // Placeholder para el campo de búsqueda
+  searchFieldToday = 'paciente';
+  searchPlaceholderToday = 'Buscar por paciente'; // Placeholder para el campo de búsqueda
+  showForm = false;
 
   handleFormSubmit(data: object): void {
     console.log('Formulario enviado con datos:', data);
@@ -270,4 +275,9 @@ export class AppointmentListComponent implements OnInit {
     // Verificar si appointmentsTodayData tiene los datos correctos
     console.log('Citas del día actual:', this.appointmentsTodayData);
   }
+
+  openAddAppointmentModal() {
+    this.showForm = !this.showForm;
+    throw new Error('Method not implemented.');
+    }
 }

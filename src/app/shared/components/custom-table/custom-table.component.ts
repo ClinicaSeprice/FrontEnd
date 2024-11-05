@@ -8,13 +8,13 @@ import { FormsModule } from '@angular/forms';
   imports: [NgFor, NgIf, FormsModule],
   template: `
     <div
-      class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden">
+      class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md max-h-[700px] overflow-hidden">
       <!-- Header de la tarjeta -->
       <div
         class="relative bg-clip-border rounded-xl overflow-hidden bg-transparent text-gray-700 shadow-none m-0 flex items-center justify-between p-6">
         <div>
           <h6
-            class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900 mb-1">
+            class="block antialiased tracking-normal font-sans text-xl font-semibold leading-relaxed text-blue-gray-900 mb-1">
             {{ title }}
           </h6>
           <p
@@ -57,9 +57,9 @@ import { FormsModule } from '@angular/forms';
         </button>
       </div>
       <!-- Filtros -->
-      <div class="p-4 flex gap-3 items-end">
+      <div class="p-4 flex flex-wrap gap-3 items-end">
         <!-- Búsqueda Configurable -->
-        <div>
+        <div class="flex flex-col gap-1 items-start">
           <label for="searchInput" class="pr-2">{{ searchPlaceholder }}</label>
           <input
             id="searchInput"
