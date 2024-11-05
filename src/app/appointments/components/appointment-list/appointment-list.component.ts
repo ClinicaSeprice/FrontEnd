@@ -3,11 +3,12 @@ import { FormComponent } from '../../../shared/components/form/form.component';
 import { Validators } from '@angular/forms';
 import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
 import { NgIf } from '@angular/common';
+import { ReusableModalComponent } from "../../../shared/components/reusable-modal/reusable-modal.component";
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
-  imports: [FormComponent, CustomTableComponent,NgIf],
+  imports: [FormComponent, CustomTableComponent, NgIf, ReusableModalComponent],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
 })
@@ -243,7 +244,7 @@ export class AppointmentListComponent implements OnInit {
   searchPlaceholder = 'Buscar por fecha'; // Placeholder para el campo de búsqueda
   searchFieldToday = 'paciente';
   searchPlaceholderToday = 'Buscar por paciente'; // Placeholder para el campo de búsqueda
-  showForm = false;
+  showModal = false;
 
   handleFormSubmit(data: object): void {
     console.log('Formulario enviado con datos:', data);
@@ -277,7 +278,7 @@ export class AppointmentListComponent implements OnInit {
   }
 
   openAddAppointmentModal() {
-    this.showForm = !this.showForm;
+    this.showModal = !this.showModal;
     throw new Error('Method not implemented.');
     }
 }
