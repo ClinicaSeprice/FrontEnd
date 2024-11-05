@@ -3,7 +3,7 @@ import { FormComponent } from '../../../shared/components/form/form.component';
 import { Validators } from '@angular/forms';
 import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
 import { NgIf } from '@angular/common';
-import { ReusableModalComponent } from "../../../shared/components/reusable-modal/reusable-modal.component";
+import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
 
 @Component({
   selector: 'app-appointment-list',
@@ -13,7 +13,6 @@ import { ReusableModalComponent } from "../../../shared/components/reusable-moda
   styleUrl: './appointment-list.component.css',
 })
 export class AppointmentListComponent implements OnInit {
-
   ngOnInit() {
     // Llamar a la función para obtener las citas del día actual cuando el componente se inicializa
     this.getTodayAppointments(this.appointmentData);
@@ -21,34 +20,54 @@ export class AppointmentListComponent implements OnInit {
 
   userFormConfig = [
     {
-      name: 'Nombre',
+      name: 'dni',
       type: 'text',
-      placeholder: 'John',
+      placeholder: '12345678',
+      validators: [Validators.required, Validators.pattern(/^\d{8}$/)],
+      errorMessage: 'El DNI debe tener 8 dígitos',
+    },
+    {
+      name: 'especialidad',
+      type: 'select',
+      options: [
+        { label: 'Cardiología', value: 'cardiologia' },
+        { label: 'Pediatría', value: 'pediatria' },
+        { label: 'Ginecología', value: 'ginecologia' },
+        { label: 'Traumatología', value: 'traumatologia' },
+      ],
+      placeholder: 'Seleccione una especialidad',
       validators: [Validators.required],
-      errorMessage: 'El nombre es obligatorio',
+      errorMessage: 'La especialidad es obligatoria',
     },
     {
-      name: 'Apellido',
-      type: 'text',
-      placeholder: 'Doe',
+      name: 'profesional',
+      type: 'select',
+      options: [
+        { label: 'Dr. Juan Pérez', value: 'juan_perez' },
+        { label: 'Dra. María López', value: 'maria_lopez' },
+        { label: 'Dr. Carlos García', value: 'carlos_garcia' },
+        { label: 'Dra. Ana Torres', value: 'ana_torres' },
+      ],
+      placeholder: 'Seleccione un profesional',
       validators: [Validators.required],
-      errorMessage: 'El apellido es obligatorio',
+      errorMessage: 'El profesional es obligatorio',
     },
     {
-      name: 'correo electrónico',
-      type: 'email',
-      placeholder: 'john.doe@example.com',
-      validators: [Validators.required, Validators.email],
-      errorMessage: 'Ingresa un correo electrónico válido',
+      name: 'fecha',
+      type: 'date',
+      placeholder: 'dd/mm/aaaa',
+      validators: [Validators.required],
+      errorMessage: 'La fecha es obligatoria',
     },
     {
-      name: 'contraseña',
-      type: 'password',
-      placeholder: '•••••••••',
-      validators: [Validators.required, Validators.minLength(6)],
-      errorMessage: 'La contraseña debe tener al menos 6 caracteres',
+      name: 'hora',
+      type: 'time',
+      placeholder: 'hh:mm',
+      validators: [Validators.required],
+      errorMessage: 'La hora es obligatoria',
     },
   ];
+  
 
   appointmentData = [
     {
@@ -212,7 +231,6 @@ export class AppointmentListComponent implements OnInit {
       fecha: '28/10/2024',
     },
   ];
-  
 
   // Array para almacenar las citas del día actual
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -280,5 +298,5 @@ export class AppointmentListComponent implements OnInit {
   openAddAppointmentModal() {
     this.showModal = !this.showModal;
     throw new Error('Method not implemented.');
-    }
+  }
 }

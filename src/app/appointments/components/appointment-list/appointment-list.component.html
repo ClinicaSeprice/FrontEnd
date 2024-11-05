@@ -23,8 +23,8 @@
       [onDetailsClick]="handleDetailsClick">
     </app-custom-table>
   </div>
-  <app-reusable-modal *ngIf="showModal" [title]="'Título del Modal'" (closeModal)="showModal = false">
-    <div class="card p-5" >
+  <app-reusable-modal *ngIf="showModal" [title]="'Asignar Nuevo Turno'" (closeModal)="showModal = false">
+    <div class="card p-5 w-full" >
       <app-form
         [formConfig]="userFormConfig"
         [submitButtonText]="'Registrar'"

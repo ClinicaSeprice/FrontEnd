@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div
-      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
       (keydown.space)="close()"
       (keydown.enter)="close()">
       <div
-        class="bg-white rounded-lg p-6 relative"
+        class="bg-white rounded-lg p-6 relative max-h-[calc(100vh-60px)] overflow-hidden w-[calc(100vw-60px)]"
         (click)="$event.stopPropagation()"
         (keydown.space)="close()"
         tabindex="0">
@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
         <ng-container *ngIf="title">
           <h2 id="modal-title" class="text-xl font-bold mb-4">{{ title }}</h2>
         </ng-container>
-        <div id="modal-content">
+        <div id="modal-content" class="max-h-[calc(100vh-150px)] overflow-y-scroll">
           <ng-content></ng-content>
         </div>
         <button
