@@ -1,7 +1,15 @@
-<app-navbar></app-navbar> <!-- Barra de navegación común -->
-
-<div class="flex-grow-1">
-  <router-outlet></router-outlet> <!-- Área donde se cargan los componentes según la ruta -->
+<!-- component -->
+<div class="min-h-screen bg-gray-50/50">
+  <app-sidebar [isVisible]="isSidebarVisible()" (closeSidebar)="toggleSidebar()"/>
+  <div class="p-4 xl:ml-80">
+    <app-navbar  (toggleSidebar)="toggleSidebar()"/>
+    <div class="mt-12">
+      <router-outlet></router-outlet>
+      <!-- Área donde se cargan los componentes según la ruta -->
+    </div>
+    <div class="text-blue-gray-600">
+      <app-footer></app-footer>
+      <!-- Pie de página común -->
+    </div>
+  </div>
 </div>
-
-<app-footer></app-footer> <!-- Pie de página común -->
