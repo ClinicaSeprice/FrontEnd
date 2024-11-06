@@ -1,19 +1,20 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-table',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, FormsModule],
   template: `
     <div
-      class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden">
+      class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md max-h-[700px] overflow-hidden">
       <!-- Header de la tarjeta -->
       <div
         class="relative bg-clip-border rounded-xl overflow-hidden bg-transparent text-gray-700 shadow-none m-0 flex items-center justify-between p-6">
         <div>
           <h6
-            class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900 mb-1">
+            class="block antialiased tracking-normal font-sans text-xl font-semibold leading-relaxed text-blue-gray-900 mb-1">
             {{ title }}
           </h6>
           <p
@@ -55,9 +56,39 @@ import { Component, Input } from '@angular/core';
           </span>
         </button>
       </div>
+      <!-- Filtros -->
+      <div class="p-4 flex flex-wrap gap-3 items-end">
+        <!-- Búsqueda Configurable -->
+        <div class="flex flex-col gap-1 items-start">
+          <label for="searchInput" class="pr-2">{{ searchPlaceholder }}</label>
+          <input
+            id="searchInput"
+            type="text"
+            [(ngModel)]="searchTerm"
+            (input)="applyFilters()"
+            [placeholder]="searchPlaceholder"
+            class="border border-gray-300 rounded p-2" />
+        </div>
+
+        <!-- Filtros Select -->
+        <div *ngFor="let filter of filters">
+          <label for="select" class="pr-2">{{ filter.label }}</label>
+          <select
+            (change)="applyFilters()"
+            [(ngModel)]="filter.selectedValue"
+            class="border border-gray-300 rounded pr-2 w-full">
+            <!-- Opción "Mostrar todo" -->
+            <option value="">Mostrar todo</option>
+            <!-- Opciones del filtro -->
+            <option *ngFor="let option of filter.options" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </div>
+      </div>
       <!-- Contenido de la tabla -->
       <div class="p-6 overflow-x-scroll px-0 pt-0 pb-2">
-        <table class="w-full min-w-[640px] table-auto">
+        <table class="w-full min-w-[640px] table-auto p-6">
           <thead>
             <tr>
               <th
@@ -71,20 +102,39 @@ import { Component, Input } from '@angular/core';
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let row of data">
+            <tr *ngFor="let row of filteredData">
               <td
                 *ngFor="let col of columns"
                 class="py-3 px-5 border-b border-blue-gray-50">
                 <p
-                  class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold"
-                  *ngIf="col.isBold">
+                  *ngIf="col.isBold"
+                  class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">
                   {{ row[col.field] }}
                 </p>
                 <p
-                  class="block antialiased font-sans text-xs font-medium text-blue-gray-600"
-                  *ngIf="!col.isBold">
+                  *ngIf="!col.isBold"
+                  class="block antialiased font-sans text-xs font-medium text-blue-gray-600">
                   {{ row[col.field] }}
                 </p>
+              </td>
+              <!-- Ícono de más detalles -->
+              <td class="py-3 px-5 border-b border-blue-gray-50 text-center">
+                <button
+                  (click)="onDetailsClick(row)"
+                  class="text-blue-500 hover:text-blue-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-5 h-5">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 12H9m4-4H9m6 8H9" />
+                  </svg>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -92,22 +142,59 @@ import { Component, Input } from '@angular/core';
       </div>
     </div>
   `,
-  styles: ``,
+  styles: [],
 })
-export class CustomTableComponent {
-  // Entrada para los datos de la tabla
+export class CustomTableComponent implements OnInit {
   @Input() data: TableRow[] = [];
-
-  // Entrada para las columnas de la tabla
   @Input() columns: { header: string; field: string; isBold?: boolean }[] = [];
-
-  // Personalización de la tarjeta
   @Input() title = 'Título de la tarjeta';
   @Input() subtitle?: string;
   @Input() subtitleIcon?: string;
   @Input() actionIcon?: string;
+  @Input() filters: FilterConfig[] = [];
+  // Nuevas propiedades para búsqueda configurable
+  @Input() searchField = 'paciente'; // Campo de búsqueda por defecto
+  @Input() searchPlaceholder = 'Buscar...'; // Placeholder por defecto para el input
+  // Función personalizada para el ícono de detalles
+  @Input() onDetailsClick: (row: TableRow) => void = () => {
+    // Add some default implementation here, or leave it empty if that's the desired behavior
+  };
+
+  filteredData: TableRow[] = [];
+  searchTerm = ''; // Nueva propiedad para el texto de búsqueda
+
+  ngOnInit() {
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.filteredData = this.data.filter(row => {
+      // Filtrar por término de búsqueda en el campo especificado
+      const matchesSearchTerm = this.searchTerm
+        ? row[this.searchField]
+            ?.toLowerCase()
+            .includes(this.searchTerm.toLowerCase())
+        : true;
+
+      // Aplicar filtros select
+      const matchesFilters = this.filters.every(filter => {
+        if (!filter.selectedValue) return true; // Si está en "Mostrar todo", ignorarlo
+        return row[filter.field] === filter.selectedValue;
+      });
+
+      // Retornar solo si cumple con el término de búsqueda y los filtros
+      return matchesSearchTerm && matchesFilters;
+    });
+  }
 }
 
-// Definición de TableRow para permitir varios tipos de datos en cada campo
+// Tipos adicionales
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TableRow = Record<string, any>;
+
+interface FilterConfig {
+  field: string;
+  label: string;
+  options: string[];
+  selectedValue?: string;
+}
