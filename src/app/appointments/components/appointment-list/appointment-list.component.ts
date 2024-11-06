@@ -5,6 +5,7 @@ import { CustomTableComponent } from '../../../shared/components/custom-table/cu
 import { NgIf } from '@angular/common';
 import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
 
+
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
@@ -12,6 +13,7 @@ import { ReusableModalComponent } from '../../../shared/components/reusable-moda
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
 })
+
 export class AppointmentListComponent implements OnInit {
   ngOnInit() {
     // Llamar a la función para obtener las citas del día actual cuando el componente se inicializa
@@ -298,5 +300,4 @@ export class AppointmentListComponent implements OnInit {
   openAddAppointmentModal() {
     this.showModal = !this.showModal;
     throw new Error('Method not implemented.');
-  }
 }
