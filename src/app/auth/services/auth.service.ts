@@ -32,10 +32,13 @@ export class AuthService {
   }
 
   private getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    if(typeof window !== 'undefined') {
+      return localStorage.getItem(this.tokenKey);
+    }
+    return null;
   }
 
-  isAthunticated(): boolean {
+  isAuthenticated(): boolean {
     const token = this.getToken();
     if (!token) {
       return false;
