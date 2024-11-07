@@ -1,39 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css'],
 })
-
 export class LoginComponent implements OnInit {
+  loginForm: FormGroup;
 
-  constructor(){
-
-    this.loginForm = new FormGroup({
-      user: new FormControl('', [Validators.required]),
-      pass: new FormControl('', [Validators.required])
-    });
-    
-   }
-  
-  ngOnInit(): void {
-    
-    login(form:NgForm){
-      
-      const user = form.value.user;
-      const pass = form.value.pass;
-
-    }
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    this.loginForm = this.fb.group({});
   }
 
-}
-function login(form: any, NgForm: typeof NgForm) {
-  throw new Error('Function not implemented.');
-}
+  ngOnInit(): void {    
+    this.loginForm = this.fb.group({
+      user: ['', Validators.required],
+      pass: ['', Validators.required]
+    });
 
+  }
+
+  login(): void {
+    const user = this.loginForm.get('user')?.value;
+    const pass = this.loginForm.get('pass')?.value;
+
+    this.authService.login(user, pass).subscribe(
+      res => {
+        const token = res.token; 
+        console.log('Token recibido:', token);
+
+        this.authService.saveToken(JSON.stringify(token)); // Guarda el token en localStorage
+        // Lógica adicional en caso de éxito, como redireccionar
+      },
+      error => {
+        console.error('Error en la autenticación', error);
+        // Manejo de error, como mostrar un mensaje
+      }
+    );
+  }
+}
