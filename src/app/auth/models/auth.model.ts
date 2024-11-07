@@ -1,7 +1,3 @@
-// export class User {
-//     id: number;
-//     username: string;
-//     email: string;
-//     pass: string;
-//     role: Role[]
-// }
+export interface AuthResponse {
+  token: string
+}

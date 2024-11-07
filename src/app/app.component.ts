@@ -11,4 +11,5 @@ import { FlowbiteInitComponent } from "./shared/components/flowbite-init.compone
 })
 export class AppComponent {
   title = 'Clinica';
+  URIPath = "localhost:5070/";
 }
