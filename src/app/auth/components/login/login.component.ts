@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({});
   }
 
@@ -28,18 +30,13 @@ export class LoginComponent implements OnInit {
     const user = this.loginForm.get('user')?.value;
     const pass = this.loginForm.get('pass')?.value;
 
-    this.authService.login(user, pass).subscribe(
-      res => {
-        const token = res.token; 
-        console.log('Token recibido:', token);
-
-        this.authService.saveToken(JSON.stringify(token)); // Guarda el token en localStorage
-        // Lógica adicional en caso de éxito, como redireccionar
+    this.authService.login(user, pass).subscribe({
+      next: () => {
+        this.router.navigate(['/dashboard']);
       },
-      error => {
-        console.error('Error en la autenticación', error);
-        // Manejo de error, como mostrar un mensaje
+      error: (error) => {
+        console.log(error);
       }
-    );
+    });
   }
 }
