@@ -75,7 +75,6 @@ export class RegisterComponent {
           Validators.maxLength(255),
         ],
       ],
-      fechaNacimiento: [''], // Es opcional, por lo que no se requiere Validators.required
     });
   }
 
