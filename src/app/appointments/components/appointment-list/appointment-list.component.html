@@ -10,7 +10,7 @@
       [filters]="filters"
       [searchField]="searchFieldToday"
       [searchPlaceholder]="searchPlaceholderToday"
-      [onDetailsClick]="handleDetailsClick">
+      (onDetailsClick)="handleDetailsClick($event)">
     </app-custom-table>
     <app-custom-table
       class="2xl:w-1/2 md:mt-4 2xl:mt-0"
@@ -20,7 +20,7 @@
       [filters]="filters"
       [searchField]="searchField"
       [searchPlaceholder]="searchPlaceholder"
-      [onDetailsClick]="handleDetailsClick">
+      (onDetailsClick)="handleDetailsClick($event)">
     </app-custom-table>
   </div>
   <app-reusable-modal *ngIf="showModal" [title]="'Asignar Nuevo Turno'" (closeModal)="showModal = false">
@@ -32,6 +32,12 @@
           'text-white bg-green-500 hover:bg-green-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
         "
         (formSubmit)="handleFormSubmit($event)"></app-form>
+    </div>
+  </app-reusable-modal>
+
+  <app-reusable-modal *ngIf="showDetailsModal" [title]="'Detalles de la Cita'" (closeModal)="showDetailsModal = false">
+    <div class="card p-5 w-full" >
+      <app-appointment-details [selectedRow]="selectedRow"></app-appointment-details>
     </div>
   </app-reusable-modal>
 </div>

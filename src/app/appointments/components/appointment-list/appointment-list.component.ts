@@ -4,15 +4,17 @@ import { Validators } from '@angular/forms';
 import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
 import { NgIf } from '@angular/common';
 import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
+import { AppointmentDetailsComponent } from "../appointment-details/appointment-details.component";
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
-  imports: [FormComponent, CustomTableComponent, NgIf, ReusableModalComponent],
+  imports: [FormComponent, CustomTableComponent, NgIf, ReusableModalComponent, AppointmentDetailsComponent],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
 })
 export class AppointmentListComponent implements OnInit {
+
   ngOnInit() {
     // Llamar a la función para obtener las citas del día actual cuando el componente se inicializa
     this.getTodayAppointments(this.appointmentData);
@@ -262,6 +264,9 @@ export class AppointmentListComponent implements OnInit {
   searchFieldToday = 'paciente';
   searchPlaceholderToday = 'Buscar por paciente'; // Placeholder para el campo de búsqueda
   showModal = false;
+  showDetailsModal = false;
+  selectedRow: object | null = null;
+
 
   handleFormSubmit(data: object): void {
     console.log('Formulario enviado con datos:', data);
@@ -271,6 +276,8 @@ export class AppointmentListComponent implements OnInit {
   // Función personalizada para el ícono de detalles
   handleDetailsClick(row: object): void {
     console.log('Detalles de la fila:', row);
+    this.selectedRow = row;
+    this.showDetailsModal = true;
     // Aquí puedes agregar cualquier lógica personalizada que necesites
   }
 
@@ -296,6 +303,5 @@ export class AppointmentListComponent implements OnInit {
 
   openAddAppointmentModal() {
     this.showModal = !this.showModal;
-    throw new Error('Method not implemented.');
   }
 }
