@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -120,7 +120,7 @@ import { FormsModule } from '@angular/forms';
               <!-- Ícono de más detalles -->
               <td class="py-3 px-5 border-b border-blue-gray-50 text-center">
                 <button
-                  (click)="onDetailsClick(row)"
+                  (click)="handleDetailsClick(row)"
                   class="text-blue-500 hover:text-blue-700">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -156,9 +156,8 @@ export class CustomTableComponent implements OnInit {
   @Input() searchField = 'paciente'; // Campo de búsqueda por defecto
   @Input() searchPlaceholder = 'Buscar...'; // Placeholder por defecto para el input
   // Función personalizada para el ícono de detalles
-  @Input() onDetailsClick: (row: TableRow) => void = () => {
-    // Add some default implementation here, or leave it empty if that's the desired behavior
-  };
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
+  @Output() onDetailsClick = new EventEmitter<TableRow>();
 
   filteredData: TableRow[] = [];
   searchTerm = ''; // Nueva propiedad para el texto de búsqueda
@@ -186,7 +185,11 @@ export class CustomTableComponent implements OnInit {
       return matchesSearchTerm && matchesFilters;
     });
   }
+  handleDetailsClick(row: TableRow): void {
+    this.onDetailsClick.emit(row); // Emitir evento al hacer clic en detalles
+  }
 }
+
 
 // Tipos adicionales
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
