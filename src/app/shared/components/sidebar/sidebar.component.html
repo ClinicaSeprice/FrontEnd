@@ -137,7 +137,7 @@
         </p>
       </li>
       <li>
-        <a routerLink="/login">
+        <a routerLink="/login" (click)="logout()">
           <button
             routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"
             class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
@@ -155,7 +155,7 @@
             </svg>
             <p
               class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize text-white">
-              Iniciar sesión
+              {{ buttonText }}
             </p>
           </button>
         </a>
