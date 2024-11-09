@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
       (keydown.space)="close()"
       (keydown.enter)="close()">
       <div
-        class="bg-white rounded-lg p-6 relative max-h-[calc(100vh-60px)] overflow-hidden w-[calc(100vw-60px)]"
+        class="bg-white rounded-lg p-6 relative max-h-[calc(100vh-60px)] overflow-hidden"
         (click)="$event.stopPropagation()"
         (keydown.space)="close()"
         tabindex="0">

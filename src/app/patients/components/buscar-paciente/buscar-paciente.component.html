@@ -1,0 +1,19 @@
+<div class="card max-w-[500px] p-4">
+  <label for="dni">DNI:</label>
+  <input type="number" [(ngModel)]="dni" name="dni" />
+  <button (click)="buscarPaciente()" class="btn btn-primary m-4">
+    Buscar
+  </button>
+
+  <div *ngIf="paciente">
+    <h2>Información del Paciente</h2>
+    <p>Nombre: {{ paciente.nombre }}</p>
+    <p>Apellido: {{ paciente.apellido }}</p>
+    <p>Email: {{ paciente.email }}</p>
+    <p>Teléfono: {{ paciente.telefono }}</p>
+    <p>Fecha de Nacimiento: {{ paciente.fechaNacimiento }}</p>
+    <p>Fecha de Registro: {{ paciente.fechaRegistro }}</p>
+    <p>Baja: {{ paciente.baja ? 'Sí' : 'No' }}</p>
+  </div>
+  <p *ngIf="paciente === null">Paciente no encontrado</p>
+</div>

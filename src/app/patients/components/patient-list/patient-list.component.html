@@ -1,1 +1,29 @@
-<p>patient-list works!</p>
+<div class="flex justify-between">
+  <button (click)="modalRegistroPaciente()" class="btn btn-primary mb-4">
+    Registrar pacientes
+  </button>
+  <button (click)="modalBuscarPaciente()" class="btn btn-primary mb-4">
+    Buscar pacientes
+  </button>
+</div>
+
+<!-- <app-custom-table
+  [data]="tableData"
+  [columns]="tableColumns"      
+  [filters]="filters"      
+  [searchField]="searchField"      
+  [searchPlaceholder]="searchPlaceholder"      
+  (onDetailsClick)="handleDetailsClick($event)"
+  ></app-custom-table> -->
+<app-reusable-modal
+  *ngIf="showModal"
+  [title]="'Registrar Nuevo Paciente'"
+  (closeModal)="showModal = false">
+  <app-registrar-paciente></app-registrar-paciente>
+</app-reusable-modal>
+<app-reusable-modal
+  *ngIf="showModalDos"
+  [title]="'Buscar Paciente'"
+  (closeModal)="showModalDos = false">
+  <app-buscar-paciente></app-buscar-paciente>
+</app-reusable-modal>
