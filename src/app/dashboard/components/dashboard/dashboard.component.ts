@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CustomTableComponent } from "../../../shared/components/custom-table/custom-table.component";
+import { ReusableModalComponent } from "../../../shared/components/reusable-modal/reusable-modal.component";
+import { RegistrarPacienteComponent } from "../../../patients/components/registrar-paciente/registrar-paciente.component";
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterModule, CustomTableComponent],
+  imports: [RouterModule, CustomTableComponent, ReusableModalComponent, RegistrarPacienteComponent, NgIf],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -23,4 +26,11 @@ export class DashboardComponent {
     { header: 'Monto', field: 'monto' },
     { header: 'Fecha', field: 'fecha' }
   ];
+
+  showModal = false;
+
+  openModal() {
+    this.showModal = true;
+    console.log('Modal abierto');
+  }
 }
