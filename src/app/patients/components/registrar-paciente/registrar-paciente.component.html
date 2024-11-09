@@ -1,26 +1,81 @@
-<div class="card p-4 max-w-[800px] w-[600px]">
-  <form (ngSubmit)="registrarPaciente()" class="flex flex-col gap-4">
-    <label for="nombre">Nombre:</label>
-    <input type="text" [(ngModel)]="paciente.nombre" name="nombre" required />
-  
-    <label for="apellido">Apellido:</label>
-    <input type="text" [(ngModel)]="paciente.apellido" name="apellido" required />
-  
-    <label for="dni">DNI:</label>
-    <input type="number" [(ngModel)]="paciente.dni" name="dni" required />
-  
-    <label for="email">Email:</label>
-    <input type="email" [(ngModel)]="paciente.email" name="email" />
-  
-    <label for="telefono">Teléfono:</label>
-    <input type="text" [(ngModel)]="paciente.telefono" name="telefono" />
-  
-    <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-    <input
-      type="date"
-      [(ngModel)]="paciente.fechaNacimiento"
-      name="fechaNacimiento" />
-  
-    <button type="submit" class="btn btn-primary">Registrar Paciente</button>
+<div
+  class="card p-4 max-w-[800px] w-full sm:w-[600px] mx-auto shadow-lg rounded-lg">
+  <form (ngSubmit)="registerPatient()" class="flex flex-col gap-4">
+    <!-- Nombre -->
+    <div class="flex flex-col">
+      <label for="nombre" class="font-medium text-gray-700">Nombre:</label>
+      <input
+        type="text"
+        [(ngModel)]="patientData.nombre"
+        name="nombre"
+        required
+        class="input input-bordered w-full"
+        placeholder="Ingrese el nombre" />
+    </div>
+
+    <!-- Apellido -->
+    <div class="flex flex-col">
+      <label for="apellido" class="font-medium text-gray-700">Apellido:</label>
+      <input
+        type="text"
+        [(ngModel)]="patientData.apellido"
+        name="apellido"
+        required
+        class="input input-bordered w-full"
+        placeholder="Ingrese el apellido" />
+    </div>
+
+    <!-- DNI -->
+    <div class="flex flex-col">
+      <label for="dni" class="font-medium text-gray-700">DNI:</label>
+      <input
+        type="number"
+        [(ngModel)]="patientData.dni"
+        name="dni"
+        required
+        class="input input-bordered w-full"
+        placeholder="Ingrese el DNI" />
+    </div>
+
+    <!-- Email -->
+    <div class="flex flex-col">
+      <label for="email" class="font-medium text-gray-700">Email:</label>
+      <input
+        type="email"
+        [(ngModel)]="patientData.email"
+        name="email"
+        class="input input-bordered w-full"
+        placeholder="Ingrese el email" />
+    </div>
+
+    <!-- Teléfono -->
+    <div class="flex flex-col">
+      <label for="telefono" class="font-medium text-gray-700">Teléfono:</label>
+      <input
+        type="text"
+        [(ngModel)]="patientData.telefono"
+        name="telefono"
+        class="input input-bordered w-full"
+        placeholder="Ingrese el teléfono" />
+    </div>
+
+    <!-- Fecha de Nacimiento -->
+    <div class="flex flex-col">
+      <label for="fechaNacimiento" class="font-medium text-gray-700"
+        >Fecha de Nacimiento:</label
+      >
+      <input
+        type="date"
+        [(ngModel)]="patientData.fechaNacimiento"
+        name="fechaNacimiento"
+        class="input input-bordered w-full" />
+    </div>
+
+    <!-- Botón de Registro -->
+    <button
+      type="submit"
+      class="btn btn-primary mt-4 w-full sm:w-auto self-center">
+      Registrar Paciente
+    </button>
   </form>
 </div>

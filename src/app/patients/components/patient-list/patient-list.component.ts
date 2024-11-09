@@ -1,47 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import { RegistrarPacienteComponent } from '../registrar-paciente/registrar-paciente.component';
-import { BuscarPacienteComponent } from '../buscar-paciente/buscar-paciente.component';
 import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
-import { PacienteService } from '../../services/patient.service';
-import { Paciente } from '../../models/patient.model';
+import { PatientService } from '../../services/patient.service';
+import { PatientDto } from '../../models/patient.model';
 
 @Component({
   selector: 'app-patient-list',
   standalone: true,
   imports: [
     RegistrarPacienteComponent,
-    BuscarPacienteComponent,
     ReusableModalComponent,
     NgIf,
     CustomTableComponent,
+    NgFor
   ],
   templateUrl: './patient-list.component.html',
   styleUrl: './patient-list.component.css',
 })
-export class PatientListComponent implements OnInit {
-  searchPlaceholder: string | undefined;
-  searchField: string | undefined;
-  filters= [];
-  tableColumns: {
-    header: string;
-    field: string;
-    isBold?: boolean;
-  }[] | undefined;
-  tableData = []
-  pacientes: Paciente[] = [];
+export class PatientListComponent  implements OnInit {
+  patients: PatientDto[] = [];
 
-  constructor(private pacienteService: PacienteService) {}
+  constructor(private patientService: PatientService) {}
 
-
-
-  ngOnInit() {
-    this.pacienteService.buscarPaciente().subscribe(pacientes => {
-      this.pacientes = pacientes;
-    });
+  ngOnInit(): void {
+    this.loadPatients();
   }
 
+  // Cargar lista de pacientes
+  loadPatients(): void {
+    this.patientService.getAllPatients().subscribe(
+      data => {
+        this.patients = data;
+      },
+      error => {
+        console.error('Error al obtener los pacientes', error);
+      }
+    );
+  }
   showModal = false;
   showModalDos = false;
   modalRegistroPaciente() {

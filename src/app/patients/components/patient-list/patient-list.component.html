@@ -7,23 +7,40 @@
   </button>
 </div>
 
-<!-- <app-custom-table
-  [data]="tableData"
-  [columns]="tableColumns"      
-  [filters]="filters"      
-  [searchField]="searchField"      
-  [searchPlaceholder]="searchPlaceholder"      
-  (onDetailsClick)="handleDetailsClick($event)"
-  ></app-custom-table> -->
+<div>
+  <h2>Lista de Pacientes</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>DNI</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let patient of patients">
+        <td>{{ patient.nombre }}</td>
+        <td>{{ patient.apellido }}</td>
+        <td>{{ patient.dni }}</td>
+        <td>{{ patient.email }}</td>
+        <td>{{ patient.telefono }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <app-reusable-modal
   *ngIf="showModal"
   [title]="'Registrar Nuevo Paciente'"
   (closeModal)="showModal = false">
   <app-registrar-paciente></app-registrar-paciente>
 </app-reusable-modal>
-<app-reusable-modal
+
+<!-- <app-reusable-modal
   *ngIf="showModalDos"
   [title]="'Buscar Paciente'"
   (closeModal)="showModalDos = false">
   <app-buscar-paciente></app-buscar-paciente>
-</app-reusable-modal>
+</app-reusable-modal> -->

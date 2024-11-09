@@ -1,10 +1,10 @@
-export interface Paciente {
+export interface PatientDto {
   nombre: string;
   apellido: string;
-  dni: number | null;
+  dni: number;
   email?: string;
   telefono?: string;
-  fechaNacimiento?: string; // Se recomienda usar string para simplificar el formato
-  fechaRegistro?: string;
+  fechaNacimiento: string;  // Ajuste para usar string en vez de Date
+  fechaRegistro: string;
   baja: boolean;
 }
