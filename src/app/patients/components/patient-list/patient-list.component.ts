@@ -5,6 +5,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
 import { PatientService } from '../../services/patient.service';
 import { PatientDto } from '../../models/patient.model';
+import { BuscarPacienteComponent } from "../buscar-paciente/buscar-paciente.component";
 
 @Component({
   selector: 'app-patient-list',
@@ -14,8 +15,9 @@ import { PatientDto } from '../../models/patient.model';
     ReusableModalComponent,
     NgIf,
     CustomTableComponent,
-    NgFor
-  ],
+    NgFor,
+    BuscarPacienteComponent
+],
   templateUrl: './patient-list.component.html',
   styleUrl: './patient-list.component.css',
 })

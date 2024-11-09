@@ -19,8 +19,8 @@ export class PatientService {
   }
 
   // Método para obtener un paciente por DNI
-  getPatientByDni(dni: number): Observable<PatientDto> {
-    return this.http.get<PatientDto>(`${this.baseUrl}/buscarPacientePorDni/${dni}`);
+  getPatientByDni(dni: number): Observable<PatientDto[]> {
+    return this.http.get<PatientDto[]>(`${this.baseUrl}/buscarPacientePorDni/${dni}`);
   }
 
   // Método para crear un nuevo paciente
