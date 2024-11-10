@@ -34,4 +34,9 @@ export class PatientService {
   updatePatient(dni: number, data: PatientDto): Observable<any> {
     return this.http.put(`${this.baseUrl}/actualizarPaciente/${dni}`, data);  // Ejemplo de endpoint para actualizar
   }
+
+  // Método para obtener pacientes con datos completos
+  getPatientsWithFullData(): Observable<PatientDto[]> {
+    return this.http.get<PatientDto[]>(`${this.baseUrl}/obtenerPacientesConDatosCompletos`);
+  }
 }

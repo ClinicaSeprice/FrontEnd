@@ -1,5 +1,4 @@
-<div
-  class="card p-4 max-w-[800px] w-full sm:w-[600px] mx-auto shadow-lg rounded-lg">
+<div class="card p-4 max-w-[800px] w-full sm:w-[600px] mx-auto shadow-lg rounded-lg">
   <form (ngSubmit)="registerPatient()" class="flex flex-col gap-4">
     <!-- Nombre -->
     <div class="flex flex-col">
@@ -59,11 +58,20 @@
         placeholder="Ingrese el teléfono" />
     </div>
 
+    <!-- Dirección -->
+    <div class="flex flex-col">
+      <label for="direccion" class="font-medium text-gray-700">Dirección:</label>
+      <input
+        type="text"
+        [(ngModel)]="patientData.direccion"
+        name="direccion"
+        class="input input-bordered w-full"
+        placeholder="Ingrese la dirección (opcional)" />
+    </div>
+
     <!-- Fecha de Nacimiento -->
     <div class="flex flex-col">
-      <label for="fechaNacimiento" class="font-medium text-gray-700"
-        >Fecha de Nacimiento:</label
-      >
+      <label for="fechaNacimiento" class="font-medium text-gray-700">Fecha de Nacimiento:</label>
       <input
         type="date"
         [(ngModel)]="patientData.fechaNacimiento"
@@ -71,11 +79,17 @@
         class="input input-bordered w-full" />
     </div>
 
+    <!-- Fecha de Registro (oculto) -->
+    <input
+      type="hidden"
+      [(ngModel)]="patientData.fechaRegistro"
+      name="fechaRegistro" />
+
     <!-- Botón de Registro -->
     <button
       type="submit"
       class="btn btn-primary mt-4 w-full sm:w-auto self-center">
-      Registrar Paciente
+      Registrar Usuario
     </button>
   </form>
 </div>

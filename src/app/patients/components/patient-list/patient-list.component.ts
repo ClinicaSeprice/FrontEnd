@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { RegistrarPacienteComponent } from '../registrar-paciente/registrar-paciente.component';
 import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
 import { NgFor, NgIf } from '@angular/common';
-import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
+import { CustomTableComponent, TableRow } from '../../../shared/components/custom-table/custom-table.component';
 import { PatientService } from '../../services/patient.service';
 import { PatientDto } from '../../models/patient.model';
-import { BuscarPacienteComponent } from "../buscar-paciente/buscar-paciente.component";
+import { BuscarPacienteComponent } from '../buscar-paciente/buscar-paciente.component';
+import { PatientDetailsComponent } from '../patient-details/patient-details.component';
+import { AppointmentDto } from '../../../appointments/models/appointment.model';
 
 @Component({
   selector: 'app-patient-list',
@@ -16,44 +18,59 @@ import { BuscarPacienteComponent } from "../buscar-paciente/buscar-paciente.comp
     NgIf,
     CustomTableComponent,
     NgFor,
-    BuscarPacienteComponent
-],
+    BuscarPacienteComponent,
+    PatientDetailsComponent,
+  ],
   templateUrl: './patient-list.component.html',
   styleUrl: './patient-list.component.css',
 })
-export class PatientListComponent  implements OnInit {
+export class PatientListComponent implements OnInit {
   patients: PatientDto[] = [];
+  appointments: AppointmentDto[] = [];
+  searchField = 'nombre';
+  columns = [
+    { header: 'Nombre', field: 'nombre', isBold: true },
+    { header: 'Apellido', field: 'apellido' },
+    { header: 'DNI', field: 'dni' },
+    { header: 'Email', field: 'email' },
+    { header: 'Teléfono', field: 'telefono' },
+  ];
+  showModal = false;
+  showDetailsModal = false;
+  selectedPatient: PatientDto | null = null;
 
-  constructor(private patientService: PatientService) {}
+  constructor(
+    private patientService: PatientService,
+  ) {}
 
   ngOnInit(): void {
     this.loadPatients();
   }
 
-  // Cargar lista de pacientes
   loadPatients(): void {
-    this.patientService.getAllPatients().subscribe(
-      data => {
+    this.patientService.getPatientsWithFullData().subscribe({
+      next: (data) => {
         this.patients = data;
       },
-      error => {
+      error: (error) => {
         console.error('Error al obtener los pacientes', error);
       }
-    );
+    });
   }
-  showModal = false;
-  showModalDos = false;
+
+  showModalRegistro = false;
+  showModalBuscarPorID = false;
+
   modalRegistroPaciente() {
-    this.showModal = true;
+    this.showModalRegistro = true;
   }
 
   modalBuscarPaciente() {
-    this.showModalDos = true;
+    this.showModalBuscarPorID = true;
   }
 
-  
-  handleDetailsClick() {
-    throw new Error('Method not implemented.');
+  handleDetailsClick(patient: TableRow): void {
+    this.selectedPatient = patient as PatientDto;
+    this.showDetailsModal = true;
   }
-
 }

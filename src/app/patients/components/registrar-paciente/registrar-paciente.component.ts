@@ -22,12 +22,15 @@ export class RegistrarPacienteComponent {
   patientData: PatientDto = {
     nombre: '',
     apellido: '',
-    dni: 0,
+    dni: 1000000,
     email: '',
     telefono: '',
-    fechaNacimiento: '10/02/2000', // Iniciado como string
-    fechaRegistro: new Date().toISOString().split('T')[0], // Iniciado como string
-    baja: true,
+    fechaNacimiento: '2000-10-02', // Valor inicial para fecha de nacimiento
+    fechaRegistro: new Date().toISOString().split('T')[0], // Fecha actual
+    baja: false,
+    direccion: '',  // Campo adicional para la dirección
+    turnos: [],     // Lista vacía de turnos al registrar un nuevo paciente
+    historiaClinica: null  // Campo inicializado como null
   };
 
   registerPatient(): void {

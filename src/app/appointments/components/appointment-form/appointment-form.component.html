@@ -1,0 +1,52 @@
+<div class="max-w-[600px]">
+  <h2>{{ appointment.id ? 'Editar Cita' : 'Crear Nueva Cita' }}</h2>
+  <form (ngSubmit)="saveAppointment()" class="flex flex-direction-column flex-col gap-4 min-w-[600px]">
+    <label for="idPersona">ID Paciente:</label>
+    <input
+      type="number"
+      [(ngModel)]="appointment.idPersona"
+      name="idPersona"
+      required />
+
+    <label for="idMedico">ID Médico:</label>
+    <input
+      type="number"
+      [(ngModel)]="appointment.idMedico"
+      name="idMedico"
+      required />
+
+    <label for="fechaTurno">Fecha de Turno:</label>
+    <input
+      type="date"
+      [(ngModel)]="appointment.fechaTurno"
+      name="fechaTurno"
+      required />
+
+    <label for="horaInicio">Hora de Inicio:</label>
+    <input
+      type="time"
+      [(ngModel)]="appointment.horaInicio"
+      name="horaInicio"
+      required />
+
+    <label for="horaFin">Hora de Fin:</label>
+    <input
+      type="time"
+      [(ngModel)]="appointment.horaFin"
+      name="horaFin"
+      required />
+
+    <label for="motivo">Motivo:</label>
+    <input type="text" [(ngModel)]="appointment.motivo" name="motivo" />
+
+    <label for="estado">Estado:</label>
+    <input type="text" [(ngModel)]="appointment.estado" name="estado" />
+
+    <label for="notas">Notas:</label>
+    <textarea [(ngModel)]="appointment.notas" name="notas"></textarea>
+
+    <button type="submit" class="btn btn-primary">
+      {{ appointment.id ? 'Actualizar' : 'Guardar' }}
+    </button>
+  </form>
+</div>
