@@ -3,15 +3,12 @@ import {Factura, PlanObraSocial, ObraSocial, MetodoPago,FacturaDetalle}  from '.
 import { Observable, tap, } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class LiquidationService {
 
   private URI = 'http://localhost:5070/api/';
-  private relativePath = 'Factura';
 
   constructor(
     private http: HttpClient
@@ -27,7 +24,7 @@ export class LiquidationService {
 
   registrarFactura(billing: Factura): Observable<Factura> {
     const body = { ...billing }; 
-    return this.http.post<Factura>(`${this.URI}${this.relativePath}/RegistrarFactura`, body).pipe(
+    return this.http.post<Factura>(`${this.URI}Factura/RegistrarFactura`, body).pipe(
       tap(response => { 
         return response;
       })
