@@ -27,10 +27,13 @@ export class MedicosAdminComponent implements OnInit {
     fechaModificacion: new Date().toISOString(),
     user: '',
     password: '',
-    fechaNacimiento: ''
+    fechaNacimiento: '',
+    horariosDisponibles: []
   };
 
-  constructor(private medicoService: MedicoService) {}  ngOnInit(): void {
+  constructor(private medicoService: MedicoService) {}  
+  
+  ngOnInit(): void {
     this.cargarMedicos();
   }
 
@@ -69,7 +72,8 @@ export class MedicosAdminComponent implements OnInit {
           fechaModificacion: new Date().toISOString(),
           user: '',
           password: '',
-          fechaNacimiento: ''
+          fechaNacimiento: '',
+          horariosDisponibles: []
         };
       },
       error: (error) => console.error('Error al registrar médico:', error)

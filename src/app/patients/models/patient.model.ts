@@ -1,4 +1,5 @@
 export interface PatientDto {
+  idPersona?: number;
   nombre: string;
   apellido: string;
   dni: number;
@@ -29,7 +30,7 @@ export interface TurnoDto {
 
 // Detalles completos de `HistoriaClinicaDto` para la historia clínica del paciente
 export interface HistoriaClinicaDto {
-  idHistoria: number;
+  idHistoria?: number;
   antecedentes: string;
   diagnosticos: string;
   tratamientos: string;
