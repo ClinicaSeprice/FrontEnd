@@ -1,32 +1,32 @@
 import { Component } from '@angular/core';
-import { Paciente } from '../../models/patient.model';
-import { PacienteService } from '../../services/patient.service';
-import { CommonModule } from '@angular/common';
+import { PatientService } from '../../services/patient.service';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PatientDto } from '../../models/patient.model';
 
 @Component({
   selector: 'app-buscar-paciente',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgIf],
   templateUrl: './buscar-paciente.component.html',
-  styleUrl: './buscar-paciente.component.css',
+  styleUrls: ['./buscar-paciente.component.css'],
 })
 export class BuscarPacienteComponent {
   dni: number | undefined;
-  paciente: Paciente | undefined;
+  paciente: PatientDto | null = null;
 
-  constructor(private pacienteService: PacienteService) {}
+  constructor(private pacienteService: PatientService) {}
 
   buscarPaciente(): void {
     if (this.dni !== undefined) {
-      this.pacienteService.buscarPacientePorDni(this.dni).subscribe({
+      this.pacienteService.getPatientByDni(this.dni).subscribe({
         next: (response) => {
-          this.paciente = response[0];
+          this.paciente = response.length > 0 ? response[0] : null;
           console.log('Paciente encontrado:', this.paciente);
         },
         error: (error) => {
           console.error('Paciente no encontrado:', error);
-          this.paciente = undefined;
+          this.paciente = null;
         },
       });
     }

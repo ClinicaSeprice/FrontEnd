@@ -1,1 +1,105 @@
-<p>patient-details works!</p>
+<div *ngIf="patient" class="bg-white rounded-lg shadow-md p-6 max-w-lg mx-auto">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+    Detalles del Paciente
+  </h2>
+
+  <!-- Información del Paciente -->
+  <div class="border-b border-gray-200 pb-4 mb-4">
+    <h3 class="text-lg font-medium text-gray-600 mb-2">
+      Información del Paciente
+    </h3>
+    <p><span class="font-semibold">Nombre:</span> {{ patient.nombre }}</p>
+    <p><span class="font-semibold">Apellido:</span> {{ patient.apellido }}</p>
+    <p><span class="font-semibold">DNI:</span> {{ patient.dni }}</p>
+    <p><span class="font-semibold">Email:</span> {{ patient.email }}</p>
+    <p><span class="font-semibold">Teléfono:</span> {{ patient.telefono }}</p>
+    <p>
+      <span class="font-semibold">Dirección:</span>
+      {{ patient.direccion || 'No disponible' }}
+    </p>
+    <p>
+      <span class="font-semibold">Fecha de Nacimiento:</span>
+      {{ patient.fechaNacimiento || 'No disponible' }}
+    </p>
+    <p>
+      <span class="font-semibold">Fecha de Registro:</span>
+      {{ patient.fechaRegistro | date: 'yyyy-MM-dd' }}
+    </p>
+    <p>
+      <span class="font-semibold">Estado:</span>
+      {{ patient.baja ? 'Inactivo' : 'Activo' }}
+    </p>
+  </div>
+
+  <!-- Información de la Historia Clínica -->
+  <div
+    class="border-b border-gray-200 pb-4 mb-4"
+    *ngIf="patient.historiaClinica">
+    <h3 class="text-lg font-medium text-gray-600 mb-2">Historia Clínica</h3>
+    <p>
+      <span class="font-semibold">Antecedentes:</span>
+      {{ patient.historiaClinica.antecedentes }}
+    </p>
+    <p>
+      <span class="font-semibold">Diagnósticos:</span>
+      {{ patient.historiaClinica.diagnosticos }}
+    </p>
+    <p>
+      <span class="font-semibold">Tratamientos:</span>
+      {{ patient.historiaClinica.tratamientos }}
+    </p>
+    <p>
+      <span class="font-semibold">Fecha de Apertura:</span>
+      {{ patient.historiaClinica.fechaApertura | date: 'yyyy-MM-dd' }}
+    </p>
+    <p *ngIf="patient.historiaClinica.fechaModificacion">
+      <span class="font-semibold">Última Modificación:</span>
+      {{ patient.historiaClinica.fechaModificacion | date: 'yyyy-MM-dd' }}
+    </p>
+  </div>
+
+  <!-- Información de los Turnos Asociados -->
+  <h3 class="text-lg font-medium text-gray-600 mb-2">Turnos Asociados</h3>
+  <div class="overflow-x-auto min-h-[200px]" *ngIf="patient.turnos.length > 0; else noAppointments">
+    <table class="min-w-full bg-white border">
+      <thead>
+        <tr>
+          <th class="py-2 px-4 border">Motivo</th>
+          <th class="py-2 px-4 border">Precio</th>
+          <th class="py-2 px-4 border">Estado</th>
+          <th class="py-2 px-4 border">Notas</th>
+          <th class="py-2 px-4 border">Fecha</th>
+          <th class="py-2 px-4 border">Médico</th>
+          <th class="py-2 px-4 border">Especialidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let turno of patient.turnos">
+          <td class="py-2 px-4 border">{{ turno.motivo }}</td>
+          <td class="py-2 px-4 border">{{ turno.precioTurno | currency }}</td>
+          <td class="py-2 px-4 border">{{ turno.estado }}</td>
+          <td class="py-2 px-4 border">{{ turno.notas }}</td>
+          <td class="py-2 px-4 border">
+            {{ turno.fechaTurno | date: 'yyyy-MM-dd' }}
+          </td>
+          <td class="py-2 px-4 border">
+            {{ turno.nombreMedico }} {{ turno.apellidoMedico }}
+          </td>
+          <td class="py-2 px-4 border">{{ turno.especialidadMedico }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noAppointments>
+    <p>No hay turnos registrados para este paciente.</p>
+  </ng-template>
+
+  <!-- Botón de cierre -->
+  <div class="mt-6 flex justify-end">
+    <button
+      (click)="closeDetails()"
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      Cerrar
+    </button>
+  </div>
+</div>

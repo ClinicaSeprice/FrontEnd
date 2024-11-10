@@ -72,22 +72,6 @@ export const routes: Routes = [
           canActivate: [AuthGuard]
       },
       {
-        path: 'billing',
-        loadComponent: () =>
-          import(
-            './billing/components/billing-list/billing-list.component'
-          ).then(m => m.BillingListComponent),
-          canActivate: [AuthGuard]
-      },
-      {
-        path: 'billing/:id',
-        loadComponent: () =>
-          import(
-            './billing/components/billing-details/billing-details.component'
-          ).then(m => m.BillingDetailsComponent),
-          canActivate: [AuthGuard]
-      },
-      {
         path: 'liquidation',
         loadComponent: () =>
           import(

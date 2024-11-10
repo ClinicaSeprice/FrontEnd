@@ -4,18 +4,32 @@ import { Validators } from '@angular/forms';
 import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
 import { NgIf } from '@angular/common';
 import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
-import { AppointmentDetailsComponent } from "../appointment-details/appointment-details.component";
+import { AppointmentDetailsComponent } from '../appointment-details/appointment-details.component';
+import { AppointmentDto } from '../../models/appointment.model';
+import { AppointmentService } from '../../services/appointment.service';
+import { AppointmentFormComponent } from '../appointment-form/appointment-form.component';
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
-  imports: [FormComponent, CustomTableComponent, NgIf, ReusableModalComponent, AppointmentDetailsComponent],
+  imports: [
+    FormComponent,
+    CustomTableComponent,
+    NgIf,
+    ReusableModalComponent,
+    AppointmentDetailsComponent,
+    AppointmentFormComponent
+  ],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
 })
 export class AppointmentListComponent implements OnInit {
+  appointments: AppointmentDto[] = [];
+  
+  constructor(private appointmentService: AppointmentService) {}
 
   ngOnInit() {
+    this.loadAppointments();
     // Llamar a la función para obtener las citas del día actual cuando el componente se inicializa
     this.getTodayAppointments(this.appointmentData);
   }
@@ -267,7 +281,6 @@ export class AppointmentListComponent implements OnInit {
   showDetailsModal = false;
   selectedRow: object | null = null;
 
-
   handleFormSubmit(data: object): void {
     console.log('Formulario enviado con datos:', data);
     // Aquí puedes realizar cualquier acción con los datos recibidos
@@ -303,5 +316,29 @@ export class AppointmentListComponent implements OnInit {
 
   openAddAppointmentModal() {
     this.showModal = !this.showModal;
+  }
+
+  loadAppointments(): void {
+    this.appointmentService.getAppointments().subscribe({
+      next: appointments => {
+        this.appointments = appointments;
+      },
+      error: error => {
+        console.error('Error al cargar citas:', error);
+      },
+    });
+  }
+
+  deleteAppointment(id: number): void {
+    if (confirm('¿Estás seguro de que deseas eliminar esta cita?')) {
+      this.appointmentService.deleteAppointment(id).subscribe({
+        next: () => {
+          this.loadAppointments();
+        },
+        error: error => {
+          console.error('Error al eliminar cita:', error);
+        },
+      });
+    }
   }
 }
