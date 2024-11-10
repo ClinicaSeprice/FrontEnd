@@ -1,0 +1,41 @@
+<div *ngIf="idMedico">
+  <h2>Horarios Disponibles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Hora Inicio</th>
+        <th>Hora Fin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let horario of horarios">
+        <td>{{ horario.fecha }}</td>
+        <td>{{ horario.horaInicio }}</td>
+        <td>{{ horario.horaFin }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Registrar Nuevo Horario</h3>
+  <form (ngSubmit)="registrarHorario()">
+    <label for="fecha">Fecha:</label>
+    <input type="date" [(ngModel)]="nuevoHorario.fecha" name="fecha" required />
+
+    <label for="horaInicio">Hora Inicio:</label>
+    <input
+      type="time"
+      [(ngModel)]="nuevoHorario.horaInicio"
+      name="horaInicio"
+      required />
+
+    <label for="horaFin">Hora Fin:</label>
+    <input
+      type="time"
+      [(ngModel)]="nuevoHorario.horaFin"
+      name="horaFin"
+      required />
+
+    <button type="submit">Registrar Horario</button>
+  </form>
+</div>

@@ -1,8 +1,12 @@
-export interface Appointment {
-  id: string; // Identificador único del turno
-  title: string; // Título o nombre del turno
-  date: string; // Fecha del turno en formato ISO (YYYY-MM-DDTHH:mm:ss.sssZ)
-  description?: string; // Descripción opcional del turno
-  location?: string; // Ubicación opcional del turno
-  time?: string; // Hora opcional del turno (solo en vistas diarias o semanales)
+export interface AppointmentDto {
+  id: number;
+  idPersona: number;
+  idMedico: number;
+  fechaTurno: string;  // En formato 'YYYY-MM-DD'
+  horaInicio: string;  // En formato 'HH:mm'
+  horaFin: string;     // En formato 'HH:mm'
+  motivo: string;
+  estado: string;
+  notas?: string;
 }
+

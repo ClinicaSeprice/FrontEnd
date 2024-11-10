@@ -148,13 +148,9 @@
       <p
         class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
         <strong class="text-green-500"
-          ><a
-            routerLink="/patients"
-            routerLinkActive="active"
-            class="text-green-500"
+          ><a routerLink="/dashboard" (click)="openModal()" class="text-green-500"
             >REGISTRAR</a
-          ></strong
-        >
+          ></strong>
       </p>
     </div>
   </div>
@@ -168,3 +164,10 @@
   "
   [data]="tableData"
   [columns]="tableColumns" />
+
+<app-reusable-modal
+  *ngIf="showModal"
+  [title]="'Registrar Nuevo Paciente'"
+  (closeModal)="showModal = false">
+  <app-registrar-paciente></app-registrar-paciente>
+</app-reusable-modal>

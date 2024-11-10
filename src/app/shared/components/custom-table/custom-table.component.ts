@@ -193,7 +193,7 @@ export class CustomTableComponent implements OnInit {
 
 // Tipos adicionales
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TableRow = Record<string, any>;
+ export type TableRow = Record<string, any>;
 
 interface FilterConfig {
   field: string;
