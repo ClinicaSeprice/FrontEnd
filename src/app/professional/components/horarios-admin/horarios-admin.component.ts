@@ -12,37 +12,44 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './horarios-admin.component.css',
 })
 export class HorariosAdminComponent implements OnInit {
-  @Input() idMedico!: number;
-  horarios: HorarioDisponibleDto[] = [];
+  @Input() idMedico!: number; // Recibe el ID del médico como un input
+  horarios: HorarioDisponibleDto[] = []; // Lista de horarios del médico
   nuevoHorario: HorarioDisponibleDto = {
     idMedico: 0,
     fecha: '',
     horaInicio: '',
     horaFin: '',
-    estado: false
+    estado: true
   };
 
   constructor(private medicoService: MedicoService) {}
 
   ngOnInit(): void {
+    // Solo carga horarios si idMedico está definido
     if (this.idMedico) {
       this.cargarHorarios();
-      this.nuevoHorario.idMedico = this.idMedico;
+      this.nuevoHorario.idMedico = this.idMedico; // Asigna el ID del médico al nuevo horario
     }
   }
 
   cargarHorarios(): void {
     this.medicoService.getHorariosByMedico(this.idMedico).subscribe({
-      next: (horarios) => this.horarios = horarios,
+      next: (horarios) => {
+        this.horarios = horarios; // Actualiza la lista de horarios
+      },
       error: (error) => console.error('Error al cargar horarios:', error)
     });
   }
 
   registrarHorario(): void {
-    this.nuevoHorario.idMedico = this.idMedico; // Asegura que el ID del médico esté asignado
+    // Verifica que el ID del médico esté asignado en el horario
+    this.nuevoHorario.idMedico = this.idMedico;
+
+    // Registra el nuevo horario en el backend
     this.medicoService.registrarHorario(this.nuevoHorario).subscribe({
       next: () => {
-        this.cargarHorarios();
+        this.cargarHorarios(); // Refresca la lista de horarios tras agregar uno nuevo
+        // Limpia el formulario de nuevo horario
         this.nuevoHorario.fecha = '';
         this.nuevoHorario.horaInicio = '';
         this.nuevoHorario.horaFin = '';

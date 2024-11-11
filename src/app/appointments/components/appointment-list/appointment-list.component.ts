@@ -5,7 +5,7 @@ import { CustomTableComponent } from '../../../shared/components/custom-table/cu
 import { NgIf } from '@angular/common';
 import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
 import { AppointmentDetailsComponent } from '../appointment-details/appointment-details.component';
-import { AppointmentDto } from '../../models/appointment.model';
+import { TurnoDetalleDTO } from '../../models/appointment.model';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentFormComponent } from '../appointment-form/appointment-form.component';
 
@@ -18,20 +18,20 @@ import { AppointmentFormComponent } from '../appointment-form/appointment-form.c
     NgIf,
     ReusableModalComponent,
     AppointmentDetailsComponent,
-    AppointmentFormComponent
+    AppointmentFormComponent,
   ],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
 })
 export class AppointmentListComponent implements OnInit {
-  appointments: AppointmentDto[] = [];
-  
+  appointments: TurnoDetalleDTO[] = [];
+
   constructor(private appointmentService: AppointmentService) {}
 
   ngOnInit() {
     this.loadAppointments();
     // Llamar a la función para obtener las citas del día actual cuando el componente se inicializa
-    this.getTodayAppointments(this.appointmentData);
+    this.getTodayAppointments(this.appointments);
   }
 
   userFormConfig = [
@@ -84,190 +84,28 @@ export class AppointmentListComponent implements OnInit {
     },
   ];
 
-  appointmentData = [
-    {
-      paciente: 'María López',
-      servicio: 'Consulta General',
-      estado: 'Completada',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '04/11/2024',
-    },
-    {
-      paciente: 'José García',
-      servicio: 'Sobreturno',
-      estado: 'Pendiente',
-      profesional: 'Dr. Ana Martínez',
-      especialidad: 'Medicina General',
-      fecha: '03/11/2024',
-    },
-    {
-      paciente: 'Ana Martínez',
-      servicio: 'Pediatría',
-      estado: 'Cancelada',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '05/11/2024',
-    },
-    {
-      paciente: 'Luis Fernández',
-      servicio: 'Odontología',
-      estado: 'Completada',
-      profesional: 'Dr. Laura Gómez',
-      especialidad: 'Odontología',
-      fecha: '03/11/2024',
-    },
-    {
-      paciente: 'Carlos Morales',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dr. Pedro Núñez',
-      especialidad: 'Medicina General',
-      fecha: '04/11/2024',
-    },
-    {
-      paciente: 'Sofía Ríos',
-      servicio: 'Dermatología',
-      estado: 'Completada',
-      profesional: 'Dra. Alicia Vega',
-      especialidad: 'Dermatología',
-      fecha: '02/11/2024',
-    },
-    {
-      paciente: 'Isabel Torres',
-      servicio: 'Oftalmología',
-      estado: 'Pendiente',
-      profesional: 'Dr. Juan Pérez',
-      especialidad: 'Oftalmología',
-      fecha: '02/11/2024',
-    },
-    {
-      paciente: 'Ricardo González',
-      servicio: 'Consulta General',
-      estado: 'Completada',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '01/11/2024',
-    },
-    {
-      paciente: 'Camila Santos',
-      servicio: 'Pediatría',
-      estado: 'Cancelada',
-      profesional: 'Dra. Laura Gómez',
-      especialidad: 'Pediatría',
-      fecha: '01/11/2024',
-    },
-    {
-      paciente: 'Mateo Rivas',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dr. Ana Martínez',
-      especialidad: 'Medicina General',
-      fecha: '31/10/2024',
-    },
-    {
-      paciente: 'Valentina Gutiérrez',
-      servicio: 'Traumatología',
-      estado: 'Completada',
-      profesional: 'Dr. Pedro Núñez',
-      especialidad: 'Traumatología',
-      fecha: '31/10/2024',
-    },
-    {
-      paciente: 'Nicolás Herrera',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '31/10/2024',
-    },
-    {
-      paciente: 'Gabriela Silva',
-      servicio: 'Odontología',
-      estado: 'Completada',
-      profesional: 'Dr. Laura Gómez',
-      especialidad: 'Odontología',
-      fecha: '30/10/2024',
-    },
-    {
-      paciente: 'Andrés Cruz',
-      servicio: 'Pediatría',
-      estado: 'Cancelada',
-      profesional: 'Dr. Ana Martínez',
-      especialidad: 'Pediatría',
-      fecha: '30/10/2024',
-    },
-    {
-      paciente: 'Fernanda Soto',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dr. Juan Pérez',
-      especialidad: 'Medicina General',
-      fecha: '30/10/2024',
-    },
-    {
-      paciente: 'Diego Ramos',
-      servicio: 'Cardiología',
-      estado: 'Completada',
-      profesional: 'Dr. Pedro Núñez',
-      especialidad: 'Cardiología',
-      fecha: '29/10/2024',
-    },
-    {
-      paciente: 'Lorena Peña',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dra. Laura Gómez',
-      especialidad: 'Medicina General',
-      fecha: '29/10/2024',
-    },
-    {
-      paciente: 'Francisco Muñoz',
-      servicio: 'Dermatología',
-      estado: 'Completada',
-      profesional: 'Dr. Alicia Vega',
-      especialidad: 'Dermatología',
-      fecha: '29/10/2024',
-    },
-    {
-      paciente: 'Lucía Castro',
-      servicio: 'Consulta General',
-      estado: 'Cancelada',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '28/10/2024',
-    },
-    {
-      paciente: 'Emilia López',
-      servicio: 'Oftalmología',
-      estado: 'Completada',
-      profesional: 'Dr. Pedro Núñez',
-      especialidad: 'Oftalmología',
-      fecha: '28/10/2024',
-    },
-  ];
-
   // Array para almacenar las citas del día actual
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appointmentsTodayData: any[] = [];
 
   tableColumns = [
     { header: 'Paciente', field: 'paciente', isBold: true },
-    { header: 'Servicio', field: 'servicio' },
-    { header: 'Especialidad', field: 'especialidad' },
-    { header: 'profesional', field: 'profesional' },
     { header: 'Fecha', field: 'fecha' },
+    { header: 'Médico', field: 'medico' },
+    { header: 'Especialidad', field: 'especialidad' },
+    { header: 'Hora', field: 'hora' },
+    { header: 'Estado', field: 'estado' },
   ];
 
   filters = [
     {
-      field: 'profesional',
+      field: 'medico',
       label: 'Profesional',
       options: ['Dr. Juan Rodríguez', 'Dr. Ana Martínez'],
     },
     {
-      field: 'servicio',
-      label: 'Servicio',
+      field: 'especialidad',
+      label: 'Especialidad',
       options: ['Consulta General', 'Sobreturno', 'Pediatría'],
     },
   ];
@@ -294,34 +132,83 @@ export class AppointmentListComponent implements OnInit {
     // Aquí puedes agregar cualquier lógica personalizada que necesites
   }
 
-  // Función para obtener y asignar las citas del día actual
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTodayAppointments(appointments: any[]): void {
     const today = new Date();
-    // Formato "dd/mm/yyyy" para comparar con appointmentData
     const todayDateString = today.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
-
+  
+    console.log('Fecha de hoy (todayDateString):', todayDateString);
+  
     // Filtrar citas del día actual
     this.appointmentsTodayData = appointments.filter(appointment => {
-      return appointment.fecha === todayDateString;
+      // Verificar si appointment.fechaTurno existe y es válida
+      if (!appointment.fechaTurno) {
+        console.log('fechaTurno no definida en appointment:', appointment);
+        return false;
+      }
+  
+      // Convertir appointment.fechaTurno a Date y luego a "dd/mm/yyyy"
+      const appointmentDate = new Date(appointment.fechaTurno);
+      const appointmentDateString = appointmentDate.toLocaleDateString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+  
+      console.log(`Fecha de la cita (appointmentDateString) para el ID ${appointment.idTurno}:`, appointmentDateString);
+  
+      // Comparar con la fecha de hoy
+      const isToday = appointmentDateString === todayDateString;
+      console.log(`¿La cita con ID ${appointment.idTurno} es hoy?`, isToday);
+  
+      return isToday;
     });
-
+  
     // Verificar si appointmentsTodayData tiene los datos correctos
     console.log('Citas del día actual:', this.appointmentsTodayData);
   }
-
+  
   openAddAppointmentModal() {
     this.showModal = !this.showModal;
   }
 
+  // Añade esta nueva propiedad en el componente
+  tableData: {
+    paciente: string;
+    fecha: string;
+    medico: string;
+    especialidad: string;
+    hora: string;
+    estado: string;
+  }[] = [];
+
   loadAppointments(): void {
-    this.appointmentService.getAppointments().subscribe({
-      next: appointments => {
+    this.appointmentService.getAppointmentDetails().subscribe({
+      next: (appointments: TurnoDetalleDTO[]) => {
+        // Almacena los datos completos en `appointments`
         this.appointments = appointments;
+        console.log('Citas cargadas:', this.appointments);
+
+        // Mapea los datos para adaptarlos a las columnas de la tabla y los asigna a `tableData`
+        this.tableData = appointments.map(appointment => ({
+          paciente: `${appointment.nombrePaciente} ${appointment.apellidoPaciente}`,
+          fecha: appointment.fechaTurno
+            ? new Date(appointment.fechaTurno).toLocaleDateString('es-ES')
+            : 'Fecha no disponible', // Valor predeterminado si fechaTurno es undefined
+          medico: `${appointment.nombreMedico} ${appointment.apellidoMedico}`,
+          especialidad: appointment.especialidadMedico,
+          hora:
+            appointment.horaInicio && appointment.horaFin
+              ? `${appointment.horaInicio} - ${appointment.horaFin}`
+              : 'Hora no disponible', // Valor predeterminado si horaInicio o horaFin son undefined
+          estado: appointment.estado ?? 'Pendiente',
+        }));
+        // Filtra las citas del día actual
+        this.getTodayAppointments(this.tableData);
       },
       error: error => {
         console.error('Error al cargar citas:', error);

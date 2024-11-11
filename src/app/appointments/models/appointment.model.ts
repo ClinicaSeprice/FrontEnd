@@ -1,12 +1,29 @@
 export interface AppointmentDto {
-  id: number;
-  idPersona: number;
-  idMedico: number;
-  fechaTurno: string;  // En formato 'YYYY-MM-DD'
-  horaInicio: string;  // En formato 'HH:mm'
-  horaFin: string;     // En formato 'HH:mm'
-  motivo: string;
-  estado: string;
+  idPersona?: number | string;
+  idMedico?: number;
+  idHorario?: number;
+  motivo?: string;
+  estado?: string;
   notas?: string;
+  precioTurno?: number;
 }
 
+export interface TurnoDetalleDTO {
+  idPaciente: number;
+  nombrePaciente: string;
+  apellidoPaciente: string;
+  dniPaciente: number;
+  idTurno: number;
+  fechaTurno: Date;
+  precioTurno: number;
+  motivo: string;
+  estado: string;
+  notas: string;
+  fechaHorario: Date;
+  horaInicio: string;
+  horaFin: string;
+  idMedico: number;
+  nombreMedico: string;
+  apellidoMedico: string;
+  especialidadMedico: string;
+}

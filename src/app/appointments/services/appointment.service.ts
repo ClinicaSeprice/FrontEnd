@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { Observable } from 'rxjs';
-import { AppointmentDto } from '../models/appointment.model';
+import { AppointmentDto, TurnoDetalleDTO } from '../models/appointment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,8 @@ export class AppointmentService {
   constructor(private http: HttpClient) {}
 
   // Obtener todas las citas
-  getAppointments(): Observable<AppointmentDto[]> {
-    return this.http.get<AppointmentDto[]>(`${this.baseUrl}/ObtenerTodosLosTurnos`);
+  getAppointmentDetails(): Observable<TurnoDetalleDTO[]> {
+  return this.http.get<TurnoDetalleDTO[]>(`${this.baseUrl}/ObtenerTodosLosTurnos`);
   }
 
   // Obtener una cita por ID

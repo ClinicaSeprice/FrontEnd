@@ -1,52 +1,66 @@
 <div class="max-w-[600px]">
-  <h2>{{ appointment.id ? 'Editar Cita' : 'Crear Nueva Cita' }}</h2>
-  <form (ngSubmit)="saveAppointment()" class="flex flex-direction-column flex-col gap-4 min-w-[600px]">
-    <label for="idPersona">ID Paciente:</label>
+  <h2>{{ appointment.idPersona ? 'Editar Cita' : 'Crear Nueva Cita' }}</h2>
+  <form
+    (ngSubmit)="saveAppointment()"
+    class="flex flex-direction-column flex-col gap-4 min-w-[600px]">
+    <!-- DNI del Paciente -->
+    <label for="dniPaciente">DNI del Paciente:</label>
     <input
       type="number"
-      [(ngModel)]="appointment.idPersona"
-      name="idPersona"
+      [(ngModel)]="dniPaciente"
+      (blur)="onDniBlur()"
+      name="dniPaciente"
       required />
 
-    <label for="idMedico">ID Médico:</label>
-    <input
-      type="number"
-      [(ngModel)]="appointment.idMedico"
-      name="idMedico"
-      required />
+    <!-- Especialidad -->
+    <label for="especialidad">Especialidad:</label>
+    <select
+      [(ngModel)]="selectedEspecialidad"
+      (change)="onEspecialidadChange()"
+      name="especialidad"
+      required>
+      <option
+        *ngFor="let especialidad of especialidades"
+        [value]="especialidad">
+        {{ especialidad }}
+      </option>
+    </select>
 
-    <label for="fechaTurno">Fecha de Turno:</label>
-    <input
-      type="date"
-      [(ngModel)]="appointment.fechaTurno"
-      name="fechaTurno"
-      required />
+    <!-- Médico -->
+    <label for="medico">Médico:</label>
+    <select
+      [(ngModel)]="selectedMedicoId"
+      (change)="onMedicoChange()"
+      name="medico"
+      required>
+      <option *ngFor="let medico of filteredMedicos" [value]="medico.idMedico">
+        {{ medico.nombre }} {{ medico.apellido }}
+      </option>
+    </select>
 
-    <label for="horaInicio">Hora de Inicio:</label>
-    <input
-      type="time"
-      [(ngModel)]="appointment.horaInicio"
-      name="horaInicio"
-      required />
+    <!-- Horario Disponible -->
+    <label for="horario">Horario Disponible:</label>
+    <select [(ngModel)]="selectedHorarioId" name="horario" required>
+      <option *ngFor="let horario of horariosDisponibles" [value]="horario.idHorario">
+        {{ horario.fecha }} {{ horario.horaInicio }} - {{ horario.horaFin }}
+      </option>
+    </select>
 
-    <label for="horaFin">Hora de Fin:</label>
-    <input
-      type="time"
-      [(ngModel)]="appointment.horaFin"
-      name="horaFin"
-      required />
-
+    <!-- Motivo -->
     <label for="motivo">Motivo:</label>
-    <input type="text" [(ngModel)]="appointment.motivo" name="motivo" />
+    <input
+      type="text"
+      [(ngModel)]="appointment.motivo"
+      name="motivo"
+      required />
 
-    <label for="estado">Estado:</label>
-    <input type="text" [(ngModel)]="appointment.estado" name="estado" />
-
+    <!-- Notas -->
     <label for="notas">Notas:</label>
     <textarea [(ngModel)]="appointment.notas" name="notas"></textarea>
 
+    <!-- Guardar -->
     <button type="submit" class="btn btn-primary">
-      {{ appointment.id ? 'Actualizar' : 'Guardar' }}
+      {{ appointment.idPersona ? 'Actualizar' : 'Guardar' }}
     </button>
   </form>
 </div>
