@@ -69,21 +69,7 @@ export class LiquidationListComponent {
       this.MetodosPago = response;
     })
 
-    this.liquidationService.getFacturas().subscribe(response => {
-      this.Facturas = response;
-      const refactResponse: FacturaDetallada[] = response.map(factura => {        
-        const newFactura: FacturaDetallada = {
-          idFactura: factura.idFactura,
-          ObraSocial: `${factura.nombreObraSocial} - ${factura.nombrePlanObraSocial}`,
-          numeroTransaccion: factura.numeroTransaccion,
-          montoTotal: factura.montoTotal,
-          fechaPago: new Date(factura['fechaPago']).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-        }
-        return newFactura;
-      });
-      console.log(refactResponse);
-      this.tableData = refactResponse;
-    })    
+    this.updateTable();   
   }
 
   openModal(): void {
@@ -103,6 +89,7 @@ export class LiquidationListComponent {
 
     this.liquidationService.registrarFactura(sendObj).subscribe(response => {
       console.log('Factura registrada:', response);   
+      this.updateTable();
       this.handleResetForm()
     });
   }
@@ -115,24 +102,20 @@ export class LiquidationListComponent {
     this.showModal = false;
   }
 
-  getData(): void {
-    this.liquidationService.getFacturas().subscribe({
-      next: (response) => {
-        const refactResponse: FacturaDetallada[] = response.map(factura => {        
-          const newFactura: FacturaDetallada = {
-            idFactura: factura.idFactura,
-            ObraSocial: `${factura.nombreObraSocial} - ${factura.nombrePlanObraSocial}`,
-            numeroTransaccion: factura.numeroTransaccion,
-            montoTotal: factura.montoTotal,
-            fechaPago: factura.fechaPago,
-          }
-          return newFactura;
-        });
-        console.log(refactResponse);
-        this.tableData = [...refactResponse];
-      }      
-    });    
+  updateTable(): void {
+    this.liquidationService.getFacturas().subscribe(response => {
+      this.Facturas = response;
+      this.tableData = response.map(factura => {        
+        const newFactura: FacturaDetallada = {
+          idFactura: factura.idFactura,
+          ObraSocial: `${factura.nombreObraSocial} - ${factura.nombrePlanObraSocial}`,
+          numeroTransaccion: factura.numeroTransaccion,
+          montoTotal: factura.montoTotal,
+          fechaPago: new Date(factura['fechaPago']).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+        }
+        return newFactura;
+      });
+    }) 
   }
-
 }
 

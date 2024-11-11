@@ -70,6 +70,13 @@ export const routes: Routes = [
             './appointments/components/appointment-details/appointment-details.component'
           ).then(m => m.AppointmentDetailsComponent),
           canActivate: [AuthGuard]
+      },      {
+        path: 'billing',
+        loadComponent: () =>
+          import(
+            './billing/components/billing-list/billing-list.component'
+          ).then(m => m.BillingListComponent),
+          canActivate: [AuthGuard]
       },
       {
         path: 'liquidation',
