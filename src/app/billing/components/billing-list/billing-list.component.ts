@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { RegistrarPacienteComponent } from "../../../patients/components/registrar-paciente/registrar-paciente.component";
 import { ReusableModalComponent } from "../../../shared/components/reusable-modal/reusable-modal.component";
 import { CustomTableComponent } from "../../../shared/components/custom-table/custom-table.component";
-import { NgForOf,NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BillingService } from "../../services/billing.service";
 import { LiquidacionMedico,ResumenLiquidacionMedico, MetodoPago, Medico, FacturaDetallada, FacturaDetalle } from '../../models/billing.model';
@@ -10,7 +9,7 @@ import { LiquidacionMedico,ResumenLiquidacionMedico, MetodoPago, Medico, Factura
 @Component({
   selector: 'app-billing-list',
   standalone: true,
-  imports: [CustomTableComponent, ReusableModalComponent, RegistrarPacienteComponent, NgIf, NgForOf, ReactiveFormsModule, FormsModule],
+  imports: [CustomTableComponent, ReusableModalComponent, NgIf, ReactiveFormsModule, FormsModule],
   templateUrl: './billing-list.component.html',
   styleUrl: './billing-list.component.css'
 })
