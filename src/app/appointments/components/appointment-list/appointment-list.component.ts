@@ -107,51 +107,35 @@ export class AppointmentListComponent implements OnInit {
       console.error('No se encontró el turno para la fila seleccionada:', row);
     }
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getTodayAppointments(appointments: any[]): void {
-    const today = new Date();
-    const todayDateString = today.toLocaleDateString('es-ES', {
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   getTodayAppointments(appointments: any[]): void {
+    // Obtener la fecha de hoy en el mismo formato de "DD/MM/YYYY"
+    const todayDateString = new Date().toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
-    }); // Convierte la fecha de hoy a "DD/MM/YYYY"
-
+    });
+  
     console.log('Fecha de hoy (todayDateString):', todayDateString);
-
+  
     // Filtrar citas del día actual
     this.appointmentsTodayData = appointments.filter(appointment => {
-      if (!appointment.fecha) {
-        console.log('fecha no definida en appointment:', appointment);
+      // Validar que `fecha` esté definida y sea una cadena de texto
+      if (!appointment.fecha || typeof appointment.fecha !== 'string') {
+        console.warn('Fecha no válida para la cita:', appointment);
         return false;
       }
-
-      // Convertir appointment.fecha a Date y luego a "DD/MM/YYYY"
-      const appointmentDate = new Date(appointment.fecha);
-      const appointmentDateString = appointmentDate.toLocaleDateString(
-        'es-ES',
-        {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        }
-      );
-
-      console.log(
-        `Fecha de la cita (appointmentDateString) para el paciente ${appointment.paciente}:`,
-        appointmentDateString
-      );
-
+  
       // Comparar con la fecha de hoy
-      const isToday = appointmentDateString === todayDateString;
+      const isToday = appointment.fecha === todayDateString;
       console.log(
         `¿La cita para el paciente ${appointment.paciente} es hoy?`,
         isToday
       );
-
+  
       return isToday;
     });
-
-    // Verificar si appointmentsTodayData tiene los datos correctos
+  
     console.log('Citas del día actual:', this.appointmentsTodayData);
   }
 
