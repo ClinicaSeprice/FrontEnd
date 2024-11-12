@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError, BehaviorSubject } from 'rxjs';
 import { AuthResponse } from '../models/auth.model';
 import { Router } from '@angular/router';
 
@@ -11,6 +11,10 @@ export class AuthService {
   private apiUrl = 'http://localhost:5070/api/Auth';
   private tokenKey = 'authToken';
 
+  //BehavirioSubjet para emitir el estado de autenticacion
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  
   constructor(
     private http: HttpClient,
     private router: Router
@@ -22,7 +26,12 @@ export class AuthService {
       tap(response => {
         if (response.token) {
           this.saveToken(response.token);
+          this.isAuthenticatedSubject.next(true);
         }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error de autenticación: ', error);
+        return throwError(() => new Error(error.message));
       })
     );
   }
@@ -69,6 +78,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    this.isAuthenticatedSubject.next(false);
     this.router.navigate(['/login']);
   }
 }
