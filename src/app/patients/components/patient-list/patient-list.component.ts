@@ -1,26 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { RegistrarPacienteComponent } from '../registrar-paciente/registrar-paciente.component';
 import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
-import { NgFor, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { CustomTableComponent, TableRow } from '../../../shared/components/custom-table/custom-table.component';
 import { PatientService } from '../../services/patient.service';
 import { PatientDto } from '../../models/patient.model';
 import { BuscarPacienteComponent } from '../buscar-paciente/buscar-paciente.component';
 import { PatientDetailsComponent } from '../patient-details/patient-details.component';
 import { AppointmentDto } from '../../../appointments/models/appointment.model';
+import { RegistrarPacienteComponent } from "../registrar-paciente/registrar-paciente.component";
 
 @Component({
   selector: 'app-patient-list',
   standalone: true,
   imports: [
-    RegistrarPacienteComponent,
     ReusableModalComponent,
     NgIf,
     CustomTableComponent,
-    NgFor,
     BuscarPacienteComponent,
     PatientDetailsComponent,
-  ],
+    RegistrarPacienteComponent
+],
   templateUrl: './patient-list.component.html',
   styleUrl: './patient-list.component.css',
 })
