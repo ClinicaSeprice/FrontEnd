@@ -9,13 +9,13 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './metodos-pagos.component.html',
-  styleUrl: './metodos-pagos.component.css'
+  styleUrl: './metodos-pagos.component.css',
 })
 export class MetodosPagosComponent implements OnInit {
   metodosPago: MetodoPagoDTO[] = [];
   nuevoMetodoPago: Partial<MetodoPagoDTO> = {
     nombre: '',
-    habilitado: true
+    habilitado: true,
   };
 
   constructor(private metodoPagoService: MetodoPagoService) {}
@@ -26,22 +26,27 @@ export class MetodosPagosComponent implements OnInit {
 
   cargarMetodosPago(): void {
     this.metodoPagoService.obtenerMetodosPago().subscribe({
-      next: (metodos) => {
+      next: metodos => {
         this.metodosPago = metodos;
       },
-      error: (error) => console.error('Error al cargar los métodos de pago:', error)
+      error: error =>
+        console.error('Error al cargar los métodos de pago:', error),
     });
   }
 
   crearMetodoPago(): void {
     if (this.nuevoMetodoPago.nombre) {
-      this.metodoPagoService.crearMetodoPago(this.nuevoMetodoPago as MetodoPagoDTO).subscribe({
-        next: (metodo) => {
-          this.metodosPago.push(metodo); // Agregar el nuevo método a la lista en tiempo real
-          this.nuevoMetodoPago = { nombre: '', habilitado: true }; // Reiniciar el formulario
-        },
-        error: (error) => console.error('Error al crear el método de pago:', error)
-      });
+      this.metodoPagoService
+        .crearMetodoPago(this.nuevoMetodoPago as MetodoPagoDTO)
+        .subscribe({
+          next: response => {
+            console.log(response.idMetodoPago); // Mensaje de éxito en consola
+            this.cargarMetodosPago(); // Recargar la lista completa de métodos de pago
+            this.nuevoMetodoPago = { nombre: '', habilitado: true }; // Reiniciar el formulario
+          },
+          error: error =>
+            console.error('Error al crear el método de pago:', error),
+        });
     }
   }
 }

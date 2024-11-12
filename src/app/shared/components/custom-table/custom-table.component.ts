@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -150,7 +150,7 @@ import { FormsModule } from '@angular/forms';
   `,
   styles: [],
 })
-export class CustomTableComponent implements OnInit {
+export class CustomTableComponent implements OnInit, OnChanges {
   @Input() data: TableRow[] = [];
   @Input() columns: { header: string; field: string; isBold?: boolean }[] = [];
   @Input() title = 'Título de la tarjeta';
@@ -170,6 +170,13 @@ export class CustomTableComponent implements OnInit {
 
   ngOnInit() {
     this.filteredData = [...this.data];
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['data'] && changes['data'].currentValue) {
+      this.filteredData = [...this.data];
+      this.applyFilters(); // Asegura que los filtros se apliquen cada vez que cambia `data`
+    }
   }
 
   applyFilters() {

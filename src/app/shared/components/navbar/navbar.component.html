@@ -58,7 +58,7 @@
   </div>
 </nav>
 
-<app-reusable-modal *ngIf="isModalOpen" [title]="medicoId ? 'Cargar Horarios' : 'Cargar nuevo Médico'" (closeModal)="isModalOpen = false">
+<app-reusable-modal *ngIf="isModalOpen" [title]="'Configuraciónes Generales'" (closeModal)="isModalOpen = false">
   <ng-container *ngIf="!medicoId">
     <app-medico-admin (MedicoRegistrado)="onMedicoRegistrado($event)"></app-medico-admin>
   </ng-container>
@@ -67,7 +67,7 @@
     <app-horarios-admin [idMedico]="medicoId"></app-horarios-admin>
   </ng-container>
 
-  <app-obras-sociales></app-obras-sociales>
+  <app-obras-sociales class="mt-4"></app-obras-sociales>
 
-  <app-metodos-pagos></app-metodos-pagos>
+  <app-metodos-pagos class="mt-4"></app-metodos-pagos>
 </app-reusable-modal>
