@@ -6,7 +6,7 @@ import { AppointmentDetailsComponent } from '../appointment-details/appointment-
 import { TurnoDetalleDTO } from '../../models/appointment.model';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentFormComponent } from '../appointment-form/appointment-form.component';
-import { AppointmentPaymentsFormComponent } from "../appointment-payments-form/appointment-payments-form.component";
+import { AppointmentPaymentsFormComponent } from '../appointment-payments-form/appointment-payments-form.component';
 
 @Component({
   selector: 'app-appointment-list',
@@ -17,13 +17,14 @@ import { AppointmentPaymentsFormComponent } from "../appointment-payments-form/a
     ReusableModalComponent,
     AppointmentDetailsComponent,
     AppointmentFormComponent,
-    AppointmentPaymentsFormComponent
-],
+    AppointmentPaymentsFormComponent,
+  ],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
 })
 export class AppointmentListComponent implements OnInit {
   appointments: TurnoDetalleDTO[] = [];
+  showPaymentModal = false;
 
   constructor(private appointmentService: AppointmentService) {}
 
@@ -57,7 +58,7 @@ export class AppointmentListComponent implements OnInit {
       selected: null, // No se selecciona nada por defecto
     },
   ];
-  
+
   filtersAll = [
     {
       field: 'medico',
@@ -93,7 +94,7 @@ export class AppointmentListComponent implements OnInit {
   handlePaymentClick(row: object): void {
     console.log('Detalles de la fila:', row);
     this.selectedRow = row;
-    this.handleShowPaymentModal();
+    this.showPaymentModal = true;
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTodayAppointments(appointments: any[]): void {
@@ -189,28 +190,32 @@ export class AppointmentListComponent implements OnInit {
     });
   }
 
-// Función para llenar las opciones de los filtros de ambas tablas dinámicamente
-private populateFilterOptions(): void {
-  const medicoOptions = new Set<string>();
-  const especialidadOptions = new Set<string>();
+  // Función para llenar las opciones de los filtros de ambas tablas dinámicamente
+  private populateFilterOptions(): void {
+    const medicoOptions = new Set<string>();
+    const especialidadOptions = new Set<string>();
 
-  // Extraer opciones únicas de médico y especialidad
-  this.tableData.forEach(appointment => {
-    medicoOptions.add(appointment.medico);
-    especialidadOptions.add(appointment.especialidad);
-  });
+    // Extraer opciones únicas de médico y especialidad
+    this.tableData.forEach(appointment => {
+      medicoOptions.add(appointment.medico);
+      especialidadOptions.add(appointment.especialidad);
+    });
 
-  const medicoOptionsArray = Array.from(medicoOptions);
-  const especialidadOptionsArray = Array.from(especialidadOptions);
+    const medicoOptionsArray = Array.from(medicoOptions);
+    const especialidadOptionsArray = Array.from(especialidadOptions);
 
-  // Asignar opciones a los filtros de la primera tabla (Citas del día)
-  this.filtersToday.find(filter => filter.field === 'medico')!.options = medicoOptionsArray;
-  this.filtersToday.find(filter => filter.field === 'especialidad')!.options = especialidadOptionsArray;
+    // Asignar opciones a los filtros de la primera tabla (Citas del día)
+    this.filtersToday.find(filter => filter.field === 'medico')!.options =
+      medicoOptionsArray;
+    this.filtersToday.find(filter => filter.field === 'especialidad')!.options =
+      especialidadOptionsArray;
 
-  // Asignar opciones a los filtros de la segunda tabla (Turnos Registrados)
-  this.filtersAll.find(filter => filter.field === 'medico')!.options = medicoOptionsArray;
-  this.filtersAll.find(filter => filter.field === 'especialidad')!.options = especialidadOptionsArray;
-}
+    // Asignar opciones a los filtros de la segunda tabla (Turnos Registrados)
+    this.filtersAll.find(filter => filter.field === 'medico')!.options =
+      medicoOptionsArray;
+    this.filtersAll.find(filter => filter.field === 'especialidad')!.options =
+      especialidadOptionsArray;
+  }
 
   deleteAppointment(id: number): void {
     if (confirm('¿Estás seguro de que deseas eliminar esta cita?')) {
