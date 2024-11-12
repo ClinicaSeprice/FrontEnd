@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(user, pass).subscribe({
       next: () => {
         this.router.navigate(['/dashboard']);
-        alert('Login correcto para el usuario: ' + user);
+        //alert('Login correcto para el usuario: ' + user);
       },
       error: (error) => {
         console.log(error);
