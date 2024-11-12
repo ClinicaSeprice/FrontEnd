@@ -25,6 +25,7 @@ import { FormsModule } from '@angular/forms';
             <path [attr.d]="actionIcon"></path>
           </svg>
         </button>
+        
       </div>
 
       <div class="p-4 flex flex-wrap gap-3 items-end">
@@ -59,13 +60,45 @@ import { FormsModule } from '@angular/forms';
               <td *ngFor="let col of columns" class="py-3 px-5 border-b border-blue-gray-50">
                 <p [class.font-bold]="col.isBold" class="text-sm">{{ row[col.field] }}</p>
               </td>
+              <!-- Ícono de más detalles -->
               <td class="py-3 px-5 border-b border-blue-gray-50 text-center">
-                <button (click)="handleDetailsClick(row)" class="text-blue-500 hover:text-blue-700">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m4-4H9m6 8H9" />
+                <button
+                  (click)="handleDetailsClick(row)"
+                  class="text-blue-500 hover:text-blue-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-5 h-5">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 12H9m4-4H9m6 8H9" />
                   </svg>
                 </button>
+
+                <button
+                *ngIf="handlePaymentClick"
+                (click)="handlePaymentClick.emit(row)"
+                  class="text-green-500 hover:text-green-800">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    class="w-5 h-5">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 12H9m4-4H9m6 8H9" />
+                  </svg>
+                </button>
+
               </td>
+
             </tr>
           </tbody>
         </table>
@@ -87,6 +120,7 @@ export class CustomTableComponent implements OnInit {
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onDetailsClick = new EventEmitter<TableRow>();
+  @Output() handlePaymentClick = new EventEmitter<TableRow>();
 
   filteredData: TableRow[] = [];
   searchTerm = '';
