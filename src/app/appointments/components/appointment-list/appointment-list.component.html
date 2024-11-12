@@ -1,5 +1,7 @@
 <div class="mt-0">
-  <button (click)="openAddAppointmentModal()" class="btn btn-primary mb-4">Asignar Turno</button>
+  <button (click)="openAddAppointmentModal()" class="btn btn-primary mb-4">
+    Asignar Turno
+  </button>
   <div class="flex flex-col 2xl:flex-row 2xl:gap-x-10 gap-4 mb-5">
     <app-custom-table
       class="2xl:w-1/2"
@@ -7,29 +9,46 @@
       [subtitle]="'Actualizado Hoy'"
       [data]="appointmentsTodayData"
       [columns]="tableColumns"
-      [filters]="filters"
+      [filters]="filtersToday"
       [searchField]="searchFieldToday"
       [searchPlaceholder]="searchPlaceholderToday"
-      (onDetailsClick)="handleDetailsClick($event)">
+      (onDetailsClick)="handleDetailsClick($event)"
+      (handlePaymentClick)="handlePaymentClick($event)">
     </app-custom-table>
     <app-custom-table
       class="2xl:w-1/2 md:mt-4 2xl:mt-0"
       [title]="'Turnos Registrados'"
-      [data]="appointmentData"
+      [data]="tableData"
       [columns]="tableColumns"
-      [filters]="filters"
+      [filters]="filtersAll"
       [searchField]="searchField"
       [searchPlaceholder]="searchPlaceholder"
-      (onDetailsClick)="handleDetailsClick($event)">
+      (onDetailsClick)="handleDetailsClick($event)"
+      (handlePaymentClick)="handlePaymentClick($event)">
     </app-custom-table>
   </div>
-  <app-reusable-modal *ngIf="showModal" [title]="'Asignar Nuevo Turno'" (closeModal)="showModal = false">
+  <app-reusable-modal
+    *ngIf="showModal"
+    [title]="'Asignar Nuevo Turno'"
+    (closeModal)="showModal = false">
     <app-appointment-form></app-appointment-form>
   </app-reusable-modal>
 
-  <app-reusable-modal *ngIf="showDetailsModal" [title]="'Detalles de la Cita'" (closeModal)="showDetailsModal = false">
-    <div class="card p-5 w-full" >
-      <app-appointment-details [selectedRow]="selectedRow"></app-appointment-details>
+  <app-reusable-modal
+    *ngIf="showDetailsModal"
+    [title]="'Detalles de la Cita'"
+    (closeModal)="showDetailsModal = false">
+    <div class="card p-5 w-full">
+      <app-appointment-details
+        [selectedRow]="selectedRow"></app-appointment-details>
     </div>
+  </app-reusable-modal>
+
+  <app-reusable-modal
+    *ngIf="showPaymentModal"
+    [title]="'Crear Factura'"
+    (closeModal)="showPaymentModal = false">
+    <app-appointment-payments-form
+      [selectedRow]="selectedRow"></app-appointment-payments-form>
   </app-reusable-modal>
 </div>

@@ -1,7 +1,6 @@
 <aside
-  [class]=" isVisible ? 'translate-x-0':'-translate-x-80'"
-  class="bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 
-         lg:translate-x-0 lg:block md:w-64 lg:w-72 2xl:translate-x-0">
+  [class]="isVisible ? 'translate-x-0' : '-translate-x-80'"
+  class="bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 lg:translate-x-0 lg:block md:w-64 lg:w-72 2xl:translate-x-0">
   <div class="relative border-b border-white/20">
     <a class="flex items-center gap-4 py-6 px-8" href="#/">
       <h6
@@ -9,7 +8,8 @@
         Clínica Seprice
       </h6>
     </a>
-    <button (click)="closeSidebar.emit()"
+    <button
+      (click)="closeSidebar.emit()"
       class="middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-8 max-w-[32px] h-8 max-h-[32px] rounded-lg text-xs text-white hover:bg-white/10 active:bg-white/30 absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
       type="button">
       <span
@@ -105,7 +105,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/liquidation">
+        <a routerLink="/billing">
           <button
             class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
             routerLinkActive="bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20"

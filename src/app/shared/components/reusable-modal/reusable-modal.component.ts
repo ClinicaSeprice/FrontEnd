@@ -21,12 +21,11 @@ import { CommonModule } from '@angular/common';
       aria-labelledby="modal-title"
       aria-describedby="modal-content"
       (click)="close()"
-      (keydown.space)="close()"
       (keydown.enter)="close()">
       <div
         class="bg-white rounded-lg p-6 relative max-h-[calc(100vh-60px)] overflow-hidden"
         (click)="$event.stopPropagation()"
-        (keydown.space)="close()"
+        (keypress.space)="$event.stopPropagation()"
         tabindex="0">
         <!-- Título del modal (opcional) -->
         <ng-container *ngIf="title">

@@ -1,5 +1,6 @@
 // medico-dto.model.ts
 export interface MedicoDto {
+  idMedico?: number;
   nombre: string;
   apellido: string;
   dni: number;
@@ -13,11 +14,13 @@ export interface MedicoDto {
   user: string;
   password: string;
   fechaNacimiento: string;
+  horariosDisponibles: HorarioDisponibleDto[];
 }
 
 
 // horario-disponible-dto.model.ts
 export interface HorarioDisponibleDto {
+  idHorario?: number; 
   idMedico: number;
   nombreMedico?: string;
   fecha: string;       // En formato 'YYYY-MM-DD'

@@ -1,274 +1,76 @@
 import { Component, OnInit } from '@angular/core';
-import { FormComponent } from '../../../shared/components/form/form.component';
-import { Validators } from '@angular/forms';
 import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
 import { NgIf } from '@angular/common';
 import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
 import { AppointmentDetailsComponent } from '../appointment-details/appointment-details.component';
-import { AppointmentDto } from '../../models/appointment.model';
+import { TurnoDetalleDTO } from '../../models/appointment.model';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentFormComponent } from '../appointment-form/appointment-form.component';
+import { AppointmentPaymentsFormComponent } from '../appointment-payments-form/appointment-payments-form.component';
 
 @Component({
   selector: 'app-appointment-list',
   standalone: true,
   imports: [
-    FormComponent,
     CustomTableComponent,
     NgIf,
     ReusableModalComponent,
     AppointmentDetailsComponent,
-    AppointmentFormComponent
+    AppointmentFormComponent,
+    AppointmentPaymentsFormComponent,
   ],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
 })
 export class AppointmentListComponent implements OnInit {
-  appointments: AppointmentDto[] = [];
-  
+  appointments: TurnoDetalleDTO[] = [];
+  showPaymentModal = false;
+
   constructor(private appointmentService: AppointmentService) {}
 
   ngOnInit() {
     this.loadAppointments();
-    // Llamar a la función para obtener las citas del día actual cuando el componente se inicializa
-    this.getTodayAppointments(this.appointmentData);
+    this.getTodayAppointments(this.appointments);
   }
-
-  userFormConfig = [
-    {
-      name: 'dni',
-      type: 'text',
-      placeholder: '12345678',
-      validators: [Validators.required, Validators.pattern(/^\d{8}$/)],
-      errorMessage: 'El DNI debe tener 8 dígitos',
-    },
-    {
-      name: 'especialidad',
-      type: 'select',
-      options: [
-        { label: 'Cardiología', value: 'cardiologia' },
-        { label: 'Pediatría', value: 'pediatria' },
-        { label: 'Ginecología', value: 'ginecologia' },
-        { label: 'Traumatología', value: 'traumatologia' },
-      ],
-      placeholder: 'Seleccione una especialidad',
-      validators: [Validators.required],
-      errorMessage: 'La especialidad es obligatoria',
-    },
-    {
-      name: 'profesional',
-      type: 'select',
-      options: [
-        { label: 'Dr. Juan Pérez', value: 'juan_perez' },
-        { label: 'Dra. María López', value: 'maria_lopez' },
-        { label: 'Dr. Carlos García', value: 'carlos_garcia' },
-        { label: 'Dra. Ana Torres', value: 'ana_torres' },
-      ],
-      placeholder: 'Seleccione un profesional',
-      validators: [Validators.required],
-      errorMessage: 'El profesional es obligatorio',
-    },
-    {
-      name: 'fecha',
-      type: 'date',
-      placeholder: 'dd/mm/aaaa',
-      validators: [Validators.required],
-      errorMessage: 'La fecha es obligatoria',
-    },
-    {
-      name: 'hora',
-      type: 'time',
-      placeholder: 'hh:mm',
-      validators: [Validators.required],
-      errorMessage: 'La hora es obligatoria',
-    },
-  ];
-
-  appointmentData = [
-    {
-      paciente: 'María López',
-      servicio: 'Consulta General',
-      estado: 'Completada',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '04/11/2024',
-    },
-    {
-      paciente: 'José García',
-      servicio: 'Sobreturno',
-      estado: 'Pendiente',
-      profesional: 'Dr. Ana Martínez',
-      especialidad: 'Medicina General',
-      fecha: '03/11/2024',
-    },
-    {
-      paciente: 'Ana Martínez',
-      servicio: 'Pediatría',
-      estado: 'Cancelada',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '05/11/2024',
-    },
-    {
-      paciente: 'Luis Fernández',
-      servicio: 'Odontología',
-      estado: 'Completada',
-      profesional: 'Dr. Laura Gómez',
-      especialidad: 'Odontología',
-      fecha: '03/11/2024',
-    },
-    {
-      paciente: 'Carlos Morales',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dr. Pedro Núñez',
-      especialidad: 'Medicina General',
-      fecha: '04/11/2024',
-    },
-    {
-      paciente: 'Sofía Ríos',
-      servicio: 'Dermatología',
-      estado: 'Completada',
-      profesional: 'Dra. Alicia Vega',
-      especialidad: 'Dermatología',
-      fecha: '02/11/2024',
-    },
-    {
-      paciente: 'Isabel Torres',
-      servicio: 'Oftalmología',
-      estado: 'Pendiente',
-      profesional: 'Dr. Juan Pérez',
-      especialidad: 'Oftalmología',
-      fecha: '02/11/2024',
-    },
-    {
-      paciente: 'Ricardo González',
-      servicio: 'Consulta General',
-      estado: 'Completada',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '01/11/2024',
-    },
-    {
-      paciente: 'Camila Santos',
-      servicio: 'Pediatría',
-      estado: 'Cancelada',
-      profesional: 'Dra. Laura Gómez',
-      especialidad: 'Pediatría',
-      fecha: '01/11/2024',
-    },
-    {
-      paciente: 'Mateo Rivas',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dr. Ana Martínez',
-      especialidad: 'Medicina General',
-      fecha: '31/10/2024',
-    },
-    {
-      paciente: 'Valentina Gutiérrez',
-      servicio: 'Traumatología',
-      estado: 'Completada',
-      profesional: 'Dr. Pedro Núñez',
-      especialidad: 'Traumatología',
-      fecha: '31/10/2024',
-    },
-    {
-      paciente: 'Nicolás Herrera',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '31/10/2024',
-    },
-    {
-      paciente: 'Gabriela Silva',
-      servicio: 'Odontología',
-      estado: 'Completada',
-      profesional: 'Dr. Laura Gómez',
-      especialidad: 'Odontología',
-      fecha: '30/10/2024',
-    },
-    {
-      paciente: 'Andrés Cruz',
-      servicio: 'Pediatría',
-      estado: 'Cancelada',
-      profesional: 'Dr. Ana Martínez',
-      especialidad: 'Pediatría',
-      fecha: '30/10/2024',
-    },
-    {
-      paciente: 'Fernanda Soto',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dr. Juan Pérez',
-      especialidad: 'Medicina General',
-      fecha: '30/10/2024',
-    },
-    {
-      paciente: 'Diego Ramos',
-      servicio: 'Cardiología',
-      estado: 'Completada',
-      profesional: 'Dr. Pedro Núñez',
-      especialidad: 'Cardiología',
-      fecha: '29/10/2024',
-    },
-    {
-      paciente: 'Lorena Peña',
-      servicio: 'Consulta General',
-      estado: 'Pendiente',
-      profesional: 'Dra. Laura Gómez',
-      especialidad: 'Medicina General',
-      fecha: '29/10/2024',
-    },
-    {
-      paciente: 'Francisco Muñoz',
-      servicio: 'Dermatología',
-      estado: 'Completada',
-      profesional: 'Dr. Alicia Vega',
-      especialidad: 'Dermatología',
-      fecha: '29/10/2024',
-    },
-    {
-      paciente: 'Lucía Castro',
-      servicio: 'Consulta General',
-      estado: 'Cancelada',
-      profesional: 'Dr. Juan Rodríguez',
-      especialidad: 'Medicina General',
-      fecha: '28/10/2024',
-    },
-    {
-      paciente: 'Emilia López',
-      servicio: 'Oftalmología',
-      estado: 'Completada',
-      profesional: 'Dr. Pedro Núñez',
-      especialidad: 'Oftalmología',
-      fecha: '28/10/2024',
-    },
-  ];
-
-  // Array para almacenar las citas del día actual
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appointmentsTodayData: any[] = [];
 
   tableColumns = [
     { header: 'Paciente', field: 'paciente', isBold: true },
-    { header: 'Servicio', field: 'servicio' },
-    { header: 'Especialidad', field: 'especialidad' },
-    { header: 'profesional', field: 'profesional' },
     { header: 'Fecha', field: 'fecha' },
+    { header: 'Médico', field: 'medico' },
+    { header: 'Especialidad', field: 'especialidad' },
+    { header: 'Hora', field: 'hora' },
+    { header: 'Estado', field: 'estado' },
   ];
 
-  filters = [
+  filtersToday = [
     {
-      field: 'profesional',
+      field: 'medico',
       label: 'Profesional',
-      options: ['Dr. Juan Rodríguez', 'Dr. Ana Martínez'],
+      options: [] as string[], // Se llenará dinámicamente
+      selected: null, // No se selecciona nada por defecto
     },
     {
-      field: 'servicio',
-      label: 'Servicio',
-      options: ['Consulta General', 'Sobreturno', 'Pediatría'],
+      field: 'especialidad',
+      label: 'Especialidad',
+      options: [] as string[], // Se llenará dinámicamente
+      selected: null, // No se selecciona nada por defecto
+    },
+  ];
+
+  filtersAll = [
+    {
+      field: 'medico',
+      label: 'Profesional',
+      options: [] as string[], // Se llenará dinámicamente
+      selected: null, // No se selecciona nada por defecto
+    },
+    {
+      field: 'especialidad',
+      label: 'Especialidad',
+      options: [] as string[], // Se llenará dinámicamente
+      selected: null, // No se selecciona nada por defecto
     },
   ];
 
@@ -281,11 +83,6 @@ export class AppointmentListComponent implements OnInit {
   showDetailsModal = false;
   selectedRow: object | null = null;
 
-  handleFormSubmit(data: object): void {
-    console.log('Formulario enviado con datos:', data);
-    // Aquí puedes realizar cualquier acción con los datos recibidos
-  }
-
   // Función personalizada para el ícono de detalles
   handleDetailsClick(row: object): void {
     console.log('Detalles de la fila:', row);
@@ -294,23 +91,51 @@ export class AppointmentListComponent implements OnInit {
     // Aquí puedes agregar cualquier lógica personalizada que necesites
   }
 
-  // Función para obtener y asignar las citas del día actual
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getTodayAppointments(appointments: any[]): void {
-    const today = new Date();
-    // Formato "dd/mm/yyyy" para comparar con appointmentData
-    const todayDateString = today.toLocaleDateString('es-ES', {
+  handlePaymentClick(row: any): void {
+    // Usar propiedades únicas para buscar el turno en appointments
+    const turno = this.appointments.find(appointment =>
+      `${appointment.nombrePaciente} ${appointment.apellidoPaciente}` === row.paciente &&
+      new Date(appointment.fechaTurno).toLocaleDateString('es-ES') === row.fecha
+    );
+  
+    if (turno) {
+      console.log('Turno encontrado para facturación:', turno);
+      this.selectedRow = turno; // Asigna el turno completo con `idTurno`
+      this.showPaymentModal = true; // Muestra el modal de facturación
+    } else {
+      console.error('No se encontró el turno para la fila seleccionada:', row);
+    }
+  }
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   getTodayAppointments(appointments: any[]): void {
+    // Obtener la fecha de hoy en el mismo formato de "DD/MM/YYYY"
+    const todayDateString = new Date().toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
-
+  
+    console.log('Fecha de hoy (todayDateString):', todayDateString);
+  
     // Filtrar citas del día actual
     this.appointmentsTodayData = appointments.filter(appointment => {
-      return appointment.fecha === todayDateString;
+      // Validar que `fecha` esté definida y sea una cadena de texto
+      if (!appointment.fecha || typeof appointment.fecha !== 'string') {
+        console.warn('Fecha no válida para la cita:', appointment);
+        return false;
+      }
+  
+      // Comparar con la fecha de hoy
+      const isToday = appointment.fecha === todayDateString;
+      console.log(
+        `¿La cita para el paciente ${appointment.paciente} es hoy?`,
+        isToday
+      );
+  
+      return isToday;
     });
-
-    // Verificar si appointmentsTodayData tiene los datos correctos
+  
     console.log('Citas del día actual:', this.appointmentsTodayData);
   }
 
@@ -318,15 +143,73 @@ export class AppointmentListComponent implements OnInit {
     this.showModal = !this.showModal;
   }
 
+  // Añade esta nueva propiedad en el componente
+  tableData: {
+    paciente: string;
+    fecha: string;
+    medico: string;
+    especialidad: string;
+    hora: string;
+    estado: string;
+  }[] = [];
+
   loadAppointments(): void {
-    this.appointmentService.getAppointments().subscribe({
-      next: appointments => {
+    this.appointmentService.getAppointmentDetails().subscribe({
+      next: (appointments: TurnoDetalleDTO[]) => {
+        // Almacena los datos completos en `appointments`
         this.appointments = appointments;
+        // Mapea los datos para adaptarlos a las columnas de la tabla y los asigna a `tableData`
+        this.tableData = appointments.map(appointment => ({
+          paciente: `${appointment.nombrePaciente} ${appointment.apellidoPaciente}`,
+          fecha: appointment.fechaTurno
+            ? new Date(appointment.fechaTurno).toLocaleDateString('es-ES')
+            : 'Fecha no disponible', // Valor predeterminado si fechaTurno es undefined
+          medico: `${appointment.nombreMedico} ${appointment.apellidoMedico}`,
+          especialidad: appointment.especialidadMedico,
+          hora:
+            appointment.horaInicio && appointment.horaFin
+              ? `${appointment.horaInicio} - ${appointment.horaFin}`
+              : 'Hora no disponible', // Valor predeterminado si horaInicio o horaFin son undefined
+          estado: appointment.estado ?? 'Pendiente',
+        }));
+
+        // Llenar dinámicamente las opciones de los filtros
+        this.populateFilterOptions();
+
+        // Filtra las citas del día actual
+        this.getTodayAppointments(this.tableData);
       },
       error: error => {
         console.error('Error al cargar citas:', error);
       },
     });
+  }
+
+  // Función para llenar las opciones de los filtros de ambas tablas dinámicamente
+  private populateFilterOptions(): void {
+    const medicoOptions = new Set<string>();
+    const especialidadOptions = new Set<string>();
+
+    // Extraer opciones únicas de médico y especialidad
+    this.tableData.forEach(appointment => {
+      medicoOptions.add(appointment.medico);
+      especialidadOptions.add(appointment.especialidad);
+    });
+
+    const medicoOptionsArray = Array.from(medicoOptions);
+    const especialidadOptionsArray = Array.from(especialidadOptions);
+
+    // Asignar opciones a los filtros de la primera tabla (Citas del día)
+    this.filtersToday.find(filter => filter.field === 'medico')!.options =
+      medicoOptionsArray;
+    this.filtersToday.find(filter => filter.field === 'especialidad')!.options =
+      especialidadOptionsArray;
+
+    // Asignar opciones a los filtros de la segunda tabla (Turnos Registrados)
+    this.filtersAll.find(filter => filter.field === 'medico')!.options =
+      medicoOptionsArray;
+    this.filtersAll.find(filter => filter.field === 'especialidad')!.options =
+      especialidadOptionsArray;
   }
 
   deleteAppointment(id: number): void {

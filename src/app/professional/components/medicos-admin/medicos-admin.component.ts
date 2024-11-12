@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   templateUrl: './medicos-admin.component.html',
   imports: [CommonModule, FormsModule],
-  styleUrls: ['./medicos-admin.component.css']
+  styleUrls: ['./medicos-admin.component.css'],
 })
 export class MedicosAdminComponent implements OnInit {
   @Output() MedicoRegistrado = new EventEmitter<number>();
@@ -22,25 +22,27 @@ export class MedicosAdminComponent implements OnInit {
     telefono: '',
     especialidad: '',
     legajo: 0,
-    fechaAlta: new Date().toISOString(),
+    fechaAlta: this.formatDateForDatetimeLocal(new Date()),  // Formato compatible con datetime-local
     fechaBaja: '',
-    fechaModificacion: new Date().toISOString(),
+    fechaModificacion: this.formatDateForDatetimeLocal(new Date()),  // Formato compatible con datetime-local
     user: '',
     password: '',
-    fechaNacimiento: ''
+    fechaNacimiento: '',
+    horariosDisponibles: [],
   };
 
-  constructor(private medicoService: MedicoService) {}  ngOnInit(): void {
+  constructor(private medicoService: MedicoService) {}
+
+  ngOnInit(): void {
     this.cargarMedicos();
   }
 
   cargarMedicos(): void {
     this.medicoService.getMedicos().subscribe({
-      next: (medicos) => this.medicos = medicos,
-      error: (error) => console.error('Error al cargar médicos:', error)
+      next: medicos => (this.medicos = medicos),
+      error: error => console.error('Error al cargar médicos:', error),
     });
   }
-
 
   registrarMedico(): void {
     const medicoData = { ...this.nuevoMedico };
@@ -51,7 +53,7 @@ export class MedicosAdminComponent implements OnInit {
     }
 
     this.medicoService.registrarMedico(medicoData).subscribe({
-      next: (response) => {
+      next: response => {
         if (response.idMedico) {
           this.MedicoRegistrado.emit(response.idMedico);
         }
@@ -69,10 +71,16 @@ export class MedicosAdminComponent implements OnInit {
           fechaModificacion: new Date().toISOString(),
           user: '',
           password: '',
-          fechaNacimiento: ''
+          fechaNacimiento: '',
+          horariosDisponibles: [],
         };
       },
-      error: (error) => console.error('Error al registrar médico:', error)
+      error: error => console.error('Error al registrar médico:', error),
     });
+  }
+
+  // Función para formatear la fecha al formato compatible con "datetime-local"
+  formatDateForDatetimeLocal(date: Date): string {
+    return date.toISOString().slice(0, 16);
   }
 }

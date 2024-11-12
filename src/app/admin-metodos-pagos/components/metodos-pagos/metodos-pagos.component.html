@@ -1,0 +1,48 @@
+<div class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-semibold text-blue-700 mb-6">Métodos de Pago</h2>
+
+  <!-- Formulario para crear un nuevo método de pago -->
+  <form (ngSubmit)="crearMetodoPago()" class="space-y-4 mb-6">
+    <!-- Campo Nombre -->
+    <div>
+      <label for="nombre" class="block text-gray-700 font-medium mb-1"
+        >Nombre del Método de Pago</label
+      >
+      <input
+        [(ngModel)]="nuevoMetodoPago.nombre"
+        name="nombre"
+        required
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Ej. Tarjeta de Crédito" />
+    </div>
+
+    <!-- Campo Habilitado -->
+    <div class="flex items-center">
+      <input
+        type="checkbox"
+        [(ngModel)]="nuevoMetodoPago.habilitado"
+        name="habilitado"
+        class="mr-2 h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+      <label for="habilitado" class="text-gray-700 font-medium"
+        >Habilitado</label
+      >
+    </div>
+
+    <!-- Botón de envío -->
+    <button
+      type="submit"
+      class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-150">
+      Crear Método de Pago
+    </button>
+  </form>
+
+  <!-- Lista de métodos de pago existentes -->
+  <ul class="space-y-2">
+    <li *ngFor="let metodo of metodosPago" class="bg-gray-100 p-3 rounded-lg">
+      <span class="font-medium text-gray-700">{{ metodo.nombre }}</span> -
+      <span [ngClass]="metodo.habilitado ? 'text-green-600' : 'text-red-600'">
+        {{ metodo.habilitado ? 'Habilitado' : 'Deshabilitado' }}
+      </span>
+    </li>
+  </ul>
+</div>

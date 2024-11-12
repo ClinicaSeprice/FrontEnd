@@ -1,0 +1,99 @@
+<div class="container mx-auto p-8">
+  <h2 class="text-2xl font-semibold mb-4">Gestión de Obras Sociales</h2>
+
+  <!-- Formulario para agregar una nueva obra social -->
+  <form
+    (ngSubmit)="crearObraSocial()"
+    class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div>
+      <label for="nombre" class="block text-gray-700"
+        >Nombre de la Obra Social</label
+      >
+      <input
+        type="text"
+        id="nombre"
+        [(ngModel)]="nuevaObraSocial.nombre"
+        name="nombre"
+        class="border rounded p-2 w-full"
+        required />
+    </div>
+    <div>
+      <label for="cuit" class="block text-gray-700">CUIT</label>
+      <input
+        type="number"
+        id="cuit"
+        [(ngModel)]="nuevaObraSocial.cuit"
+        name="cuit"
+        class="border rounded p-2 w-full"
+        required />
+    </div>
+    <button
+      type="submit"
+      class="col-span-2 bg-blue-500 text-white py-2 rounded">
+      Agregar Obra Social
+    </button>
+  </form>
+
+  <!-- Formulario para agregar un nuevo plan de una obra social específica -->
+  <form
+    (ngSubmit)="crearPlanObraSocial()"
+    class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div>
+      <label for="obraSocial" class="block text-gray-700">Obra Social</label>
+      <select
+        id="obraSocial"
+        [(ngModel)]="nuevoPlanObraSocial.idObraSocial"
+        name="obraSocial"
+        class="border rounded p-2 w-full"
+        required>
+        <option *ngFor="let obra of obrasSociales" [value]="obra.idObraSocial">
+          {{ obra.nombre }}
+        </option>
+      </select>
+    </div>
+    <div>
+      <label for="nombrePlan" class="block text-gray-700"
+        >Nombre del Plan</label
+      >
+      <input
+        type="text"
+        id="nombrePlan"
+        [(ngModel)]="nuevoPlanObraSocial.nombrePlan"
+        name="nombrePlan"
+        class="border rounded p-2 w-full"
+        required />
+    </div>
+    <div>
+      <label for="cobertura" class="block text-gray-700">Cobertura</label>
+      <input
+        type="number"
+        id="cobertura"
+        [(ngModel)]="nuevoPlanObraSocial.cobertura"
+        name="cobertura"
+        class="border rounded p-2 w-full"
+        required />
+    </div>
+    <button
+      type="submit"
+      class="col-span-2 bg-blue-500 text-white py-2 rounded">
+      Agregar Plan
+    </button>
+  </form>
+
+  <!-- Tabla para mostrar las obras sociales y sus planes -->
+  <h3 class="text-xl font-semibold mb-2">Lista de Obras Sociales</h3>
+  <ul>
+    <li *ngFor="let obra of obrasSociales" class="mb-4">
+      <div class="font-semibold text-gray-800">
+        {{ obra.nombre }} - CUIT: {{ obra.cuit }}
+      </div>
+      <ul class="ml-4">
+        <li
+          *ngFor="let plan of planesObraSocial[obra.idObraSocial]"
+          class="text-gray-600">
+          Plan: {{ plan.nombrePlan }} - Cobertura: {{ plan.cobertura }}%
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
