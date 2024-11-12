@@ -7,7 +7,7 @@
       [subtitle]="'Actualizado Hoy'"
       [data]="appointmentsTodayData"
       [columns]="tableColumns"
-      [filters]="filters"
+      [filters]="filtersToday"
       [searchField]="searchFieldToday"
       [searchPlaceholder]="searchPlaceholderToday"
       (onDetailsClick)="handleDetailsClick($event)">
@@ -17,7 +17,7 @@
       [title]="'Turnos Registrados'"
       [data]="tableData"
       [columns]="tableColumns"
-      [filters]="filters"
+      [filters]="filtersAll"
       [searchField]="searchField"
       [searchPlaceholder]="searchPlaceholder"
       (onDetailsClick)="handleDetailsClick($event)">

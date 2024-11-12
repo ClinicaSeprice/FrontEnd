@@ -1,48 +1,45 @@
-<div class="flex flex-col gap-6 max-w-[800px] mx-auto p-6">
+<div
+  class="flex flex-col gap-8 max-w-4xl mx-auto p-8 bg-gray-50 rounded-lg shadow-lg">
   <!-- Encabezado -->
-  <h2 class="text-2xl font-semibold text-center text-gray-800">
+  <h2 class="text-3xl font-semibold text-center text-blue-700 mb-4">
     Administración de Médicos
   </h2>
 
   <!-- Tabla de médicos -->
   <div class="overflow-x-auto">
-    <table class="min-w-full bg-white shadow-md rounded-lg">
+    <table class="min-w-full bg-white rounded-lg shadow">
       <thead>
-        <tr class="bg-blue-600 text-white text-sm leading-normal">
-          <th class="py-3 px-6 text-left">Nombre</th>
-          <th class="py-3 px-6 text-left">Apellido</th>
-          <th class="py-3 px-6 text-left">DNI</th>
-          <th class="py-3 px-6 text-left">Email</th>
-          <th class="py-3 px-6 text-left">Teléfono</th>
-          <th class="py-3 px-6 text-left">Legajo</th>
-          <th class="py-3 px-6 text-left">Especialidad</th>
-          <th class="py-3 px-6 text-left">Fecha de Alta</th>
-          <th class="py-3 px-6 text-left">Fecha de Baja</th>
-          <th class="py-3 px-6 text-left">Última Modificación</th>
+        <tr class="bg-blue-600 text-white text-sm font-semibold">
+          <th class="py-3 px-4 text-left">Nombre</th>
+          <th class="py-3 px-4 text-left">Apellido</th>
+          <th class="py-3 px-4 text-left">DNI</th>
+          <th class="py-3 px-4 text-left">Email</th>
+          <th class="py-3 px-4 text-left">Teléfono</th>
+          <th class="py-3 px-4 text-left">Legajo</th>
+          <th class="py-3 px-4 text-left">Especialidad</th>
+          <th class="py-3 px-4 text-left">Fecha de Alta</th>
+          <th class="py-3 px-4 text-left">Fecha de Baja</th>
+          <th class="py-3 px-4 text-left">Última Modificación</th>
         </tr>
       </thead>
-      <tbody class="text-gray-600 text-sm font-light">
+      <tbody class="text-gray-700">
         <tr
           *ngFor="let medico of medicos"
-          class="border-b border-gray-200 hover:bg-gray-100">
-          <td class="py-3 px-6 text-left whitespace-nowrap">
-            {{ medico.nombre }}
-          </td>
-          <td class="py-3 px-6 text-left">{{ medico.apellido }}</td>
-          <td class="py-3 px-6 text-left">{{ medico.dni }}</td>
-          <td class="py-3 px-6 text-left">{{ medico.email }}</td>
-          <td class="py-3 px-6 text-left">{{ medico.telefono }}</td>
-          <td class="py-3 px-6 text-left">{{ medico.legajo }}</td>
-          <td class="py-3 px-6 text-left">{{ medico.especialidad }}</td>
-          <td class="py-3 px-6 text-left">
-            {{ medico.fechaAlta | date: 'yyyy-MM-dd' }}
-          </td>
-          <td class="py-3 px-6 text-left">
+          class="border-b hover:bg-gray-100 transition-colors duration-150">
+          <td class="py-3 px-4">{{ medico.nombre }}</td>
+          <td class="py-3 px-4">{{ medico.apellido }}</td>
+          <td class="py-3 px-4">{{ medico.dni }}</td>
+          <td class="py-3 px-4">{{ medico.email }}</td>
+          <td class="py-3 px-4">{{ medico.telefono }}</td>
+          <td class="py-3 px-4">{{ medico.legajo }}</td>
+          <td class="py-3 px-4">{{ medico.especialidad }}</td>
+          <td class="py-3 px-4">{{ medico.fechaAlta | date: 'yyyy-MM-dd' }}</td>
+          <td class="py-3 px-4">
             {{
               medico.fechaBaja ? (medico.fechaBaja | date: 'yyyy-MM-dd') : 'N/A'
             }}
           </td>
-          <td class="py-3 px-6 text-left">
+          <td class="py-3 px-4">
             {{ medico.fechaModificacion | date: 'yyyy-MM-dd' }}
           </td>
         </tr>
@@ -50,146 +47,165 @@
     </table>
   </div>
 
-  <!-- Formulario de registro de nuevo médico -->
-  <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-    <h2 class="text-xl font-semibold mb-4 text-gray-800">
+  <div class="bg-white p-8 rounded-lg shadow-lg mt-8">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
       Registrar Nuevo Médico
     </h2>
     <form
       (ngSubmit)="registrarMedico()"
-      class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <!-- Nombre -->
       <div class="flex flex-col">
-        <label for="nombre" class="text-gray-700">Nombre:</label>
+        <label for="nombre" class="text-gray-700 font-medium">Nombre</label>
         <input
           [(ngModel)]="nuevoMedico.nombre"
           name="nombre"
           required
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- Apellido -->
       <div class="flex flex-col">
-        <label for="apellido" class="text-gray-700">Apellido:</label>
+        <label for="apellido" class="text-gray-700 font-medium">Apellido</label>
         <input
           [(ngModel)]="nuevoMedico.apellido"
           name="apellido"
           required
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- DNI -->
       <div class="flex flex-col">
-        <label for="dni" class="text-gray-700">DNI:</label>
+        <label for="dni" class="text-gray-700 font-medium">DNI</label>
         <input
           type="number"
           [(ngModel)]="nuevoMedico.dni"
           name="dni"
           required
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- Email -->
       <div class="flex flex-col">
-        <label for="email" class="text-gray-700">Email:</label>
+        <label for="email" class="text-gray-700 font-medium">Email</label>
         <input
           type="email"
           [(ngModel)]="nuevoMedico.email"
           name="email"
           required
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- Teléfono -->
       <div class="flex flex-col">
-        <label for="telefono" class="text-gray-700">Teléfono:</label>
+        <label for="telefono" class="text-gray-700 font-medium">Teléfono</label>
         <input
           [(ngModel)]="nuevoMedico.telefono"
           name="telefono"
           required
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- Especialidad -->
       <div class="flex flex-col">
-        <label for="especialidad" class="text-gray-700">Especialidad:</label>
+        <label for="especialidad" class="text-gray-700 font-medium"
+          >Especialidad</label
+        >
         <input
           [(ngModel)]="nuevoMedico.especialidad"
           name="especialidad"
           required
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- Legajo -->
       <div class="flex flex-col">
-        <label for="legajo" class="text-gray-700">Legajo:</label>
+        <label for="legajo" class="text-gray-700 font-medium">Legajo</label>
         <input
           type="number"
           [(ngModel)]="nuevoMedico.legajo"
           name="legajo"
           required
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- Fecha de Alta -->
       <div class="flex flex-col">
-        <label for="fechaAlta" class="text-gray-700">Fecha de Alta:</label>
+        <label for="fechaAlta" class="text-gray-700 font-medium"
+          >Fecha de Alta</label
+        >
         <input
           type="datetime-local"
           [(ngModel)]="nuevoMedico.fechaAlta"
           name="fechaAlta"
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- Fecha de Baja -->
       <div class="flex flex-col">
-        <label for="fechaBaja" class="text-gray-700"
-          >Fecha de Baja (opcional):</label
+        <label for="fechaBaja" class="text-gray-700 font-medium"
+          >Fecha de Baja (opcional)</label
         >
         <input
           type="datetime-local"
           [(ngModel)]="nuevoMedico.fechaBaja"
           name="fechaBaja"
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- Fecha de Modificación -->
       <div class="flex flex-col">
-        <label for="fechaModificacion" class="text-gray-700"
-          >Fecha de Modificación:</label
+        <label for="fechaModificacion" class="text-gray-700 font-medium"
+          >Fecha de Modificación</label
         >
         <input
           type="datetime-local"
           [(ngModel)]="nuevoMedico.fechaModificacion"
           name="fechaModificacion"
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
+      <!-- Fecha de Nacimiento -->
       <div class="flex flex-col">
-        <label for="user" class="text-gray-700">Usuario:</label>
-        <input
-          [(ngModel)]="nuevoMedico.user"
-          name="user"
-          required
-          class="input-field" />
-      </div>
-
-      <div class="flex flex-col">
-        <label for="password" class="text-gray-700">Contraseña:</label>
-        <input
-          type="password"
-          [(ngModel)]="nuevoMedico.password"
-          name="password"
-          required
-          class="input-field" />
-      </div>
-
-      <div class="flex flex-col">
-        <label for="fechaNacimiento" class="text-gray-700"
-          >Fecha de Nacimiento:</label
+        <label for="fechaNacimiento" class="text-gray-700 font-medium"
+          >Fecha de Nacimiento</label
         >
         <input
           type="date"
           [(ngModel)]="nuevoMedico.fechaNacimiento"
           name="fechaNacimiento"
           required
-          class="input-field" />
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 
-      <div class="md:col-span-2">
+      <!-- Usuario -->
+      <div class="flex flex-col">
+        <label for="user" class="text-gray-700 font-medium">Usuario</label>
+        <input
+          [(ngModel)]="nuevoMedico.user"
+          name="user"
+          required
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <!-- Contraseña -->
+      <div class="flex flex-col">
+        <label for="password" class="text-gray-700 font-medium"
+          >Contraseña</label
+        >
+        <input
+          type="password"
+          [(ngModel)]="nuevoMedico.password"
+          name="password"
+          required
+          class="border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <!-- Botón de submit -->
+      <div class="sm:col-span-2">
         <button
           type="submit"
-          class="w-full py-2 px-4 mt-4 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+          class="w-full py-2 px-4 mt-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
           Registrar Médico
         </button>
       </div>

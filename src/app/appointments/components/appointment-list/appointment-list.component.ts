@@ -27,11 +27,8 @@ export class AppointmentListComponent implements OnInit {
 
   ngOnInit() {
     this.loadAppointments();
-    // Llamar a la función para obtener las citas del día actual cuando el componente se inicializa
     this.getTodayAppointments(this.appointments);
   }
-
-  // Array para almacenar las citas del día actual
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appointmentsTodayData: any[] = [];
 
@@ -44,21 +41,38 @@ export class AppointmentListComponent implements OnInit {
     { header: 'Estado', field: 'estado' },
   ];
 
-  filters = [
+  filtersToday = [
     {
       field: 'medico',
       label: 'Profesional',
-      options: ['Dr. Juan Rodríguez', 'Dr. Ana Martínez'],
+      options: [] as string[], // Se llenará dinámicamente
+      selected: null, // No se selecciona nada por defecto
     },
     {
       field: 'especialidad',
       label: 'Especialidad',
-      options: ['Consulta General', 'Sobreturno', 'Pediatría'],
+      options: [] as string[], // Se llenará dinámicamente
+      selected: null, // No se selecciona nada por defecto
+    },
+  ];
+  
+  filtersAll = [
+    {
+      field: 'medico',
+      label: 'Profesional',
+      options: [] as string[], // Se llenará dinámicamente
+      selected: null, // No se selecciona nada por defecto
+    },
+    {
+      field: 'especialidad',
+      label: 'Especialidad',
+      options: [] as string[], // Se llenará dinámicamente
+      selected: null, // No se selecciona nada por defecto
     },
   ];
 
   // Configuración de búsqueda
-  searchField = 'fechaTurno'; // Campo en el que se realizará la búsqueda
+  searchField = 'fecha'; // Campo en el que se realizará la búsqueda
   searchPlaceholder = 'Buscar por fecha'; // Placeholder para el campo de búsqueda
   searchFieldToday = 'paciente';
   searchPlaceholderToday = 'Buscar por paciente'; // Placeholder para el campo de búsqueda
@@ -74,47 +88,53 @@ export class AppointmentListComponent implements OnInit {
     // Aquí puedes agregar cualquier lógica personalizada que necesites
   }
 
-   
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-getTodayAppointments(appointments: any[]): void {
-  const today = new Date();
-  const todayDateString = today.toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  }); // Convierte la fecha de hoy a "DD/MM/YYYY"
-
-  console.log('Fecha de hoy (todayDateString):', todayDateString);
-
-  // Filtrar citas del día actual
-  this.appointmentsTodayData = appointments.filter(appointment => {
-    if (!appointment.fecha) {
-      console.log('fecha no definida en appointment:', appointment);
-      return false;
-    }
-
-    // Convertir appointment.fecha a Date y luego a "DD/MM/YYYY"
-    const appointmentDate = new Date(appointment.fecha);
-    const appointmentDateString = appointmentDate.toLocaleDateString('es-ES', {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getTodayAppointments(appointments: any[]): void {
+    const today = new Date();
+    const todayDateString = today.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
+    }); // Convierte la fecha de hoy a "DD/MM/YYYY"
+
+    console.log('Fecha de hoy (todayDateString):', todayDateString);
+
+    // Filtrar citas del día actual
+    this.appointmentsTodayData = appointments.filter(appointment => {
+      if (!appointment.fecha) {
+        console.log('fecha no definida en appointment:', appointment);
+        return false;
+      }
+
+      // Convertir appointment.fecha a Date y luego a "DD/MM/YYYY"
+      const appointmentDate = new Date(appointment.fecha);
+      const appointmentDateString = appointmentDate.toLocaleDateString(
+        'es-ES',
+        {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }
+      );
+
+      console.log(
+        `Fecha de la cita (appointmentDateString) para el paciente ${appointment.paciente}:`,
+        appointmentDateString
+      );
+
+      // Comparar con la fecha de hoy
+      const isToday = appointmentDateString === todayDateString;
+      console.log(
+        `¿La cita para el paciente ${appointment.paciente} es hoy?`,
+        isToday
+      );
+
+      return isToday;
     });
 
-    console.log(`Fecha de la cita (appointmentDateString) para el paciente ${appointment.paciente}:`, appointmentDateString);
-
-    // Comparar con la fecha de hoy
-    const isToday = appointmentDateString === todayDateString;
-    console.log(`¿La cita para el paciente ${appointment.paciente} es hoy?`, isToday);
-
-    return isToday;
-  });
-
-  // Verificar si appointmentsTodayData tiene los datos correctos
-  console.log('Citas del día actual:', this.appointmentsTodayData);
-}
-
-
+    // Verificar si appointmentsTodayData tiene los datos correctos
+    console.log('Citas del día actual:', this.appointmentsTodayData);
+  }
 
   openAddAppointmentModal() {
     this.showModal = !this.showModal;
@@ -135,8 +155,6 @@ getTodayAppointments(appointments: any[]): void {
       next: (appointments: TurnoDetalleDTO[]) => {
         // Almacena los datos completos en `appointments`
         this.appointments = appointments;
-        console.log('Citas cargadas:', this.appointments);
-
         // Mapea los datos para adaptarlos a las columnas de la tabla y los asigna a `tableData`
         this.tableData = appointments.map(appointment => ({
           paciente: `${appointment.nombrePaciente} ${appointment.apellidoPaciente}`,
@@ -151,6 +169,10 @@ getTodayAppointments(appointments: any[]): void {
               : 'Hora no disponible', // Valor predeterminado si horaInicio o horaFin son undefined
           estado: appointment.estado ?? 'Pendiente',
         }));
+
+        // Llenar dinámicamente las opciones de los filtros
+        this.populateFilterOptions();
+
         // Filtra las citas del día actual
         this.getTodayAppointments(this.tableData);
       },
@@ -159,6 +181,29 @@ getTodayAppointments(appointments: any[]): void {
       },
     });
   }
+
+// Función para llenar las opciones de los filtros de ambas tablas dinámicamente
+private populateFilterOptions(): void {
+  const medicoOptions = new Set<string>();
+  const especialidadOptions = new Set<string>();
+
+  // Extraer opciones únicas de médico y especialidad
+  this.tableData.forEach(appointment => {
+    medicoOptions.add(appointment.medico);
+    especialidadOptions.add(appointment.especialidad);
+  });
+
+  const medicoOptionsArray = Array.from(medicoOptions);
+  const especialidadOptionsArray = Array.from(especialidadOptions);
+
+  // Asignar opciones a los filtros de la primera tabla (Citas del día)
+  this.filtersToday.find(filter => filter.field === 'medico')!.options = medicoOptionsArray;
+  this.filtersToday.find(filter => filter.field === 'especialidad')!.options = especialidadOptionsArray;
+
+  // Asignar opciones a los filtros de la segunda tabla (Turnos Registrados)
+  this.filtersAll.find(filter => filter.field === 'medico')!.options = medicoOptionsArray;
+  this.filtersAll.find(filter => filter.field === 'especialidad')!.options = especialidadOptionsArray;
+}
 
   deleteAppointment(id: number): void {
     if (confirm('¿Estás seguro de que deseas eliminar esta cita?')) {
