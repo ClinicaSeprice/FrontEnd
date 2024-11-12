@@ -156,14 +156,7 @@
   </div>
 </div>
 
-<app-custom-table
-  [title]="'Resumen de Actividades Recientes'"
-  [subtitle]="'Actualizado Hoy'"
-  [actionIcon]="
-    'M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z'
-  "
-  [data]="tableData"
-  [columns]="tableColumns" />
+<app-appointment-table-today></app-appointment-table-today>
 
 <app-reusable-modal
   *ngIf="showModal"

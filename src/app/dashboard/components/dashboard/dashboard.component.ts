@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CustomTableComponent } from "../../../shared/components/custom-table/custom-table.component";
 import { ReusableModalComponent } from "../../../shared/components/reusable-modal/reusable-modal.component";
 import { RegistrarPacienteComponent } from "../../../patients/components/registrar-paciente/registrar-paciente.component";
 import { NgIf } from '@angular/common';
+import { AppointmentTableTodayComponent } from "../../../shared/components/appointment-table-today/appointment-table-today.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterModule, CustomTableComponent, ReusableModalComponent, RegistrarPacienteComponent, NgIf],
+  imports: [RouterModule, ReusableModalComponent, RegistrarPacienteComponent, NgIf, AppointmentTableTodayComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
