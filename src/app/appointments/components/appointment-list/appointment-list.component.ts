@@ -91,10 +91,21 @@ export class AppointmentListComponent implements OnInit {
     // Aquí puedes agregar cualquier lógica personalizada que necesites
   }
 
-  handlePaymentClick(row: object): void {
-    console.log('Detalles de la fila:', row);
-    this.selectedRow = row;
-    this.showPaymentModal = true;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handlePaymentClick(row: any): void {
+    // Usar propiedades únicas para buscar el turno en appointments
+    const turno = this.appointments.find(appointment =>
+      `${appointment.nombrePaciente} ${appointment.apellidoPaciente}` === row.paciente &&
+      new Date(appointment.fechaTurno).toLocaleDateString('es-ES') === row.fecha
+    );
+  
+    if (turno) {
+      console.log('Turno encontrado para facturación:', turno);
+      this.selectedRow = turno; // Asigna el turno completo con `idTurno`
+      this.showPaymentModal = true; // Muestra el modal de facturación
+    } else {
+      console.error('No se encontró el turno para la fila seleccionada:', row);
+    }
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTodayAppointments(appointments: any[]): void {

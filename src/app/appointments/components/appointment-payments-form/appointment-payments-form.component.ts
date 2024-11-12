@@ -1,17 +1,13 @@
 import { Component,Input } from '@angular/core';
-import { RegistrarPacienteComponent } from "../../../patients/components/registrar-paciente/registrar-paciente.component";
-import { ReusableModalComponent } from "../../../shared/components/reusable-modal/reusable-modal.component";
-import { CustomTableComponent } from "../../../shared/components/custom-table/custom-table.component";
-import { NgForOf,NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule  } from '@angular/forms';
 import { AppointmentService } from "../../services/appointment.service";
 import { ObraSocial,PlanObraSocial,MetodoPago } from "../../models/appointment.model";
-import { send } from 'process';
 
 @Component({
   selector: 'app-appointment-payments-form',
   standalone: true,
-  imports: [CustomTableComponent, ReusableModalComponent, RegistrarPacienteComponent, NgIf, NgForOf, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './appointment-payments-form.component.html',
   styleUrls: ['./appointment-payments-form.component.css']
 })
@@ -73,7 +69,7 @@ export class AppointmentPaymentsFormComponent {
 
   handleSubmit(): void {
     const sendObj = this.billingForm.value;
-    sendObj.idTurno = this.selectedRow.id; //ACA DEBERIA LLEGAR EL ID DEL TURNO
+    sendObj.idTurno = this.selectedRow.idTurno; //ACA DEBERIA LLEGAR EL ID DEL TURNO
     sendObj.idPlanObraSocial = parseInt(sendObj.idPlanObraSocial.toString());
     sendObj.idMetodoPago = parseInt(sendObj.idMetodoPago.toString());
     delete sendObj.obraSocial;
