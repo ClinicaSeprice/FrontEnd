@@ -1,0 +1,100 @@
+<form
+  [formGroup]="billingForm"
+  (ngSubmit)="handleSubmit()"
+  class="p-8 border rounded-lg shadow-sm max-w-screen-xl m-auto">
+  <div class="grid gap-y-8 gap-x-6 grid-cols-2 lg:grid-cols-3 mb-4">
+    <!-- Obra Social -->
+    <div class="input-container">
+      <select
+        id="ObraSocial"
+        formControlName="obraSocial"
+        class="floating-input rounded-md">
+        <option value="" disabled selected>Seleccione una Obra Social</option>
+        <option
+          *ngFor="let obraSocial of ObrasSociales"
+          [value]="obraSocial.idObraSocial">
+          {{ obraSocial.nombre }}
+        </option>
+      </select>
+      <label for="ObraSocial">Obra Social</label>
+    </div>
+
+    <!-- Plan Obra Social -->
+    <div class="input-container">
+      <select
+        id="idPlanObraSocial"
+        formControlName="idPlanObraSocial"
+        class="floating-input rounded-md">
+        <option value="" disabled selected>Seleccione un Plan</option>
+        <option *ngFor="let plan of PlanesObraSocial" [value]="plan.idPlan">
+          {{ plan.nombrePlan }}
+        </option>
+      </select>
+      <label for="idPlanObraSocial">Plan Obra Social</label>
+    </div>
+
+    <!-- Método de Pago -->
+    <div class="input-container">
+      <select
+        id="idMetodoPago"
+        formControlName="idMetodoPago"
+        class="floating-input rounded-md">
+        <option value="" disabled selected>Seleccione Método de Pago</option>
+        <option
+          *ngFor="let metodoPago of MetodosPago"
+          [value]="metodoPago.idMetodoPago">
+          {{ metodoPago.nombre }}
+        </option>
+      </select>
+      <label for="idMetodoPago">Método de Pago</label>
+    </div>
+
+    <!-- Número de Transacción -->
+    <div class="input-container">
+      <input
+        type="text"
+        formControlName="numeroTransaccion"
+        id="numeroTransaccion"
+        class="floating-input rounded-md"
+        required />
+      <label for="numeroTransaccion">N° Transacción</label>
+    </div>
+
+    <!-- Fecha de Pago -->
+    <div class="input-container">
+      <input
+        type="date"
+        formControlName="fechaPago"
+        id="fechaPago"
+        class="floating-input rounded-md"
+        required />
+      <label for="fechaPago">Fecha de Pago</label>
+    </div>
+
+    <!-- Monto Paciente -->
+    <div class="input-container">
+      <input
+        type="number"
+        formControlName="montoPaciente"
+        id="montoPaciente"
+        class="floating-input rounded-md"
+        required />
+      <label for="montoPaciente">Monto Paciente</label>
+    </div>
+
+    <!-- Monto Total -->
+    <div class="input-container">
+      <input
+        type="number"
+        formControlName="montoTotal"
+        id="montoTotal"
+        class="floating-input rounded-md"
+        required />
+      <label for="montoTotal">Total</label>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-end">
+    <button type="submit" class="btn btn-primary block min-w-24">Enviar</button>
+  </div>
+</form>

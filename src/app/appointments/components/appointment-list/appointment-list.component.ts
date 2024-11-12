@@ -8,6 +8,7 @@ import { AppointmentDetailsComponent } from '../appointment-details/appointment-
 import { TurnoDetalleDTO } from '../../models/appointment.model';
 import { AppointmentService } from '../../services/appointment.service';
 import { AppointmentFormComponent } from '../appointment-form/appointment-form.component';
+import { AppointmentPaymentsFormComponent } from "../appointment-payments-form/appointment-payments-form.component";
 
 @Component({
   selector: 'app-appointment-list',
@@ -19,7 +20,8 @@ import { AppointmentFormComponent } from '../appointment-form/appointment-form.c
     ReusableModalComponent,
     AppointmentDetailsComponent,
     AppointmentFormComponent,
-  ],
+    AppointmentPaymentsFormComponent
+],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
 })
@@ -119,6 +121,13 @@ export class AppointmentListComponent implements OnInit {
   showDetailsModal = false;
   selectedRow: object | null = null;
 
+  showPaymentModal = false;
+
+
+  handleShowPaymentModal(): void {
+    this.showPaymentModal = true;
+  }
+
   handleFormSubmit(data: object): void {
     console.log('Formulario enviado con datos:', data);
     // Aquí puedes realizar cualquier acción con los datos recibidos
@@ -132,6 +141,11 @@ export class AppointmentListComponent implements OnInit {
     // Aquí puedes agregar cualquier lógica personalizada que necesites
   }
 
+  handlePaymentClick(row: object): void {
+    console.log('Detalles de la fila:', row);
+    this.selectedRow = row;
+    this.handleShowPaymentModal();
+  }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getTodayAppointments(appointments: any[]): void {
     const today = new Date();

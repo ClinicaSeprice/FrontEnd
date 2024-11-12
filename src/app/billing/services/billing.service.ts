@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, tap, } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {LiquidacionMedico, MetodoPago, Medico, MedicoPago} from '../models/billing.model';
+import {LiquidacionMedico, MetodoPago, Medico, MedicoPago, FacturaDetalle} from '../models/billing.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,4 +43,11 @@ export class BillingService {
       })
     );
   } 
+  getFacturas(): Observable<FacturaDetalle[]> {
+    return this.http.get<FacturaDetalle[]>(`${this.URI}Factura/obtenerTodasLasFacturasDetalladas`).pipe(
+      tap(response => { 
+        return response;
+      })
+    );  
+}
 }

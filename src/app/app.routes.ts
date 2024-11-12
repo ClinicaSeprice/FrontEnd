@@ -78,22 +78,6 @@ export const routes: Routes = [
           ).then(m => m.BillingListComponent),
           canActivate: [AuthGuard]
       },
-      {
-        path: 'liquidation',
-        loadComponent: () =>
-          import(
-            './liquidation/components/liquidation-list/liquidation-list.component'
-          ).then(m => m.LiquidationListComponent),
-          canActivate: [AuthGuard]
-      },
-      {
-        path: 'liquidation/:id',
-        loadComponent: () =>
-          import(
-            './liquidation/components/liquidation-details/liquidation-details.component'
-          ).then(m => m.LiquidationDetailsComponent),
-          canActivate: [AuthGuard]
-      },
     ],
   },
   // Redirección cuando la ruta está vacía (path: '')

@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
 import { RegistrarPacienteComponent } from "../../../patients/components/registrar-paciente/registrar-paciente.component";
 import { ReusableModalComponent } from "../../../shared/components/reusable-modal/reusable-modal.component";
 import { CustomTableComponent } from "../../../shared/components/custom-table/custom-table.component";
 import { NgForOf,NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule  } from '@angular/forms';
-import { LiquidationService } from "../../services/liquidation.service";
-import { ObraSocial,PlanObraSocial,MetodoPago, FacturaDetallada, FacturaDetalle } from "../../models/liquidation.model";
+import { AppointmentService } from "../../services/appointment.service";
+import { ObraSocial,PlanObraSocial,MetodoPago } from "../../models/appointment.model";
+import { send } from 'process';
 
 @Component({
-  selector: 'app-liquidation-list',
+  selector: 'app-appointment-payments-form',
   standalone: true,
   imports: [CustomTableComponent, ReusableModalComponent, RegistrarPacienteComponent, NgIf, NgForOf, ReactiveFormsModule, FormsModule],
-  templateUrl: './liquidation-list.component.html',
-  styleUrls: ['./liquidation-list.component.css']
+  templateUrl: './appointment-payments-form.component.html',
+  styleUrls: ['./appointment-payments-form.component.css']
 })
-export class LiquidationListComponent {
+export class AppointmentPaymentsFormComponent {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Input() selectedRow: any;
   
   tableHeaders = [
     { header: 'ID Factura', field: 'idFactura', isBold: false },
@@ -24,28 +27,22 @@ export class LiquidationListComponent {
     { header: 'Fecha Pago', field: 'fechaPago', isBold: false },
   ];
   
-  tableData: FacturaDetallada[] = [];
   billingForm!: FormGroup;  
   ObrasSociales: ObraSocial[] = [];
-  Facturas: FacturaDetalle[] = [];
   PlanesObraSocial: PlanObraSocial[] = [];
   MetodosPago: MetodoPago[] = [];
-  currentBilling: FacturaDetalle | null = null;
-  showModal = false;
 
-
-  constructor(private fb: FormBuilder, private liquidationService: LiquidationService) {
+  constructor(private fb: FormBuilder, private appointmentService: AppointmentService) {
   }
 
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   ngOnInit(): void {
 
-    this.liquidationService.getObrasSociales().subscribe(response => {
-      this.ObrasSociales = response;
-    });
+    this.getObrasSociales();
+    this.getMetodosPago();
 
     this.billingForm = this.fb.group({
-      idTurno: [1, Validators.required],
+      idTurno: [0, Validators.required],
       obraSocial: [0],
       idPlanObraSocial: [0, Validators.required],
       idMetodoPago: [0, Validators.required],
@@ -56,7 +53,7 @@ export class LiquidationListComponent {
     });
 
     this.billingForm.get('obraSocial')?.valueChanges.subscribe((newValue) => {
-      this.liquidationService.getPlanesObraSocial(newValue).subscribe(response => {
+      this.appointmentService.getPlanesObraSocial(newValue).subscribe(response => {
         this.PlanesObraSocial = response;
       },
         error => {
@@ -65,31 +62,24 @@ export class LiquidationListComponent {
         })
     });
 
-    this.liquidationService.getMetodosPago().subscribe(response => {
+    this.appointmentService.getMetodosPago().subscribe(response => {
       this.MetodosPago = response;
     })
 
-    this.updateTable();   
-  }
-
-  openModal(): void {
-    this.showModal = true;
-  }
-
-  handleDetailsClick(row: object): void {
-    const newRow = row as FacturaDetalle;
-    this.currentBilling = this.Facturas.filter(factura => factura.idFactura === newRow.idFactura)[0];
+    this.appointmentService.getMetodosPago().subscribe(response => {
+      this.MetodosPago = response;
+    })
   }
 
   handleSubmit(): void {
     const sendObj = this.billingForm.value;
+    sendObj.idTurno = this.selectedRow.id; //ACA DEBERIA LLEGAR EL ID DEL TURNO
     sendObj.idPlanObraSocial = parseInt(sendObj.idPlanObraSocial.toString());
     sendObj.idMetodoPago = parseInt(sendObj.idMetodoPago.toString());
     delete sendObj.obraSocial;
 
-    this.liquidationService.registrarFactura(sendObj).subscribe(response => {
+    this.appointmentService.registrarFactura(sendObj).subscribe(response => {
       console.log('Factura registrada:', response);   
-      this.updateTable();
       this.handleResetForm()
     });
   }
@@ -97,25 +87,16 @@ export class LiquidationListComponent {
   handleResetForm(): void {
     this.billingForm.reset();
   }
-  handleCloseForm(): void {
-    this.handleResetForm();
-    this.showModal = false;
+
+  getObrasSociales(): void {    
+    this.appointmentService.getObrasSociales().subscribe(response => {
+      this.ObrasSociales = response;
+    });
   }
 
-  updateTable(): void {
-    this.liquidationService.getFacturas().subscribe(response => {
-      this.Facturas = response;
-      this.tableData = response.map(factura => {        
-        const newFactura: FacturaDetallada = {
-          idFactura: factura.idFactura,
-          ObraSocial: `${factura.nombreObraSocial} - ${factura.nombrePlanObraSocial}`,
-          numeroTransaccion: factura.numeroTransaccion,
-          montoTotal: factura.montoTotal,
-          fechaPago: new Date(factura['fechaPago']).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-        }
-        return newFactura;
-      });
-    }) 
+  getMetodosPago(): void {    
+    this.appointmentService.getMetodosPago().subscribe(response => {
+      this.MetodosPago = response;
+    })
   }
 }
-

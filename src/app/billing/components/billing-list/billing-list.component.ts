@@ -5,7 +5,7 @@ import { CustomTableComponent } from "../../../shared/components/custom-table/cu
 import { NgForOf,NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BillingService } from "../../services/billing.service";
-import { LiquidacionMedico,ResumenLiquidacionMedico, MetodoPago, Medico } from '../../models/billing.model';
+import { LiquidacionMedico,ResumenLiquidacionMedico, MetodoPago, Medico, FacturaDetallada, FacturaDetalle } from '../../models/billing.model';
 
 @Component({
   selector: 'app-billing-list',
@@ -23,6 +23,15 @@ export class BillingListComponent {
     { header: 'N° transaccion', field: 'numeroTransaccion', isBold: false },
     { header: 'Total', field: 'montoTotal', isBold: false },
   ];
+
+  tableHeadersLiq = [
+    { header: 'ID Factura', field: 'idFactura', isBold: false },
+    { header: 'Obra Social', field: 'ObraSocial', isBold: false },
+    { header: 'Número Transacción', field: 'numeroTransaccion', isBold: false },
+    { header: 'Monto Total', field: 'montoTotal', isBold: false },
+    { header: 'Fecha Pago', field: 'fechaPago', isBold: false },
+  ];
+  
   
   tableData: ResumenLiquidacionMedico[] = [];
   liquidationForm!: FormGroup; 
@@ -31,6 +40,10 @@ export class BillingListComponent {
   MetodosPago: MetodoPago[] = []
   Medicos: Medico[] = []
   showModal = false;
+
+  tableDataLiq: FacturaDetallada[] = [];
+  Facturas: FacturaDetalle[] = [];
+  currentBilling: FacturaDetalle | null = null;
 
 
   constructor(private fb: FormBuilder, private liquidationService: BillingService) {
@@ -55,7 +68,7 @@ export class BillingListComponent {
     })
 
     this.updateTable();
-
+    this.updateTableLiq();
   }
 
   openModal(): void {
@@ -101,5 +114,27 @@ export class BillingListComponent {
       });
     })
   };
+
+
+  handleDetailsClickLiq(row: object): void {
+    const newRow = row as FacturaDetalle;
+    this.currentBilling = this.Facturas.filter(factura => factura.idFactura === newRow.idFactura)[0];
+  }
+
+  updateTableLiq(): void {
+    this.liquidationService.getFacturas().subscribe(response => {
+      this.Facturas = response;
+      this.tableDataLiq = response.map(factura => {        
+        const newFactura: FacturaDetallada = {
+          idFactura: factura.idFactura,
+          ObraSocial: `${factura.nombreObraSocial} - ${factura.nombrePlanObraSocial}`,
+          numeroTransaccion: factura.numeroTransaccion,
+          montoTotal: factura.montoTotal,
+          fechaPago: new Date(factura['fechaPago']).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+        }
+        return newFactura;
+      });
+    }) 
+  }
 }
 
