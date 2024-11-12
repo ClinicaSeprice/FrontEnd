@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { PatientDto } from '../../models/patient.model';
 import { PatientService } from '../../services/patient.service';
-import { ReusableModalComponent } from '../../../shared/components/reusable-modal/reusable-modal.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -10,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-registrar-paciente',
   standalone: true,
-  imports: [ReusableModalComponent, CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './registrar-paciente.component.html',
   styleUrl: './registrar-paciente.component.css',
 })
