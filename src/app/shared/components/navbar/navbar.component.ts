@@ -6,13 +6,14 @@ import { HorariosAdminComponent } from '../../../professional/components/horario
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../../auth/services/auth.service';
 import { ObrasSocialesComponent } from "../../../obras-sociales/components/obras-sociales/obras-sociales.component";
+import { MetodosPagosComponent } from "../../../admin-metodos-pagos/components/metodos-pagos/metodos-pagos.component";
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [RouterModule, ReusableModalComponent, MedicosAdminComponent,
-    HorariosAdminComponent, NgIf, ObrasSocialesComponent],
+    HorariosAdminComponent, NgIf, ObrasSocialesComponent, MetodosPagosComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
