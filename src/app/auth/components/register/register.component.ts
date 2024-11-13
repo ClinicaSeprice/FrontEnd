@@ -1,13 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder,FormGroup,ReactiveFormsModule,Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  private toastr = inject(ToastrService);
 
   constructor(
     private fb: FormBuilder,
@@ -82,15 +79,22 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: () => {
+          this.toastr.success(`Registro Exitoso`)
           console.log('Registro exitoso manejado en el servicio.');
           this.registerForm.reset();
           this.router.navigate(['/login']);
         },
         error: err => {
+          if(err?.error?.message){
+            this.toastr.error(err.error.messate, 'Error de Registro');
+          }else{
+            this.toastr.error('Hubo un problema al registrar el Usuario', 'Error');
+          }
           console.error('Error manejado en el servicio:', err);
         },
       });
     } else {
+      this.toastr.warning('DEBE COMPLETAR TODOS LOS CAMPOS REQUERIDOS.', 'Formulario no Válido');
       console.log('Formulario no válido');
       this.registerForm.markAllAsTouched();
     }

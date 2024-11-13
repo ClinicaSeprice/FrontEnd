@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReusableModalComponent } from "../../../shared/components/reusable-modal/reusable-modal.component";
 import { CustomTableComponent } from "../../../shared/components/custom-table/custom-table.component";
 import { NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BillingService } from "../../services/billing.service";
 import { LiquidacionMedico,ResumenLiquidacionMedico, MetodoPago, Medico, FacturaDetallada, FacturaDetalle } from '../../models/billing.model';
+import { ToastrService } from 'ngx-toastr';
+//import { response } from 'express';
 
 @Component({
   selector: 'app-billing-list',
@@ -44,6 +46,7 @@ export class BillingListComponent {
   Facturas: FacturaDetalle[] = [];
   currentBilling: FacturaDetalle | null = null;
 
+  private toastr = inject(ToastrService);
 
   constructor(private fb: FormBuilder, private liquidationService: BillingService) {
   }
@@ -58,12 +61,23 @@ export class BillingListComponent {
       numeroTransaccion: ['', Validators.required]
     });
     
-    this.liquidationService.getMetodosPago().subscribe(response => {
-      this.MetodosPago = response;
+    this.liquidationService.getMetodosPago().subscribe({
+      next: response => {
+        this.MetodosPago = response;  
+      },
+      error: () => {
+        this.toastr.error('Error al cargar los métodos de pago', 'Carga fallida');
+      }
+      
     })
     
-    this.liquidationService.getMedicos().subscribe(response => {
-      this.Medicos = response;
+    this.liquidationService.getMedicos().subscribe({
+      next: response => {
+        this.Medicos = response;
+      },
+      error: () => {
+        this.toastr.error('Error al cargar los médicos', 'Carga fallida');
+      }
     })
 
     this.updateTable();
@@ -91,28 +105,39 @@ export class BillingListComponent {
     const sendObj = this.liquidationForm.value;
     sendObj.idMedico = parseInt(sendObj.idMedico.toString());
     sendObj.idMetodoPago = parseInt(sendObj.idMetodoPago.toString());
-    this.liquidationService.postLiquidation(sendObj).subscribe(response => {
-      console.log('Factura registrada:', response);
-      this.updateTable();
-      this.handleCloseForm();
-    });    
+    this.liquidationService.postLiquidation(sendObj).subscribe({
+      next: response => {
+        console.log('Factura registrada:', response);
+        this.toastr.success('Factura Registrada Exitosamente', 'Registro exitoso');
+        this.updateTable();
+        this.handleCloseForm();
+      },
+      error: () => {
+        this.toastr.error('Error al registrar la factura', 'Error de Registro');
+      }
+    });  
   }
   
   updateTable(){ 
-    this.liquidationService.getLiquidaciones().subscribe(response => {
+    this.liquidationService.getLiquidaciones().subscribe({
+      next: response => {
       this.Liquidaciones = response;
-      this.tableData = this.Liquidaciones.map(liquidation => { 
-        const formatLiquidation: ResumenLiquidacionMedico = {
+      this.tableData = this.Liquidaciones.map(liquidation => ({ 
+        // const formatLiquidation: ResumenLiquidacionMedico = {
           idLiquidacion: liquidation.idLiquidacion,
           nombreCompleto: `${liquidation.apellidoMedico}, ${liquidation.nombreMedico}`,
           fechaLiquidacion: liquidation.fechaLiquidacion,
           numeroTransaccion: liquidation.numeroTransaccion,
           montoTotal: liquidation.montoTotal
-        }        
-        return formatLiquidation
-      });
-    })
-  };
+        }));
+        this.toastr.success('Liquidacion cargada exitosamente', 'Carga completa');        
+        //return formatLiquidation
+      },
+      error: () => {
+        this.toastr.error('Error al cargar liquidaciones', 'Carga Fallida');
+      }
+    });
+  }
 
 
   handleDetailsClickLiq(row: object): void {

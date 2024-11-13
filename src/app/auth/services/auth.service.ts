@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, tap, throwError, BehaviorSubject } from 'rxjs';
 import { AuthResponse } from '../models/auth.model';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = 'http://localhost:5070/api/Auth';
   private tokenKey = 'authToken';
+  private toastr = inject(ToastrService);
 
   //BehavirioSubjet para emitir el estado de autenticacion
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
@@ -17,7 +19,7 @@ export class AuthService {
   
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
   ) {}
 
   login(user: string, pass: string): Observable<AuthResponse> {
@@ -27,10 +29,12 @@ export class AuthService {
         if (response.token) {
           this.saveToken(response.token);
           this.isAuthenticatedSubject.next(true);
+          this.toastr.success('Inicio de sesión exitosa', `Bienvenido ${user} !`);
         }
       }),
       catchError((error: HttpErrorResponse) => {
         console.error('Error de autenticación: ', error);
+        this.toastr.error('Usuario o contraseña incorrectos', 'Error de Autenticación');
         return throwError(() => new Error(error.message));
       })
     );
@@ -41,12 +45,14 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, data, { responseType: 'text' }).pipe(
       tap(response => {
         console.log('Respuesta del servidor:', response);
-        alert('Usuario registrado exitosamente.');
+        this.toastr.success('Usuario registrado correctamente');
+        //alert('Usuario registrado exitosamente.');
       }),
       catchError((error: HttpErrorResponse) => {
         console.error('Error en el registro:', error);
         const errorMessage = error.error?.text || 'Error en el registro. Intente de nuevo más tarde.';
-        alert(errorMessage);
+        this.toastr.error(errorMessage, 'Error en el registro');
+        //alert(errorMessage);
         return throwError(() => new Error(errorMessage));
       })
     );
@@ -54,6 +60,7 @@ export class AuthService {
 
   private saveToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
+    //this.toastr.info('Token guardado', ' Autenticación');
   }
 
   private getToken(): string | null {
@@ -71,6 +78,7 @@ export class AuthService {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const expirationDate = new Date(payload.exp * 1000);
     if (expirationDate <= new Date()) {
+      this.toastr.warning('Su sesión ha expirado', 'Autenticación');
       return false;
     }
     return true;
@@ -79,6 +87,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     this.isAuthenticatedSubject.next(false);
+    this.toastr.info('Sesion cerrada correctamente.', 'Logout');
     this.router.navigate(['/login']);
   }
 }
