@@ -57,14 +57,6 @@ export class AppointmentPaymentsFormComponent {
           this.PlanesObraSocial = [];
         })
     });
-
-    this.appointmentService.getMetodosPago().subscribe(response => {
-      this.MetodosPago = response;
-    })
-
-    this.appointmentService.getMetodosPago().subscribe(response => {
-      this.MetodosPago = response;
-    })
   }
 
   handleSubmit(): void {
@@ -77,6 +69,7 @@ export class AppointmentPaymentsFormComponent {
     this.appointmentService.registrarFactura(sendObj).subscribe(response => {
       console.log('Factura registrada:', response);   
       this.handleResetForm()
+      console.log(response);
     });
   }
 

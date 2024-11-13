@@ -75,6 +75,9 @@ export class AppointmentFormComponent implements OnInit {
     );
   }
   
+  
+
+
 
   onEspecialidadChange() {
     this.medicoService.getMedicos().subscribe(medicos => {
@@ -83,7 +86,6 @@ export class AppointmentFormComponent implements OnInit {
       );
     });
   }
-
   onMedicoChange() {
     if (this.selectedMedicoId !== null) {
       this.medicoService
@@ -92,6 +94,16 @@ export class AppointmentFormComponent implements OnInit {
           this.horariosDisponibles = horarios;
         });
     }
+  }
+
+  // Método para formatear la hora en formato de 24 horas o AM/PM
+  private formatTime(time: string): string {
+    const [hour, minute] = time.split(':').map(Number);
+    return new Date(0, 0, 0, hour, minute).toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
   }
 
   saveAppointment(): void {

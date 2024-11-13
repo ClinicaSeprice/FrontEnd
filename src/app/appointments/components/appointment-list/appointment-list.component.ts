@@ -93,7 +93,7 @@ export class AppointmentListComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handlePaymentClick(row: any): void {
-    // Usar propiedades únicas para buscar el turno en appointments
+    // Usar propiedades únicas para buscar el turno en appointments // MODIFICAR PARA QUE SE BUSQUE POR IDTURNO
     const turno = this.appointments.find(appointment =>
       `${appointment.nombrePaciente} ${appointment.apellidoPaciente}` === row.paciente &&
       new Date(appointment.fechaTurno).toLocaleDateString('es-ES') === row.fecha
@@ -145,6 +145,7 @@ export class AppointmentListComponent implements OnInit {
 
   // Añade esta nueva propiedad en el componente
   tableData: {
+    idTurno: number;
     paciente: string;
     fecha: string;
     medico: string;
@@ -160,6 +161,7 @@ export class AppointmentListComponent implements OnInit {
         this.appointments = appointments;
         // Mapea los datos para adaptarlos a las columnas de la tabla y los asigna a `tableData`
         this.tableData = appointments.map(appointment => ({
+          idTurno: appointment.idTurno,
           paciente: `${appointment.nombrePaciente} ${appointment.apellidoPaciente}`,
           fecha: appointment.fechaTurno
             ? new Date(appointment.fechaTurno).toLocaleDateString('es-ES')
