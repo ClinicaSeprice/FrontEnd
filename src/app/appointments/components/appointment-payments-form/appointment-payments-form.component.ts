@@ -1,13 +1,15 @@
-import { Component,Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component,Inject,Input } from '@angular/core';
+import { CommonModule, NgForOf } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule  } from '@angular/forms';
 import { AppointmentService } from "../../services/appointment.service";
 import { ObraSocial,PlanObraSocial,MetodoPago } from "../../models/appointment.model";
+import { BillingService } from '../../../billing/services/billing.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-appointment-payments-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NgForOf],
   templateUrl: './appointment-payments-form.component.html',
   styleUrls: ['./appointment-payments-form.component.css']
 })
@@ -27,8 +29,9 @@ export class AppointmentPaymentsFormComponent {
   ObrasSociales: ObraSocial[] = [];
   PlanesObraSocial: PlanObraSocial[] = [];
   MetodosPago: MetodoPago[] = [];
+  toastr = Inject(ToastrService);
 
-  constructor(private fb: FormBuilder, private appointmentService: AppointmentService) {
+  constructor(private fb: FormBuilder, private appointmentService: AppointmentService, private liquidationService: BillingService) {
   }
 
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface

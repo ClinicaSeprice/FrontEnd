@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReusableModalComponent } from "../../../shared/components/reusable-modal/reusable-modal.component";
 import { CustomTableComponent } from "../../../shared/components/custom-table/custom-table.component";
-import { NgIf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BillingService } from "../../services/billing.service";
 import { LiquidacionMedico,ResumenLiquidacionMedico, MetodoPago, Medico, FacturaDetallada, FacturaDetalle } from '../../models/billing.model';
@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-billing-list',
   standalone: true,
-  imports: [CustomTableComponent, ReusableModalComponent, NgIf, ReactiveFormsModule, FormsModule],
+  imports: [CustomTableComponent, ReusableModalComponent, NgIf, NgForOf, ReactiveFormsModule, FormsModule],
   templateUrl: './billing-list.component.html',
   styleUrl: './billing-list.component.css'
 })
