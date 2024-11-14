@@ -1,5 +1,5 @@
 export const environment = {
   production: true
-  , apiUrl: 'http://localhost:5070',
+  , apiUrl: 'http://clinicaseprice.somee.com',
   userToken: ""
 }

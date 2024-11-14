@@ -58,7 +58,8 @@
   </div>
 </nav>
 
-<app-reusable-modal *ngIf="isModalOpen" [title]="'Configuraciónes Generales'" (closeModal)="isModalOpen = false">
+<app-reusable-modal *ngIf="isModalOpen" [title]="'Configuraciónes Generales'" (closeModal)="isModalOpen = false" >
+<div class="min-w-[1300px] flex flex-row gap-4">
   <ng-container *ngIf="!medicoId">
     <app-medico-admin (MedicoRegistrado)="onMedicoRegistrado($event)"></app-medico-admin>
   </ng-container>
@@ -70,4 +71,5 @@
   <app-obras-sociales class="mt-4"></app-obras-sociales>
 
   <app-metodos-pagos class="mt-4"></app-metodos-pagos>
+</div>
 </app-reusable-modal>

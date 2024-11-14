@@ -4,12 +4,13 @@ import { catchError, Observable, tap, throwError, BehaviorSubject } from 'rxjs';
 import { AuthResponse } from '../models/auth.model';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5070/api/Auth';
+  private apiUrl = `${environment.apiUrl}/api/Auth`;
   private tokenKey = 'authToken';
   private toastr = inject(ToastrService);
 
