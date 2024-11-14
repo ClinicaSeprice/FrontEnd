@@ -62,6 +62,11 @@ The project follows a modular structure, with each feature (auth, patients, appo
       /services        # Services related to dashboard functionalities
       /models          # Models and DTOs for the dashboard
 
+     /PlanMedical      # PlanMedical module
+      /components      # Components for the PlanMedical
+      /services        # Services related to PlanMedical functionalities
+      /models   
+
     /patients          # Module for managing patients
       /components      # Components for patient management
       /services        # Services to handle patient data
@@ -77,10 +82,10 @@ The project follows a modular structure, with each feature (auth, patients, appo
       /services        # Services for billing management
       /models          # Models and DTOs for billing
 
-    /liquidation       # Module for managing professional fee liquidation
-      /components      # Components related to professional fee liquidation
-      /services        # Services for managing liquidation operations
-      /models          # Models and DTOs for liquidation
+    /professional       # Module for managing professional 
+      /components      # Components related to professional 
+      /services        # Services for managing 
+      /models          # Models and DTOs for professional
 
     /shared            # Shared module for reusable components, services, and utilities
       /components      # Reusable components shared across the application
@@ -92,9 +97,9 @@ The project follows a modular structure, with each feature (auth, patients, appo
       /services        # Services to interact with the backend API
       /interceptors    # HTTP interceptors to handle cross-cutting concerns
 
-app.module.ts      # Root application module
+app.config.ts      # Root application 
 app.component.ts   # Root application component
-app-routing.module.ts # Application-wide routes declaration
+app.routes.ts # Application-wide routes declaration
 ```
 
 ### Key Modules:
