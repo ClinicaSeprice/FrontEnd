@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, tap, } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {LiquidacionMedico, MetodoPago, Medico, MedicoPago, FacturaDetalle} from '../models/billing.model';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BillingService {
-  private URI = 'http://localhost:5070/api/';
+  private URI = `${environment.apiUrl}/api/`;
 
   constructor(private http: HttpClient) { }
 
