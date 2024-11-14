@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './shared/components/layout/layout.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 
 export const routes: Routes = [
   {
@@ -7,11 +9,12 @@ export const routes: Routes = [
     component: LayoutComponent, // Usamos el layout como el contenedor principal
     children: [
       {
-        path: '', // Ruta vacía carga por defecto el DashboardComponent
+        path: '', // Ruta vacía carga por defecto el LoginComponent
         loadComponent: () =>
-          import('./dashboard/components/dashboard/dashboard.component').then(
-            m => m.DashboardComponent
+          import('./auth/components/login/login.component').then(
+            m => m.LoginComponent
           ),
+          canActivate: [AuthenticatedGuard]
       },
       {
         path: 'login',
@@ -19,6 +22,7 @@ export const routes: Routes = [
           import('./auth/components/login/login.component').then(
             m => m.LoginComponent
           ),
+          canActivate: [AuthenticatedGuard]
       },
       {
         path: 'register',
@@ -33,6 +37,7 @@ export const routes: Routes = [
           import('./dashboard/components/dashboard/dashboard.component').then(
             m => m.DashboardComponent
           ),
+          canActivate: [AuthGuard]
       },
       {
         path: 'patients',
@@ -40,6 +45,7 @@ export const routes: Routes = [
           import(
             './patients/components/patient-list/patient-list.component'
           ).then(m => m.PatientListComponent),
+          canActivate: [AuthGuard]
       },
       {
         path: 'patients/:id',
@@ -47,6 +53,7 @@ export const routes: Routes = [
           import(
             './patients/components/patient-details/patient-details.component'
           ).then(m => m.PatientDetailsComponent),
+          canActivate: [AuthGuard]
       },
       {
         path: 'appointments',
@@ -54,6 +61,7 @@ export const routes: Routes = [
           import(
             './appointments/components/appointment-list/appointment-list.component'
           ).then(m => m.AppointmentListComponent),
+          canActivate: [AuthGuard]
       },
       {
         path: 'appointments/:id',
@@ -61,34 +69,14 @@ export const routes: Routes = [
           import(
             './appointments/components/appointment-details/appointment-details.component'
           ).then(m => m.AppointmentDetailsComponent),
-      },
-      {
+          canActivate: [AuthGuard]
+      },      {
         path: 'billing',
         loadComponent: () =>
           import(
             './billing/components/billing-list/billing-list.component'
           ).then(m => m.BillingListComponent),
-      },
-      {
-        path: 'billing/:id',
-        loadComponent: () =>
-          import(
-            './billing/components/billing-details/billing-details.component'
-          ).then(m => m.BillingDetailsComponent),
-      },
-      {
-        path: 'liquidation',
-        loadComponent: () =>
-          import(
-            './liquidation/components/liquidation-list/liquidation-list.component'
-          ).then(m => m.LiquidationListComponent),
-      },
-      {
-        path: 'liquidation/:id',
-        loadComponent: () =>
-          import(
-            './liquidation/components/liquidation-details/liquidation-details.component'
-          ).then(m => m.LiquidationDetailsComponent),
+          canActivate: [AuthGuard]
       },
     ],
   },

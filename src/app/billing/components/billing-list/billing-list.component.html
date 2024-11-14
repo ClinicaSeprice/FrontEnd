@@ -1,1 +1,270 @@
-<p>billing-list works!</p>
+<button class="ml-6 btn btn-primary" (click)="openModal()">
+  Nueva Liquidacion
+</button>
+<div class="flex flex-col 2xl:flex-row 2xl:gap-x-10 gap-4 mb-5 overflow-hidden">
+  <app-custom-table
+    class="md:mt-4 2xl:mt-0 flex-1"
+    [title]="'Ultimas Liquidaciones'"
+    [data]="tableData"
+    [columns]="tableHeaders"
+    (onDetailsClick)="handleDetailsClick($event)" />
+
+  <div
+    *ngIf="currentLiquidation"
+    class="flex flex-col md:mt-4 2xl:mt-0 bg-gray-100 rounded-md p-4 min-w-40">
+    <h6
+      class="block font-sans text-xl font-semibold leading-relaxed text-blue-gray-900 mb-4 text-center">
+      Liquidación de Médico
+    </h6>
+
+    <!-- Información General -->
+    <div class="mb-2">
+      <div class="flex justify-between items-center mb-2">
+        <p class="text-sm text-gray-600">
+          Liquidación Nº:
+          <span class="font-semibold">{{
+            currentLiquidation.idLiquidacion
+          }}</span>
+        </p>
+      </div>
+      <p class="text-sm text-gray-600">
+        Fecha:
+        <span class="font-semibold">{{
+          currentLiquidation.fechaLiquidacion.slice(0, 10)
+        }}</span>
+      </p>
+      <p class="text-sm text-gray-600">
+        Médico:
+        <span class="font-semibold"
+          >{{ currentLiquidation.nombreMedico }}
+          {{ currentLiquidation.apellidoMedico }}</span
+        >
+      </p>
+      <p class="text-sm text-gray-600">
+        Especialidad:
+        <span class="font-semibold">{{ currentLiquidation.especialidad }}</span>
+      </p>
+    </div>
+
+    <!-- Detalles de Pago -->
+    <div class="flex justify-between items-center bg-white p-4 rounded-md mb-2">
+      <span class="text-sm font-semibold text-gray-700">Porcentaje:</span>
+      <span class="text-sm font-semibold text-gray-900"
+        >{{ currentLiquidation.porcentaje }}%</span
+      >
+    </div>
+
+    <div class="flex justify-between items-center bg-white p-4 rounded-md mb-2">
+      <span class="text-sm font-semibold text-gray-700">Total:</span>
+      <span class="text-lg font-bold text-gray-900">{{
+        currentLiquidation.montoTotal
+      }}</span>
+    </div>
+    <!-- Información de Pago -->
+    <div class="mt-2 text-center">
+      <p class="text-sm text-gray-600">
+        Método de Pago:
+        <span class="font-semibold">{{ currentLiquidation.metodoDePago }}</span>
+      </p>
+      <p class="text-sm text-gray-600">
+        Tansacción N°:
+        <span class="font-semibold">{{
+          currentLiquidation.numeroTransaccion
+        }}</span>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="flex flex-col 2xl:flex-row 2xl:gap-x-10 gap-4 mb-5 overflow-hidden">
+  <app-custom-table
+    class="md:mt-4 2xl:mt-0 flex-1"
+    [title]="'Ultimas Facturas'"
+    [data]="tableDataLiq"
+    [columns]="tableHeadersLiq"
+    (onDetailsClick)="handleDetailsClickLiq($event)" />
+
+  <!-- Factura viewer -->
+  <div
+    *ngIf="currentBilling"
+    class="flex flex-col md:mt-4 2xl:mt-0 bg-gray-100 rounded-md p-4 min-w-40">
+    <h6
+      class="block font-sans text-xl font-semibold leading-relaxed text-blue-gray-900 mb-4 text-center">
+      Factura
+    </h6>
+
+    <!-- Información General -->
+    <div class="mb-2">
+      <div class="flex justify-between items-center mb-2">
+        <p class="text-sm text-gray-600">
+          Factura Nº:
+          <span class="font-semibold">{{ currentBilling.idTurno }}</span>
+        </p>
+        <p class="text-sm text-gray-600">
+          Fecha:
+          <span class="font-semibold">{{ currentBilling.fechaPago }}</span>
+        </p>
+      </div>
+      <p class="text-sm text-gray-600">
+        Cliente:
+        <span class="font-semibold">{{ currentBilling.nombrePaciente }}</span>
+      </p>
+      <div class="flex justify-between items-center">
+        <p class="text-sm text-gray-600">
+          Médico:
+          <span class="font-semibold">{{ currentBilling.nombreMedico }}</span>
+        </p>
+        <p class="text-sm text-gray-600">
+          Especialidad:
+          <span class="font-semibold">{{
+            currentBilling.especialidadMedico
+          }}</span>
+        </p>
+      </div>
+    </div>
+    <!-- Información del Turno -->
+    <div class="mt-2">
+      <p class="text-sm text-gray-600">
+        Fecha y Hora del Turno:
+        <span class="font-semibold"
+          >{{ currentBilling.fechaTurno.slice(0, 10) }}
+          {{ currentBilling.horaInicio }} - {{ currentBilling.horaFin }}</span
+        >
+      </p>
+      <p class="text-sm text-gray-600">
+        Motivo: <span class="font-semibold">{{ currentBilling.motivo }}</span>
+      </p>
+      <p class="text-sm text-gray-600">
+        Notas:
+        <span class="font-semibold">{{ currentBilling.notasTurno }}</span>
+      </p>
+    </div>
+
+    <!-- Información de Pago -->
+    <div class="mt-2">
+      <p class="text-sm text-gray-600">
+        Método de Pago:
+        <span class="font-semibold">{{ currentBilling.nombreMetodoPago }}</span>
+      </p>
+      <p class="text-sm text-gray-600">
+        Número de Transacción:
+        <span class="font-semibold">{{
+          currentBilling.numeroTransaccion
+        }}</span>
+      </p>
+      <p class="text-sm text-gray-600">
+        Obra Social:
+        <span class="font-semibold">{{
+          currentBilling.nombreObraSocial +
+            ' - ' +
+            currentBilling.nombrePlanObraSocial
+        }}</span>
+      </p>
+      <p class="text-sm text-gray-600">
+        Cobertura:
+        <span class="font-semibold">{{ currentBilling.cobertura }}%</span>
+      </p>
+    </div>
+
+    <!-- Detalles de Pago -->
+    <div class="flex justify-between items-center bg-white p-4 rounded-md mb-2">
+      <span class="text-sm font-semibold text-gray-700">Total Paciente:</span>
+      <span class="text-sm font-semibold text-gray-900">{{
+        currentBilling.montoPaciente
+      }}</span>
+    </div>
+
+    <div class="flex justify-between items-center bg-white p-4 rounded-md mb-2">
+      <span class="text-sm font-semibold text-gray-700">Total:</span>
+      <span class="text-lg font-bold text-gray-900">{{
+        currentBilling.montoTotal
+      }}</span>
+    </div>
+  </div>
+</div>
+
+<app-reusable-modal
+  *ngIf="showModal"
+  [title]="'Nueva Liquidación'"
+  (closeModal)="showModal = false">
+  <form
+    [formGroup]="liquidationForm"
+    (ngSubmit)="handleSubmit()"
+    class="p-8 border rounded-lg shadow-sm max-w-screen-xl m-auto">
+    <h6
+      class="block antialiased tracking-normal font-sans text-xl font-semibold leading-relaxed text-blue-gray-900 mb-2">
+      Crear Liquidación
+    </h6>
+
+    <div class="grid gap-y-8 gap-x-6 grid-cols-2 lg:grid-cols-3 mb-4">
+      <div class="input-container">
+        <select
+          id="idMedico"
+          formControlName="idMedico"
+          class="floating-input rounded-md">
+          <option value="" disabled selected>Seleccione un Medico</option>
+          <option *ngFor="let medico of Medicos" [value]="medico.idMedico">
+            {{ medico.nombre }}
+          </option>
+        </select>
+        <label for="idMedico">Seleccione un Medico</label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          formControlName="numeroTransaccion"
+          id="numeroTransaccion"
+          class="floating-input rounded-md"
+          required />
+        <label for="numeroTransaccion">NumeroTransaccion</label>
+      </div>
+
+      <div class="input-container">
+        <select
+          id="idMetodoPago"
+          formControlName="idMetodoPago"
+          class="floating-input rounded-md">
+          <option value="" disabled selected>Seleccione Método de Pago</option>
+          <option
+            *ngFor="let metodoPago of MetodosPago"
+            [value]="metodoPago.idMetodoPago">
+            {{ metodoPago.nombre }}
+          </option>
+        </select>
+        <label for="idMetodoPago">Método de Pago</label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="number"
+          formControlName="porcentaje"
+          id="porcentaje"
+          class="floating-input rounded-md"
+          required />
+        <label for="numeroTransaccion">Porcentaje</label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="number"
+          formControlName="montoTotal"
+          id="montoTotal"
+          class="floating-input rounded-md"
+          required />
+        <label for="montoTotal">Total</label>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end">
+      <button
+        type="button"
+        class="btn btn-secondary mr-4 block min-w-24"
+        (click)="handleCloseForm()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary block min-w-24">
+        Enviar
+      </button>
+    </div>
+  </form>
+</app-reusable-modal>

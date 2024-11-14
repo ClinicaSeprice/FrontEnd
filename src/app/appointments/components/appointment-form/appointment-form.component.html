@@ -1,0 +1,104 @@
+<div class="max-w-xl mx-auto bg-white p-8 shadow-lg rounded-lg min-w-[900px]">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
+    {{ appointment.idPersona ? 'Editar Cita' : 'Crear Nueva Cita' }}
+  </h2>
+  <form (ngSubmit)="saveAppointment()" class="flex flex-col gap-4">
+    <!-- DNI del Paciente -->
+    <div>
+      <label for="dniPaciente" class="block text-gray-700 font-medium mb-1"
+        >DNI del Paciente:</label
+      >
+      <input
+        type="number"
+        [(ngModel)]="dniPaciente"
+        (blur)="onDniBlur()"
+        name="dniPaciente"
+        required
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-300" />
+    </div>
+
+    <!-- Especialidad -->
+    <div>
+      <label for="especialidad" class="block text-gray-700 font-medium mb-1"
+        >Especialidad:</label
+      >
+      <select
+        [(ngModel)]="selectedEspecialidad"
+        (change)="onEspecialidadChange()"
+        name="especialidad"
+        required
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-300">
+        <option
+          *ngFor="let especialidad of especialidades"
+          [value]="especialidad">
+          {{ especialidad }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Médico -->
+    <div>
+      <label for="medico" class="block text-gray-700 font-medium mb-1"
+        >Médico:</label
+      >
+      <select
+        [(ngModel)]="selectedMedicoId"
+        (change)="onMedicoChange()"
+        name="medico"
+        required
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-300">
+        <option
+          *ngFor="let medico of filteredMedicos"
+          [value]="medico.idMedico">
+          {{ medico.nombre }} {{ medico.apellido }}
+        </option>
+      </select>
+    </div>
+
+<!-- Horario Disponible -->
+<div>
+  <label for="horario" class="block text-gray-700 font-medium mb-1">Horario Disponible:</label>
+  <select
+    [(ngModel)]="selectedHorarioId"
+    name="horario"
+    required
+    class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
+  >
+    <option *ngFor="let horario of horariosDisponibles" [value]="horario.idHorario">
+      {{ horario.fecha }} - {{ horario.horaInicio }} a {{ horario.horaFin }}
+    </option>
+  </select>
+</div>
+
+    <!-- Motivo -->
+    <div>
+      <label for="motivo" class="block text-gray-700 font-medium mb-1"
+        >Motivo:</label
+      >
+      <input
+        type="text"
+        [(ngModel)]="appointment.motivo"
+        name="motivo"
+        required
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-300" />
+    </div>
+
+    <!-- Notas -->
+    <div>
+      <label for="notas" class="block text-gray-700 font-medium mb-1"
+        >Notas:</label
+      >
+      <textarea
+        [(ngModel)]="appointment.notas"
+        name="notas"
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:ring-blue-300"></textarea>
+    </div>
+
+    <!-- Guardar -->
+    <button
+      type="submit"
+      class="w-full bg-blue-600 text-white font-medium py-2 rounded hover:bg-blue-700 transition">
+      {{ appointment.idPersona ? 'Actualizar' : 'Guardar' }}
+    </button>
+  </form>
+</div>

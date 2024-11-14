@@ -1,1 +1,56 @@
-<p>appointment-details works!</p>
+<div class="bg-white rounded-lg shadow-md p-6 max-w-lg mx-auto">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4">Detalles de la Cita</h2>
+
+  <!-- Información de la Cita -->
+  <div class="border-b border-gray-200 pb-4 mb-4">
+    <h3 class="text-lg font-medium text-gray-600 mb-2">
+      Información del Turno
+    </h3>
+    <p>
+      <span class="font-semibold">Paciente:</span> {{ selectedRow.paciente }}
+    </p>
+    <p>
+      <span class="font-semibold">Servicio:</span> {{ selectedRow.servicio }}
+    </p>
+    <p>
+      <span class="font-semibold">Especialidad:</span>
+      {{ selectedRow.especialidad }}
+    </p>
+    <p>
+      <span class="font-semibold">Profesional:</span>
+      {{ selectedRow.profesional }}
+    </p>
+    <p><span class="font-semibold">Fecha:</span> {{ selectedRow.fecha }}</p>
+    <p><span class="font-semibold">Estado:</span> {{ selectedRow.estado }}</p>
+  </div>
+
+  <!-- Información del Paciente -->
+  <div class="mt-4">
+    <h3 class="text-lg font-medium text-gray-600 mb-2">
+      Información del Paciente
+    </h3>
+    <p>
+      <span class="font-semibold">Nombre:</span> {{ patientDetails?.nombre }}
+    </p>
+    <p>
+      <span class="font-semibold">Edad:</span> {{ patientDetails?.edad }} años
+    </p>
+    <p>
+      <span class="font-semibold">Teléfono:</span>
+      {{ patientDetails?.telefono }}
+    </p>
+    <p>
+      <span class="font-semibold">Dirección:</span>
+      {{ patientDetails?.direccion }}
+    </p>
+  </div>
+
+  <!-- Botón de Cerrar -->
+  <div class="mt-6 flex justify-end">
+    <button
+      (click)="closeDetails()"
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      Cerrar
+    </button>
+  </div>
+</div>

@@ -1,1 +1,46 @@
-<p>patient-list works!</p>
+<div
+  class="flex flex-col gap-4 max-w-[100%] max-h-[calc(90vh - 200px)] mx-auto p-4">
+  <div class="flex gap-2">
+    <button
+      (click)="modalRegistroPaciente()"
+      class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Registrar Paciente
+    </button>
+    <button
+      (click)="modalBuscarPaciente()"
+      class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Buscar Paciente
+    </button>
+  </div>
+
+  <app-custom-table
+    [data]="patients"
+    [columns]="columns"
+    [searchField]="searchField"
+    title="Lista de Pacientes"
+    searchPlaceholder="Buscar por nombre o apellido"
+    (onDetailsClick)="handleDetailsClick($event)">
+  </app-custom-table>
+
+  <!-- Modal para mostrar detalles del paciente y sus turnos -->
+  <app-reusable-modal
+    *ngIf="showDetailsModal"
+    [title]="'Detalles del Paciente y Turnos'"
+    (closeModal)="showDetailsModal = false">
+    <app-patient-details [patient]="selectedPatient"></app-patient-details>
+  </app-reusable-modal>
+  <!-- Modales -->
+  <app-reusable-modal
+    *ngIf="showModalRegistro"
+    [title]="'Registrar Nuevo Paciente'"
+    (closeModal)="showModalRegistro = false">
+    <app-registrar-paciente></app-registrar-paciente>
+  </app-reusable-modal>
+
+  <app-reusable-modal
+    *ngIf="showModalBuscarPorID"
+    [title]="'Buscar Paciente'"
+    (closeModal)="showModalBuscarPorID = false">
+    <app-buscar-paciente></app-buscar-paciente>
+  </app-reusable-modal>
+</div>
